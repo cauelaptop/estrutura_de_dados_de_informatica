@@ -1,0 +1,252 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f3f4f6;
+    color: #1f2937;
+}
+
+.site-header {
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 1.25rem 0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.container {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.site-header p {
+    margin: 0.35rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.page-background {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    background-color: #f3f4f6;
+    flex-wrap: wrap;
+}
+
+.menu-sidebar {
+    width: 220px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e5e7eb;
+    height: fit-content;
+}
+
+.menu-sidebar h2 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    color: #1f2937;
+}
+
+.language-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #1f2937;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle.active {
+    background: #eff6ff;
+}
+
+.menu-toggle .toggle-icon {
+    transition: transform 0.2s ease;
+}
+
+.menu-toggle.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.menu-dropdown {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 0.25rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.menu-dropdown.open {
+    display: flex;
+}
+
+.menu-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1f2937;
+    background: #f8fafc;
+    border: 1px solid transparent;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.menu-link:hover {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.menu-panel {
+    flex: 1;
+    min-width: 300px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e5e7eb;
+    padding: 2rem;
+    text-align: center;
+}
+
+.menu-panel h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #1f2937;
+}
+
+.menu-panel p {
+    color: #4b5563;
+    margin: 1rem 0 2rem;
+    line-height: 1.65;
+}
+
+.button-grid {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: flex-start;
+}
+
+.menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: #2563eb;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.menu-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+}
+
+.site-footer {
+    background-color: #1f2937;
+    color: #ffffff;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.25s ease;
+}
+
+.github-link:hover {
+    opacity: 0.8;
+}
+
+.github-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 768px) {
+    .page-background {
+        flex-direction: column;
+    }
+
+    .menu-sidebar {
+        width: 100%;
+    }
+
+    .menu-panel {
+        flex: 1;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .menu-panel {
+        padding: 1.5rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
