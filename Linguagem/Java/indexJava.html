@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados e POO: Referência da Linguagem Java</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      .keyword  { color: #569cd6; }
+      .type     { color: #4ec9b0; }
+      .string   { color: #ce9178; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .function { color: #dcdcaa; }
+      .builtin  { color: #c586c0; }
+      .pp       { color: #c586c0; } 
+      .number   { color: #b5cea8; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+
+
+    
+    <header class="bg-blue-700 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <i class="fas fa-coffee text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Referência da Linguagem Java</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden"></div>
+          </div>
+        </div>
+        <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
+        <i class="fas fa-home mr-2"></i>
+        Voltar
+      </a>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="flex flex-1 container mx-auto px-4 py-8">
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8 overflow-y-auto" style="max-height: 85vh;">
+          <div class="p-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+          </div>
+          <nav>
+
+
+            
+            <div class="mb-4 mt-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem Java e seus conceitos básicos.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+            
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados em Java.">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo inteiro em Java">int</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipo ponto flutuante em Java">float / double</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Tipo string em Java">String</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo booleano em Java">boolean</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Tipo caractere em Java">char</a>
+              </div>
+            </div>
+            
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Estruturas de dados do Collections Framework do Java.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Estruturas de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="ArrayList em Java">ArrayList (List)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Array em Java">Array Fixo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Map em Java">Map / HashMap</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Set em Java">Set / HashSet</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Entrada e saída em Java.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Saída com System.out">System.out</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Entrada com Scanner">Scanner</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle_fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Estruturas de controle de fluxo em Java.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Estrutura condicional if/else em Java">if, else if, else</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Laço for em Java">for / for-each</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Laço while em Java">while</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Estrutura switch/case em Java">switch / case</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Definição e uso de métodos em Java.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Funções (Métodos)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de métodos">Definição</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Parâmetros e argumentos">Parâmetros</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Expressões lambda em Java">Lambda</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno de valores">Retorno</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#oop" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="oop-intro" data-explanation="Programação Orientada a Objetos em Java.">
+                <i class="fas fa-cubes mr-2"></i>
+                <span class="flex items-center">Orientação a Objetos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-oop" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-classes" data-explanation="Classes e Objetos em Java">Classes e Objetos</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-heranca" data-explanation="Herança em Java">Herança</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-polimorfismo" data-explanation="Polimorfismo em Java">Polimorfismo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-interfaces" data-explanation="Interfaces e Abstração em Java">Interfaces</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#excecoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="exc-intro" data-explanation="Tratamento de Exceções em Java.">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span class="flex items-center">Tratamento de Exceções</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-exc" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="exc-trycatch" data-explanation="Blocos Try-Catch-Finally">Try-Catch</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="exc-throw" data-explanation="Lançamento de exceções throw/throws">Throw / Throws</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#gui" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="gui-intro" data-explanation="Interface Gráfica (GUI) em Java.">
+                <i class="fas fa-window-maximize mr-2"></i>
+                <span class="flex items-center">Interface Gráfica</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-gui" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="gui-swing" data-explanation="Java Swing">Java Swing</a>
+              </div>
+            </div>
+
+<div class="mt-8 border-t pt-4">
+              <h3 class="font-bold mb-2">Recursos Úteis</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="documentacao"
+                    data-explanation="Links para leitura recomendada e recursos adicionais."
+                    ><i class="fas fa-external-link-alt mr-2 text-xs"></i>
+                    Leitura Recomendada</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="tutoriais"
+                    data-explanation="Links para tutoriais e guias práticos."
+                    ><i class="fas fa-book-open mr-2 text-xs"></i> Tutoriais</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          </nav>
+        </div> 
+        <div id="content" class="flex flex-col flex-1">
+          <div id="explanation"></div>
+        </div>
+      </div>
+      
+    </main>
+
+ <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm">
+            <p>© 2026 Referência da Linguagem Java. Todos os direitos reservados.</p>
+            <p class="mt-2">Este site é apenas para fins educacionais.</p>
+            <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao Java</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          Java é uma linguagem de programação orientada a objetos, fortemente tipada e projetada para ter o mínimo possível de dependências de implementação. Criada por <strong>James Gosling</strong> na Sun Microsystems em 1995, popularizou o lema "Escreva uma vez, execute em qualquer lugar" (WORA).
+        </p>
+        <p class="text-gray-700 mb-4">
+          O código Java é compilado para <i>bytecode</i> e executado pela Máquina Virtual Java (JVM). É amplamente utilizada no desenvolvimento empresarial corporativo, aplicativos Android, sistemas de backend de grande escala e processamento de Big Data.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="comment">// Meu primeiro programa em Java</span>
+        <span class="builtin">System.out.println</span>(<span class="string">"Olá, mundo!"</span>);
+
+        <span class="comment">// Variáveis precisam de declaração de tipo</span>
+        <span class="type">String</span> nome = <span class="string">"Java"</span>;
+        <span class="type">int</span> versao = <span class="number">21</span>;
+        <span class="builtin">System.out.println</span>(<span class="string">"Bem-vindo ao "</span> + nome + <span class="string">" "</span> + versao + <span class="string">"!"</span>);
+        
+    }  
+}</pre>
+        </div>  
+      </div>
+
+
+       <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características principais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li>é uma linguagem de programação orientada a objetos</li>
+                <li>ela é multiplataforma</li>
+                <li>Fácil de aprender e usar</li>
+                <li>Grande comunidade em uso</li>
+                <li> linguagem fortemente tipada</li>
+              </ul>
+            </div>
+          </div>
+      
+    </template>
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Java, as variáveis são divididas em <strong>tipos primitivos</strong> (armazenam valores diretamente) e <strong>tipos de referência</strong> (armazenam referências a objetos, como <code>String</code> ou Arrays). A partir do Java 10, é possível inferir tipos locais usando <code>var</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Tipos</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>    x = <span class="number">42</span>;
+        <span class="type">double</span> y = <span class="number">3.14</span>;
+        <span class="type">String</span> nome = <span class="string">"Java"</span>; <span class="comment">// Tipo de Referência</span>
+        <span class="type">boolean</span> ativo = <span class="keyword">true</span>;
+
+        <span class="comment">// 'var' infere o tipo automaticamente (Java 10+)</span>
+        <span class="keyword">var</span> z = <span class="number">100</span>;   <span class="comment">// int</span>
+        <span class="keyword">var</span> pi = <span class="number">3.14</span>; <span class="comment">// double</span>
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+          </nav>
+        </div>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">int: Inteiros</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Java, o tipo primitivo <code>int</code> possui 32 bits. Para números muito grandes, utilize <code>long</code> adicionando o sufixo 'L' ao final do número.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> a = <span class="number">10</span>;
+<span class="type">int</span> b = <span class="number">42</span>;
+<span class="type">long</span> grande = <span class="number">9000000000L</span>;
+
+<span class="builtin">System.out.println</span>(a + b);       <span class="comment">// 52</span>
+<span class="builtin">System.out.println</span>(b / a);       <span class="comment">// 4 (divisão inteira trunca as casas decimais)</span>
+<span class="builtin">System.out.println</span>(b % a);       <span class="comment">// 2 (módulo - resto da divisão)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-dot-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">float / double: Ponto Flutuante</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Java suporta os padrões IEEE 754 de 32 bits (<code>float</code>) e 64 bits (<code>double</code>).</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">double</span> pi = <span class="number">3.14159</span>;
+<span class="type">float</span>  f  = <span class="number">3.14f</span>;   <span class="comment">// O sufixo f é obrigatório</span>
+
+<span class="builtin">System.out.println</span>(<span class="type">Math</span>.<span class="function">round</span>(pi));        <span class="comment">// 3</span>
+<span class="builtin">System.out.println</span>(<span class="type">Math</span>.<span class="function">sqrt</span>(<span class="number">16.0</span>));       <span class="comment">// 4.0</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">String: Textos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Java, <code>String</code> é uma classe (objeto) e as suas instâncias são imutáveis. A comparação de conteúdo deve ser feita usando <code>.equals()</code> e nunca <code>==</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">String</span> s1 = <span class="string">"Olá, mundo!"</span>;
+
+<span class="comment">// Chamada de métodos utilitários</span>
+<span class="builtin">System.out.println</span>(s1.<span class="function">length</span>());            <span class="comment">// 11</span>
+<span class="builtin">System.out.println</span>(s1.<span class="function">substring</span>(<span class="number">0</span>, <span class="number">3</span>));     <span class="comment">// Olá</span>
+
+<span class="keyword">if</span> (s1.<span class="function">equals</span>(<span class="string">"Olá, mundo!"</span>)) {
+    <span class="builtin">System.out.println</span>(<span class="string">"As strings são iguais!"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">boolean: Booleanos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O tipo <code>boolean</code> de Java guarda estritamente os literais <code>true</code> ou <code>false</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">boolean</span> a = <span class="keyword">true</span>;
+<span class="type">boolean</span> b = <span class="keyword">false</span>;
+
+<span class="builtin">System.out.println</span>(a &amp;&amp; b);  <span class="comment">// false (E/AND)</span>
+<span class="builtin">System.out.println</span>(a || b);  <span class="comment">// true  (OU/OR)</span>
+<span class="builtin">System.out.println</span>(!a);      <span class="comment">// false (NÃO/NOT)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-char">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-ban text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">char: Caracteres</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>char</code> do Java armazena um único caractere envolto em aspas simples. Usa o sistema Unicode (UTF-16) internamente.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">char</span> c = <span class="string">'A'</span>;
+<span class="builtin">System.out.println</span>((<span class="type">int</span>) c);     <span class="comment">// 65 (código numérico Unicode)</span>
+
+<span class="builtin">System.out.println</span>(<span class="type">Character</span>.<span class="function">isUpperCase</span>(c)); <span class="comment">// true</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados (Collections)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <i>Java Collections Framework</i> fornece estruturas padronizadas para guardar coleções de objetos. Elas baseiam-se em três grandes famílias de interfaces: <strong>List</strong>, <strong>Set</strong> e <strong>Map</strong>.</p>
+      </div>
+    </template>
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">ArrayList (Listas)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>ArrayList</code> implementa a interface <code>List</code> através de um array dinâmico por baixo dos panos (tamanho aumenta automaticamente).</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> java.util.ArrayList;
+<span class="pp">import</span> java.util.List;
+
+<span class="keyword">public class</span> <span class="type">ExemploList</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">List</span>&lt;<span class="type">String</span>&gt; frutas = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+        
+        frutas.<span class="function">add</span>(<span class="string">"maçã"</span>);
+        frutas.<span class="function">add</span>(<span class="string">"banana"</span>);
+        frutas.<span class="function">remove</span>(<span class="string">"banana"</span>);
+
+        <span class="builtin">System.out.println</span>(frutas.<span class="function">get</span>(<span class="number">0</span>));    <span class="comment">// maçã</span>
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-array">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-lock text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Arrays Nativos de Tamanho Fixo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Arrays em Java são objetos fixos (tamanho determinado ao instanciar).</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span>[] nums = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+<span class="builtin">System.out.println</span>(nums[<span class="number">0</span>]); <span class="comment">// 10</span>
+nums[<span class="number">2</span>] = <span class="number">99</span>;
+<span class="builtin">System.out.println</span>(<span class="string">"Tamanho: "</span> + nums.length); <span class="comment">// 3</span>
+
+<span class="type">String</span>[] nomes = <span class="keyword">new</span> <span class="type">String</span>[<span class="number">3</span>]; <span class="comment">// Instancia vazio com 3 espaços</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Map / HashMap</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>HashMap</code> de Java armazena pares chaves-valor como um dicionário.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> java.util.HashMap;
+<span class="pp">import</span> java.util.Map;
+
+<span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; idades = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+idades.<span class="function">put</span>(<span class="string">"Lucas"</span>, <span class="number">25</span>);
+idades.<span class="function">put</span>(<span class="string">"Ana"</span>, <span class="number">30</span>);
+
+<span class="builtin">System.out.println</span>(idades.<span class="function">get</span>(<span class="string">"Ana"</span>)); <span class="comment">// 30</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Set / HashSet</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>HashSet</code> é uma coleção que <strong>não permite elementos duplicados</strong>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> java.util.HashSet;
+<span class="pp">import</span> java.util.Set;
+
+<span class="type">Set</span>&lt;<span class="type">Integer</span>&gt; numeros = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();
+numeros.<span class="function">add</span>(<span class="number">10</span>);
+numeros.<span class="function">add</span>(<span class="number">10</span>); <span class="comment">// Ignorado</span>
+
+<span class="builtin">System.out.println</span>(numeros.<span class="function">size</span>()); <span class="comment">// 1</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída (I/O)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe base <code>System</code> domina os streams padrão de operação de Console no Java.</p>
+      </div>
+    </template>
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-print text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">System.out (Saída)</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> idade = <span class="number">20</span>;
+<span class="builtin">System.out.print</span>(<span class="string">"Minha idade "</span>);
+<span class="builtin">System.out.println</span>(<span class="string">"é "</span> + idade); <span class="comment">// Adiciona quebra de linha</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Scanner (Entrada)</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> java.util.Scanner;
+
+<span class="type">Scanner</span> leitor = <span class="keyword">new</span> <span class="type">Scanner</span>(<span class="builtin">System.in</span>);
+<span class="builtin">System.out.print</span>(<span class="string">"Digite a sua idade: "</span>);
+<span class="type">int</span> idade = leitor.<span class="function">nextInt</span>();
+leitor.<span class="function">close</span>();</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Estruturas condicionais e laços de repetição baseados nas convenções da linguagem C.</p>
+      </div>
+    </template>
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-question-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if / else if / else</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> nota = <span class="number">7</span>;
+<span class="keyword">if</span> (nota >= <span class="number">7</span>) {
+    <span class="builtin">System.out.println</span>(<span class="string">"Aprovado"</span>);
+} <span class="keyword">else</span> {
+    <span class="builtin">System.out.println</span>(<span class="string">"Reprovado"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Laço for / for-each</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+    <span class="builtin">System.out.print</span>(i);
+}
+
+<span class="type">String</span>[] dias = {<span class="string">"Seg"</span>, <span class="string">"Ter"</span>};
+<span class="keyword">for</span> (<span class="type">String</span> dia : dias) {
+    <span class="builtin">System.out.println</span>(dia);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sync text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> i = <span class="number">0</span>;
+<span class="keyword">while</span> (i &lt; <span class="number">5</span>) {
+    <span class="builtin">System.out.println</span>(i);
+    i++;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">switch / case</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> op = <span class="number">1</span>;
+<span class="keyword">switch</span> (op) {
+    <span class="keyword">case</span> <span class="number">1</span>:
+        <span class="builtin">System.out.println</span>(<span class="string">"Um"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="builtin">System.out.println</span>(<span class="string">"Outro"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Métodos em Java</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Sub-rotinas em Java são chamadas de <strong>Métodos</strong> e residem obrigatoriamente dentro de Classes.</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-square text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição de Métodos</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public static void</span> <span class="function">saudacao</span>() {
+    <span class="builtin">System.out.println</span>(<span class="string">"Olá!"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-arrow-right text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public static void</span> <span class="function">somar</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
+    <span class="builtin">System.out.println</span>(a + b);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Expressões Lambda</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Lambdas em Java (a partir do Java 8) permitem implementar interfaces funcionais de maneira resumida com <code>-&gt;</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> java.util.Arrays;
+<span class="pp">import</span> java.util.List;
+
+<span class="type">List</span>&lt;<span class="type">Integer</span>&gt; num = <span class="type">Arrays</span>.<span class="function">asList</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);
+num.<span class="function">forEach</span>( n -&gt; <span class="builtin">System.out.println</span>(n) );</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-undo-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Retorno de Valores</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public static</span> <span class="type">int</span> <span class="function">multiplicar</span>(<span class="type">int</span> x, <span class="type">int</span> y) {
+    <span class="keyword">return</span> x * y;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cubes text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Programação Orientada a Objetos (POO)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          Java é uma linguagem onde a POO não é apenas opcional, é obrigatória. Tudo (exceto tipos primitivos) reside dentro de objetos e classes. O modelo baseia-se em quatro pilares principais: Abstração, Encapsulamento, Herança e Polimorfismo.
+        </p>
+      </div>
+    </template>
+
+    <template id="tpl-oop-classes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-file-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Classes e Objetos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma <code>class</code> atua como um molde, enquanto o objeto é a instância criada na memória com a palavra-chave <code>new</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Definição do Molde (Classe)</span>
+<span class="keyword">public class</span> <span class="type">Pessoa</span> {
+    <span class="type">String</span> nome;
+    <span class="type">int</span> idade;
+
+    <span class="comment">// Construtor</span>
+    <span class="keyword">public</span> <span class="function">Pessoa</span>(<span class="type">String</span> nome, <span class="type">int</span> idade) {
+        <span class="keyword">this</span>.nome = nome;
+        <span class="keyword">this</span>.idade = idade;
+    }
+
+    <span class="keyword">public void</span> <span class="function">apresentar</span>() {
+        <span class="builtin">System.out.println</span>(<span class="string">"Meu nome é "</span> + nome);
+    }
+}
+
+<span class="comment">// Uso</span>
+<span class="keyword">public class</span> <span class="type">Main</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">Pessoa</span> p1 = <span class="keyword">new</span> <span class="type">Pessoa</span>(<span class="string">"Lucas"</span>, <span class="number">28</span>); <span class="comment">// Instanciação (Objeto)</span>
+        p1.<span class="function">apresentar</span>();
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-heranca">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Herança (extends)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Permite que uma classe herde campos e métodos de outra usando <code>extends</code>. O Java suporta herança múltipla apenas através de Interfaces.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Animal</span> {
+    <span class="keyword">public void</span> <span class="function">comer</span>() {
+        <span class="builtin">System.out.println</span>(<span class="string">"Comendo..."</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Cachorro</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    <span class="keyword">public void</span> <span class="function">latir</span>() {
+        <span class="builtin">System.out.println</span>(<span class="string">"Au au!"</span>);
+    }
+}
+
+<span class="comment">// O objeto Cachorro herda de Animal</span>
+<span class="type">Cachorro</span> dog = <span class="keyword">new</span> <span class="type">Cachorro</span>();
+dog.<span class="function">comer</span>(); <span class="comment">// Vem do pai</span>
+dog.<span class="function">latir</span>(); <span class="comment">// Exclusivo do filho</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-polimorfismo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-random text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Polimorfismo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A capacidade de tratar classes filhas como sendo do tipo da classe pai, e a capacidade de sobrescrever métodos usando a anotação <code>@Override</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Gato</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    <span class="keyword">@Override</span>
+    <span class="keyword">public void</span> <span class="function">comer</span>() {
+        <span class="builtin">System.out.println</span>(<span class="string">"Gato comendo ração especial..."</span>);
+    }
+}
+
+<span class="comment">// Polimorfismo: Uma variável do tipo pai (Animal) guarda um filho (Gato)</span>
+<span class="type">Animal</span> meuPet = <span class="keyword">new</span> <span class="type">Gato</span>();
+meuPet.<span class="function">comer</span>(); <span class="comment">// Chama a versão sobrescrita do Gato</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-interfaces">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plug text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Interfaces</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma <code>interface</code> é um contrato. Uma classe que implementa (<code>implements</code>) uma interface é forçada a criar a lógica dos métodos exigidos ali dentro.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public interface</span> <span class="type">Voador</span> {
+    <span class="keyword">void</span> <span class="function">voar</span>(); <span class="comment">// Assinatura obrigatória</span>
+}
+
+<span class="keyword">public class</span> <span class="type">Passaro</span> <span class="keyword">implements</span> <span class="type">Voador</span> {
+    <span class="keyword">@Override</span>
+    <span class="keyword">public void</span> <span class="function">voar</span>() {
+        <span class="builtin">System.out.println</span>(<span class="string">"Batendo as asas..."</span>);
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-exc-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exclamation-triangle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">O que são Exceções?</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          Exceções são eventos que alteram o fluxo normal de execução, geralmente falhas (como divisão por zero ou ficheiros não encontrados). O Java tem um sistema rico de tratamento via classes derivadas de <code>Exception</code> e <code>RuntimeException</code>.
+        </p>
+      </div>
+    </template>
+
+    <template id="tpl-exc-trycatch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-shield-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Bloco Try-Catch-Finally</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O bloco <code>try</code> envolve o código suscetível a erros. O <code>catch</code> lida com o problema e não deixa o programa explodir. O <code>finally</code> roda independentemente de erros para libertar recursos.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">try</span> {
+    <span class="type">int</span> divisao = <span class="number">10</span> / <span class="number">0</span>; <span class="comment">// Vai dar erro (ArithmeticException)</span>
+} <span class="keyword">catch</span> (<span class="type">ArithmeticException</span> e) {
+    <span class="builtin">System.out.println</span>(<span class="string">"Erro matemático: Não se pode dividir por zero!"</span>);
+} <span class="keyword">finally</span> {
+    <span class="builtin">System.out.println</span>(<span class="string">"Eu rodo dando erro ou não!"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-exc-throw">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bomb text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Throw / Throws</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Use <code>throw</code> para lançar uma exceção de propósito. Use <code>throws</code> na assinatura do método para avisar quem o chama de que pode ocorrer um problema ali.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public void</span> <span class="function">verificarIdade</span>(<span class="type">int</span> idade) <span class="keyword">throws</span> <span class="type">Exception</span> {
+    <span class="keyword">if</span> (idade &lt; <span class="number">18</span>) {
+        <span class="comment">// Dispara o erro explicitamente</span>
+        <span class="keyword">throw new</span> <span class="type">Exception</span>(<span class="string">"Acesso negado: Menor de idade."</span>);
+    }
+    <span class="builtin">System.out.println</span>(<span class="string">"Acesso permitido!"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-gui-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-window-maximize text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Interface Gráfica no Java</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          O Java disponibiliza ferramentas embutidas para criação de Interfaces Gráficas Desktop nativas (Janelas, Botões, Tabelas). O kit mais conhecido e difundido historicamente é o <strong>Java Swing</strong> (pacote <code>javax.swing</code>).
+        </p>
+      </div>
+    </template>
+
+    <template id="tpl-gui-swing">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-clone text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Criando Janelas com Swing</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Com o Swing, instanciamos a tela com um `JFrame` e adicionamos componentes como `JButton` ou `JLabel` dentro do seu painel.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">import</span> javax.swing.JButton;
+<span class="pp">import</span> javax.swing.JFrame;
+<span class="pp">import</span> javax.swing.JOptionPane;
+
+<span class="keyword">public class</span> <span class="type">MinhaJanela</span> {
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="comment">// Cria a janela</span>
+        <span class="type">JFrame</span> frame = <span class="keyword">new</span> <span class="type">JFrame</span>(<span class="string">"Sistema Java"</span>);
+        frame.<span class="function">setSize</span>(<span class="number">300</span>, <span class="number">200</span>);
+        frame.<span class="function">setDefaultCloseOperation</span>(<span class="type">JFrame</span>.EXIT_ON_CLOSE);
+
+        <span class="comment">// Cria o botão</span>
+        <span class="type">JButton</span> btn = <span class="keyword">new</span> <span class="type">JButton</span>(<span class="string">"Clique Aqui"</span>);
+
+        <span class="comment">// Adiciona ação de clique ao botão via Lambda</span>
+        btn.<span class="function">addActionListener</span>(e -&gt; {
+            <span class="type">JOptionPane</span>.<span class="function">showMessageDialog</span>(<span class="keyword">null</span>, <span class="string">"Botão Clicado!"</span>);
+        });
+
+        <span class="comment">// Adiciona o botão na janela e exibe</span>
+        frame.<span class="function">add</span>(btn);
+        frame.<span class="function">setVisible</span>(<span class="keyword">true</span>);
+        
+    }   
+}</pre>
+
+        </div>
+      </div>
+           
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {};
+        document.querySelectorAll("template").forEach((t) => {
+          templates[t.id.replace("tpl-", "")] = t.innerHTML;
+        });
+
+        const contentDiv = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchResults = document.getElementById("search-results");
+
+        function loadSection(sectionId) {
+          if (templates[sectionId]) {
+            contentDiv.innerHTML = templates[sectionId];
+            navLinks.forEach((link) => link.classList.remove("bg-blue-100", "font-bold"));
+            const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+            if (activeLink) activeLink.classList.add("bg-blue-100", "font-bold");
+            localStorage.setItem("activeSectionId", sectionId);
+          }
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadSection(link.dataset.section);
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector(".fa-chevron-right");
+            content.classList.toggle("open");
+            if (content.classList.contains("open")) {
+              icon.style.transform = "rotate(90deg)";
+            } else {
+              icon.style.transform = "rotate(0deg)";
+            }
+          });
+        });
+
+        searchInput.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          searchResults.innerHTML = "";
+          
+          if (query.length > 1) {
+            navLinks.forEach((link) => {
+              const text = link.textContent.toLowerCase();
+              const explanation = link.dataset.explanation ? link.dataset.explanation.toLowerCase() : "";
+              if (text.includes(query) || explanation.includes(query)) {
+                const div = document.createElement("div");
+                div.className = "p-2 hover:bg-gray-100 cursor-pointer";
+                div.textContent = link.textContent;
+                div.addEventListener("click", () => {
+                  loadSection(link.dataset.section);
+                  searchResults.classList.add("hidden");
+                  searchInput.value = "";
+                });
+                searchResults.appendChild(div);
+              }
+            });
+            searchResults.classList.remove("hidden");
+          } else {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos",
+          "tipo-bool": "dd-tipos", "tipo-char": "dd-tipos",
+          "vector": "dd-estruturas", "array": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+          "cout": "dd-io", "cin": "dd-io",
+          "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+          "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+          // Novas entradas do mapa de Dropdowns
+          "oop-classes": "dd-oop", "oop-heranca": "dd-oop", "oop-polimorfismo": "dd-oop", "oop-interfaces": "dd-oop",
+          "exc-trycatch": "dd-exc", "exc-throw": "dd-exc",
+          "gui-swing": "dd-gui"
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn) {
+              const icon = btn.querySelector(".fa-chevron-right");
+              if (icon) icon.style.transform = "rotate(90deg)";
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>

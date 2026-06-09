@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+
+
+    <!--Nome do Site-->
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados: Referência da Linguagem C</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+
+
+/*mini CSS*/
+
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      .keyword  { color: #569cd6; }
+      .type     { color: #4ec9b0; }
+      .string   { color: #ce9178; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .function { color: #dcdcaa; }
+      .builtin  { color: #c586c0; }
+      .pp       { color: #c586c0; } 
+      .number   { color: #b5cea8; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+
+<!-- Titulo do site-->
+
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <header class="bg-blue-700 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <i class="fas fa-code text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Referência da Linguagem C</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden"></div>
+          </div>
+        </div>
+      <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
+        <i class="fas fa-home mr-2"></i>
+        Voltar
+      </a>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="flex flex-1 container mx-auto px-4 py-8">
+
+<!-- Menu de Linguagens -->
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8">
+          <div class="p-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+          </div>
+          <nav>
+
+            <div class="mb-4 mt-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem C e seus conceitos básicos.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados em C.">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo inteiro em C">int</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipo ponto flutuante em C">float / double</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Cadeias de caracteres (Strings) em C">string (char[])</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo booleano em C">bool / int</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Tipo caractere em C">char</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Estruturas de dados e alocação em C.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Estruturas de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="Alocação dinâmica com malloc">Array Dinâmico (malloc)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Arrays em C">Array Fixo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Tabelas Hash em C">Tabelas Hash / Structs</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Conjuntos em C">Conjuntos (Manual)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Entrada e saída em C.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Saída com printf">printf (Saída)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Entrada com scanf">scanf (Entrada)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle_fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Estruturas de controle de fluxo em C.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Estrutura condicional if/else em C">if, else if, else</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Laço for em C">for</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Laço while em C">while</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Estrutura switch/case em C">switch / case</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Definição e uso de funções em C.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Funções</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de funções">Definição</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Parâmetros e ponteiros em C">Parâmetros (Ponteiros)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Ponteiros de função em C">Ponteiros de Função</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno de valores">Retorno</a>
+              </div>
+            </div>
+
+            <div class="mt-8 border-t pt-4">
+              <h3 class="font-bold mb-2">Recursos Úteis</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="documentacao" data-explanation="Links para leitura recomendada e recursos adicionais.">
+                    <i class="fas fa-external-link-alt mr-2 text-xs"></i>Leitura Recomendada
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="tutoriais" data-explanation="Links para tutoriais e guias práticos.">
+                    <i class="fas fa-book-open mr-2 text-xs"></i>Tutoriais
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1">
+          <div id="explanation"></div>
+
+<!--Direitos autorais e créditos-->
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm">
+            <p>© 2026 Referência da Linguagem C. Todos os direitos reservados.</p>
+            <p class="mt-2">Este site é apenas para fins educacionais.</p>
+            <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+
+<!-- Introdução ao C -->
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao C</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          A linguagem C é uma das linguagens de programação mais influentes da história. Criada por <strong>Dennis Ritchie</strong> no Bell Labs em 1972, ela é de propósito geral, estruturada (procedural) e compilada. É amplamente utilizada em sistemas operacionais (como o kernel do Linux), drivers de dispositivos e sistemas embarcados.
+        </p>
+        <p class="text-gray-700 mb-4">
+          O ponto forte da linguagem C é o seu alto desempenho e controle de baixo nível sobre a memória, sendo o alicerce para outras linguagens poderosas (como C++, Java e C#).
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="comment">// Meu primeiro programa em C</span>
+    <span class="builtin">printf</span>(<span class="string">"Olá, mundo!\n"</span>);
+
+    <span class="comment">// Declaração de variáveis</span>
+    <span class="type">char</span> nome[] = <span class="string">"Linguagem C"</span>;
+    <span class="type">int</span> ano = <span class="number">1972</span>;
+    <span class="builtin">printf</span>(<span class="string">"Bem-vindo à %s, criada em %d!\n"</span>, nome, ano);
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características principais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li>Tipagem estática: o tipo é declarado em tempo de compilação</li>
+                <li>Compilada: o código é traduzido diretamente para linguagem de máquina</li>
+                <li>Programação procedural: baseada em rotinas e funções (sem orientação a objetos)</li>
+                <li>Gerenciamento de memória manual com <code>malloc</code> e <code>free</code></li>
+                <li>Linguagem muito "próxima" ao hardware</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+<!-- Tipos de dados primitivos em C -->
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados Primitivos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em C, toda variável deve ter o seu tipo declarado explicitamente. A linguagem oferece apenas tipos primitivos focados na representação de números e caracteres em baixo nível (como em blocos de bytes). Arrays e matrizes são definidos a partir destes.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;stdbool.h&gt;</span> <span class="comment">// Necessário para usar 'bool' (C99)</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">int</span>    x = <span class="number">42</span>;
+    <span class="type">double</span> y = <span class="number">3.14</span>;
+    <span class="type">char</span>   letra = <span class="string">'C'</span>;
+    <span class="type">bool</span>   ativo = <span class="keyword">true</span>;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">int</strong> inteiro padrão: <code>1</code>, <code>-99</code>, <code>1000000</code></div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">float / double</strong> ponto flutuante de precisão simples/dupla</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">char[]</strong> cadeias de caracteres, que finalizam em `\0`</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">bool</strong> (ou int) valor lógico: <code>true</code> (1) ou <code>false</code> (0)</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">char</strong> único caractere (1 byte): <code>'A'</code></div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">long long</strong> inteiro estendido em tamanho: até ~9,2 × 10¹⁸</div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">int: Inteiros</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em C, inteiros têm tamanho dependente da arquitetura (normalmente 32 bits). Para valores maiores use <code>long long</code>. O modificador <code>unsigned</code> remove a capacidade de números negativos, mas dobra o limite positivo.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> a = <span class="number">10</span>;
+<span class="type">int</span> b = <span class="number">42</span>;
+<span class="type">long long</span> grande = <span class="number">9000000000LL</span>;
+
+<span class="type">int</span> hex = <span class="number">0xFF</span>;    <span class="comment">// hexadecimal 255</span>
+<span class="type">int</span> oct = <span class="number">017</span>;     <span class="comment">// octal 15</span>
+
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, a + b);       <span class="comment">// 52</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, b / a);       <span class="comment">// 4 (divisão inteira)</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, b % a);       <span class="comment">// 2 (módulo/resto)</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, a &lt;&lt; <span class="number">1</span>);      <span class="comment">// 20 (shift left)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-dot-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">float / double: Ponto Flutuante</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem possui o <code>float</code> (geralmente 32 bits) e o <code>double</code> (geralmente 64 bits). Prefira usar <code>double</code> na maioria dos casos para evitar perda precoce de precisão.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;math.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="type">double</span> pi = <span class="number">3.14159</span>;
+<span class="type">float</span>  f  = <span class="number">3.14f</span>;   <span class="comment">// sufixo f para float</span>
+
+<span class="builtin">printf</span>(<span class="string">"%f\n"</span>, <span class="function">round</span>(pi));        <span class="comment">// 3.000000</span>
+<span class="builtin">printf</span>(<span class="string">"%f\n"</span>, <span class="function">fabs</span>(-<span class="number">7.5</span>));       <span class="comment">// 7.500000</span>
+<span class="builtin">printf</span>(<span class="string">"%f\n"</span>, <span class="function">sqrt</span>(<span class="number">16.0</span>));       <span class="comment">// 4.000000</span>
+
+<span class="comment">// Precisão na saída (2 casas decimais)</span>
+<span class="builtin">printf</span>(<span class="string">"%.2f\n"</span>, pi);             <span class="comment">// 3.14</span>
+
+<span class="comment">// Cuidado com ponto flutuante em comparações lógicas</span>
+<span class="builtin">printf</span>(<span class="string">"%f\n"</span>, <span class="number">0.1</span> + <span class="number">0.2</span>);        <span class="comment">// 0.300000 (com perda minúscula na memória)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Strings (Arrays de char)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Diferente do C++, a linguagem C <strong>não tem um tipo string nativo</strong>. O texto é tratado como um vetor de caracteres (<code>char</code>) em que o último espaço abriga um caractere nulo (<code>'\0'</code>) indicando o fim da frase. Toda manipulação deve ser feita usando a biblioteca <code>&lt;string.h&gt;</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;string.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="comment">// Array de char (texto)</span>
+    <span class="type">char</span> s1[<span class="number">50</span>] = <span class="string">"Olá, "</span>;
+    <span class="type">char</span> s2[] = <span class="string">"Linguagem C!"</span>;
+
+    <span class="comment">// Concatenação em C (Adiciona s2 ao fim de s1)</span>
+    <span class="function">strcat</span>(s1, s2);
+    <span class="builtin">printf</span>(<span class="string">"%s\n"</span>, s1); <span class="comment">// Olá, Linguagem C!</span>
+
+    <span class="comment">// Métodos úteis da &lt;string.h&gt;</span>
+    <span class="builtin">printf</span>(<span class="string">"Tamanho: %lu\n"</span>, <span class="function">strlen</span>(s1)); <span class="comment">// 17 caracteres (descontando o '\0')</span>
+    
+    <span class="comment">// Copiar uma string para a outra</span>
+    <span class="type">char</span> s3[<span class="number">50</span>];
+    <span class="function">strcpy</span>(s3, s1);
+
+    <span class="comment">// Comparar Strings (retorna 0 se forem iguais)</span>
+    <span class="keyword">if</span> (<span class="function">strcmp</span>(s1, s3) == <span class="number">0</span>) {
+        <span class="builtin">printf</span>(<span class="string">"As strings sao iguais!\n"</span>);
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">bool: Booleanos (C99)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Historicamente, C não tinha o tipo <code>bool</code> e usava simplesmente o tipo <code>int</code> (0 para <i>Falso</i>, qualquer outro número para <i>Verdadeiro</i>). A partir do padrão C99, foi adicionado o header <code>&lt;stdbool.h&gt;</code> que insere esse tipo oficialmente na linguagem.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdbool.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">bool</span> a = <span class="keyword">true</span>;
+    <span class="type">bool</span> b = <span class="keyword">false</span>;
+
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, a &amp;&amp; b);  <span class="comment">// 0 (false)</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, a || b);  <span class="comment">// 1 (true)</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, !a);      <span class="comment">// 0 (false)</span>
+
+    <span class="comment">// C sem a biblioteca stdbool:</span>
+    <span class="type">int</span> verdadeiro = <span class="number">1</span>;
+    <span class="type">int</span> falso = <span class="number">0</span>;
+
+    <span class="comment">// Comparações lógicas também retornam inteiros</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, (<span class="number">5</span> > <span class="number">3</span>)); <span class="comment">// 1 (true)</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-char">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-ban text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">char: Caracteres</h2>
+        </div>
+        <p class="text-gray-700 mb-4"><code>char</code> armazena um único caractere utilizando a tabela ASCII em exatamente 1 byte. Internamente, este tipo funciona como um pequeno número inteiro, o que permite operações aritméticas.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">char</span> c = <span class="string">'A'</span>;
+<span class="builtin">printf</span>(<span class="string">"%c\n"</span>, c);           <span class="comment">// A</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, c);           <span class="comment">// 65 (código ASCII da letra A)</span>
+
+<span class="comment">// Aritmética de caracteres</span>
+<span class="builtin">printf</span>(<span class="string">"%c\n"</span>, c + <span class="number">1</span>);       <span class="comment">// B</span>
+
+<span class="comment">// Verificação de tipo de caractere usando &lt;ctype.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;ctype.h&gt;</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, <span class="function">isupper</span>(c));  <span class="comment">// 1 (true, pois é maiúscula)</span>
+<span class="builtin">printf</span>(<span class="string">"%c\n"</span>, <span class="function">tolower</span>(c));  <span class="comment">// a (retorna o caractere minúsculo)</span>
+<span class="builtin">printf</span>(<span class="string">"%d\n"</span>, <span class="function">isdigit</span>(<span class="string">'5'</span>));<span class="comment">// 1 (true)</span></pre>
+        </div>
+      </div>
+    </template>
+
+<!--Estruturas de Dados-->
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados e Alocação</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem C, sendo voltada para o baixo nível, <strong>não possui uma STL (Standard Template Library)</strong> contendo listas de tamanho variável ou dicionários embutidos. Todas as estruturas complexas exigem que o programador manipule seus próprios ponteiros e requira blocos de memória ao Sistema Operacional utilizando as funções de alocação (<code>malloc</code>/<code>free</code>).</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Ponteiros (*)</strong> Referências exclusivas à memória</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Array Fixo</strong> Estrutura estática alocada em pilha (stack)</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">malloc/realloc</strong> Solicitam memória ao sistema operativo</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">structs</strong> Bases unidas para listas e árvores em C</div>
+        </div>
+      </div>
+    </template>
+
+<!--Array Dinâmico-->
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Array Dinâmico (Alocação com Malloc)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em C, para criar um vetor de tamanho adaptável (análogo a listas ou vectors de linguagens modernas), o programador usa ponteiros combinados a <code>malloc()</code> ou <code>calloc()</code> e depois realoca mais memória usando <code>realloc()</code> sempre que for preciso mais espaço.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;stdlib.h&gt;</span> <span class="comment">// Necessário para malloc/free</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">int</span> capacidade = <span class="number">2</span>;
+    <span class="comment">// Aloca memória para 2 inteiros (vetor inicial)</span>
+    <span class="type">int</span> *numeros = (<span class="type">int</span>*)<span class="function">malloc</span>(capacidade * <span class="keyword">sizeof</span>(<span class="type">int</span>));
+    
+    <span class="keyword">if</span> (numeros == <span class="keyword">NULL</span>) {
+        <span class="builtin">printf</span>(<span class="string">"Falha na alocação!\n"</span>);
+        <span class="keyword">return</span> <span class="number">1</span>;
+    }
+
+    numeros[<span class="number">0</span>] = <span class="number">10</span>;
+    numeros[<span class="number">1</span>] = <span class="number">20</span>;
+
+    <span class="comment">// Faltou espaço? Realoca e dobra o tamanho</span>
+    capacidade *= <span class="number">2</span>; <span class="comment">// Vira 4 espaços</span>
+    numeros = (<span class="type">int</span>*)<span class="function">realloc</span>(numeros, capacidade * <span class="keyword">sizeof</span>(<span class="type">int</span>));
+
+    numeros[<span class="number">2</span>] = <span class="number">30</span>;
+
+    <span class="builtin">printf</span>(<span class="string">"Elemento[2] = %d\n"</span>, numeros[<span class="number">2</span>]);
+
+    <span class="comment">// IMPORTANTE: Memória alocada dinamicamente TEM que ser liberada </span>
+    <span class="function">free</span>(numeros);
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <!--Array Estático-->
+
+    <template id="tpl-array">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-lock text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Arrays Estáticos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Arrays padrão em C têm tamanho inalterável (decidido em tempo de compilação ou na sua declaração). Em C, o nome do array age essencialmente como um ponteiro <code>*</code> que aponta para o primeiro elemento inserido na memória.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="comment">// Declaração de array estático</span>
+    <span class="type">int</span> nums[<span class="number">5</span>] = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>};
+
+    <span class="comment">// Acesso (O índice inicia sempre em 0)</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, nums[<span class="number">0</span>]); <span class="comment">// 10</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, nums[<span class="number">2</span>]); <span class="comment">// 30</span>
+
+    <span class="comment">// Iteração do array em C</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+        <span class="builtin">printf</span>(<span class="string">"%d "</span>, nums[i]);
+    }
+
+    <span class="comment">// Tamanho total (em bytes) do array / tamanho do primeiro byte</span>
+    <span class="type">int</span> quantidade_elementos = <span class="keyword">sizeof</span>(nums) / <span class="keyword">sizeof</span>(nums[<span class="number">0</span>]);
+    <span class="builtin">printf</span>(<span class="string">"\nO vetor tem %d lugares.\n"</span>, quantidade_elementos);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <!--Tabelas Hash-->
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas Hash (Manuais via Structs)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Por não existir tipo primitivo Map ou Dicionário em C, programadores devem construir suas próprias <strong>Tabelas Hash</strong> caso necessitem de buscas atreladas entre chaves e valores. Basicamente, cria-se uma <code>struct</code> contendo a combinação chave-valor desejada, gerida por uma função que calcula seu indíce na tabela (Hashing).</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+<span class="pp">#include</span> <span class="string">&lt;string.h&gt;</span>
+
+<span class="comment">// Exemplo puramente conceitual para ilustrar a base do dicionário em C</span>
+<span class="keyword">typedef struct</span> {
+    <span class="type">char</span> chave[<span class="number">50</span>];
+    <span class="type">int</span>  valor;
+} Par;
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="comment">// Criação "dura" e simplória de uma lista de pares na mão</span>
+    Par pessoa[<span class="number">2</span>];
+
+    <span class="function">strcpy</span>(pessoa[<span class="number">0</span>].chave, <span class="string">"idade"</span>);
+    pessoa[<span class="number">0</span>].valor = <span class="number">25</span>;
+
+    <span class="function">strcpy</span>(pessoa[<span class="number">1</span>].chave, <span class="string">"altura"</span>);
+    pessoa[<span class="number">1</span>].valor = <span class="number">175</span>;
+
+    <span class="comment">// Acessando o campo criado usando loop O(n)</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) {
+        <span class="keyword">if</span> (<span class="function">strcmp</span>(pessoa[i].chave, <span class="string">"idade"</span>) == <span class="number">0</span>) {
+            <span class="builtin">printf</span>(<span class="string">"Encontrado! Idade: %d\n"</span>, pessoa[i].valor);
+        }
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <!--Conjuntos (Set em C)-->
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Conjuntos (Set em C)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Novamente, C <strong>não dispõe</strong> de uma estrutura <code>set</code> (para vetores livres de dados duplicados). Para ter uma lista com itens únicos, o desenvolvedor deve criar funções de validação que percorram toda a matriz toda vez que for realizar uma inserção e testar se o valor correspondente já existe alocado.</p>
+      </div>
+    </template>
+
+<!--Entrada e Saída-->
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída (I/O)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem C não opera via <i>streams</i> (fluxos). A comunicação entre a tela (saída) e o teclado (entrada) de um usuário ocorre estritamente pelas formatações estipuladas dentro da biblioteca padrão <code>&lt;stdio.h&gt;</code>.</p>
+      </div>
+    </template>
+
+<!--saida de dados-->
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-print text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">printf (Saída de Dados)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A função <code>printf</code> envia dados à saída padrão. Ela exige modificadores formatados de tipo (ex: <code>%d</code> para inteiros, <code>%f</code> para decimais, <code>%c</code> para caracteres e <code>%s</code> para strings) para exibir as variáveis corretamente.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> idade = <span class="number">20</span>;
+<span class="type">double</span> peso = <span class="number">65.5</span>;
+
+<span class="comment">// A impressão exige referenciar as formatações internamente no texto</span>
+<span class="builtin">printf</span>(<span class="string">"Idade: %d, Peso: %.1f kg.\n"</span>, idade, peso);
+
+<span class="comment">// Utilizando outros formatos</span>
+<span class="type">char</span> letra = <span class="string">'K'</span>;
+<span class="builtin">printf</span>(<span class="string">"A letra fornecida foi: %c\n"</span>, letra);</pre>
+        </div>
+      </div>
+    </template>
+
+<!--entrada de dados-->
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">scanf (Entrada de Dados)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A função <code>scanf</code> é usada para capturar textos/valores informados pelo utilizador via teclado. Ela requisita o modificador de formatação e o endereço físico (<code>&amp;</code>) da variável na memória para armazená-la no local correto.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> idade;
+<span class="type">char</span> nome[<span class="number">50</span>];
+
+<span class="builtin">printf</span>(<span class="string">"Digite a sua idade: "</span>);
+<span class="comment">// Armazena no endereço físico (&amp;) de 'idade'</span>
+<span class="builtin">scanf</span>(<span class="string">"%d"</span>, &amp;idade);
+
+<span class="builtin">printf</span>(<span class="string">"Digite o seu nome: "</span>);
+<span class="comment">// Strings/Arrays decaem naturalmente para ponteiro. O '&amp;' não é necessário.</span>
+<span class="builtin">scanf</span>(<span class="string">"%s"</span>, nome);
+
+<span class="builtin">printf</span>(<span class="string">"Olá, %s! Sua idade detectada foi de %d anos.\n"</span>, nome, idade);</pre>
+        </div>
+      </div>
+    </template>
+
+<!--Controle de Fluxo-->
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A sintaxe condicional do C criou o padrão utilizado por quase todas as linguagens modernas atuais, adotando o conceito de blocos de chaves <code>{}</code> em conjunto a expressões de validação dentro de parênteses.</p>
+      </div>
+    </template>
+
+<!--if e else-->
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-question-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if / else if / else</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A avaliação funciona conferindo se a expressão numérica interior retorna qualquer valor diferente de zero (true).</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> nota = <span class="number">7</span>;
+
+<span class="keyword">if</span> (nota >= <span class="number">7</span>) {
+    <span class="builtin">printf</span>(<span class="string">"Aprovado\n"</span>);
+} <span class="keyword">else if</span> (nota >= <span class="number">5</span>) {
+    <span class="builtin">printf</span>(<span class="string">"Recuperacao\n"</span>);
+} <span class="keyword">else</span> {
+    <span class="builtin">printf</span>(<span class="string">"Reprovado\n"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--for-->
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Laço for</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Possui a estrutura clássica composta por três partes (inicialização, condição de parada e incremento do passo).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Conta de 0 até 9</span>
+<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+    <span class="builtin">printf</span>(<span class="string">"%d "</span>, i);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--while e do-while-->
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sync text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while / do-while</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Executa um bloco ininterruptamente até a sua condição base tornar-se falsa.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> contador = <span class="number">0</span>;
+
+<span class="keyword">while</span> (contador &lt; <span class="number">5</span>) {
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, contador);
+    contador++;
+}
+
+<span class="comment">// Valida apenas depois da primeira execução</span>
+<span class="type">int</span> valor;
+<span class="keyword">do</span> {
+    <span class="builtin">printf</span>(<span class="string">"Digite 0 para sair: "</span>);
+    <span class="builtin">scanf</span>(<span class="string">"%d"</span>, &amp;valor);
+} <span class="keyword">while</span> (valor != <span class="number">0</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+<!--switch case-->
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">switch / case</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>switch</code> é uma forma super limpa de comparar valores idênticos. Funciona nativamente em C apenas com integrais ou caracteres (<code>int</code> e <code>char</code>). Nunca esqueça do `break` ou todas as próximas rotinas do bloco serão invadidas acidentalmente.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> opcao = <span class="number">2</span>;
+
+<span class="keyword">switch</span> (opcao) {
+    <span class="keyword">case</span> <span class="number">1</span>:
+        <span class="builtin">printf</span>(<span class="string">"Opção Inserir\n"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        <span class="builtin">printf</span>(<span class="string">"Opção Atualizar\n"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="builtin">printf</span>(<span class="string">"Opção Desconhecida\n"</span>);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--Funções-->
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Funções em C</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A base da programação procedural. Funções contêm um tipo de retorno à esquerda, e parâmetros tipados separados por vírgula em sua invocação. Funções que não devolvem nenhuma resposta à tela devem ser classificadas como do tipo <code>void</code>.</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-square text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição de Funções</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Sempre declare suas sub-rotinas no topo ou providencie assinaturas (protótipos) para que o compilador C consiga localizá-las antecipadamente antes de entrarem em `main`.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="keyword">void</span> <span class="function">saudacao</span>() {
+    <span class="builtin">printf</span>(<span class="string">"Olá! Sub-rotinas conectadas.\n"</span>);
+}
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="function">saudacao</span>(); <span class="comment">// Chamada</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--Parâmetros e Ponteiros-->
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-arrow-right text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros e Ponteiros</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem C tem duas passagens padrão: <strong>Passagem por Valor</strong> (cria cópias inalteráveis em outra gaveta de memória) e <strong>Passagem por Referência manual</strong>, onde o programador joga o endereço da memória como parâmetro (usando os temidos ponteiros `*`).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Passagem por Valor</span>
+<span class="keyword">void</span> <span class="function">alterarPorValor</span>(<span class="type">int</span> a) {
+    a = <span class="number">99</span>; <span class="comment">// Não afetará o original</span>
+}
+
+<span class="comment">// Passagem por Referência através do uso de Ponteiros (*)</span>
+<span class="keyword">void</span> <span class="function">alterarReal</span>(<span class="type">int</span> *a) {
+    *a = <span class="number">99</span>; <span class="comment">// Muda na raiz</span>
+}
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">int</span> numero = <span class="number">10</span>;
+    
+    <span class="function">alterarPorValor</span>(numero);
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, numero); <span class="comment">// Imprime 10</span>
+
+    <span class="function">alterarReal</span>(&amp;numero); <span class="comment">// Passa-se a posição da memória</span>
+    <span class="builtin">printf</span>(<span class="string">"%d\n"</span>, numero); <span class="comment">// Imprime 99</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <!--Lambda-->
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Ausência de Funções Anônimas (Lambdas)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Ao contrário de C++ (que provém os Lambdas de forma elegante nas versões modernas), <strong>a linguagem C não as suporta nativamente</strong>. Para resolver o "encaixe" de funções nas chamadas (callbacks), nós injetamos <strong>Ponteiros de Função</strong>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="pp">#include</span> <span class="string">&lt;stdio.h&gt;</span>
+
+<span class="comment">// Assinatura da sub-rotina injetável</span>
+<span class="keyword">void</span> <span class="function">dizerOi</span>() {
+    <span class="builtin">printf</span>(<span class="string">"Oi!\n"</span>);
+}
+
+<span class="comment">// Função base recebe outra como um ponteiro</span>
+<span class="keyword">void</span> <span class="function">executar</span>(<span class="keyword">void</span> (*funcaoRecebida)()) {
+    <span class="function">funcaoRecebida</span>(); 
+}
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="function">executar</span>(dizerOi); <span class="comment">// Uso das funções estilo Callback</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--Retorno de Valores-->
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-undo-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Retorno de Valores</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>return</code> finaliza a execução da sub-rotina imediatamente e devolve o valor para quem executou sua ordem.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> <span class="function">multiplicar</span>(<span class="type">int</span> x, <span class="type">int</span> y) {
+    <span class="keyword">return</span> x * y;
+}
+
+<span class="type">int</span> <span class="function">main</span>() {
+    <span class="type">int</span> resultado = <span class="function">multiplicar</span>(<span class="number">5</span>, <span class="number">4</span>);
+    <span class="builtin">printf</span>(<span class="string">"O resultado é %d.\n"</span>, resultado);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+<!--Scripts-->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {};
+        document.querySelectorAll("template").forEach((t) => {
+          templates[t.id.replace("tpl-", "")] = t.innerHTML;
+        });
+
+        const contentDiv = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchResults = document.getElementById("search-results");
+
+        function loadSection(sectionId) {
+          if (templates[sectionId]) {
+            contentDiv.innerHTML = templates[sectionId];
+            navLinks.forEach((link) => link.classList.remove("bg-blue-100", "font-bold"));
+            const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+            if (activeLink) activeLink.classList.add("bg-blue-100", "font-bold");
+            localStorage.setItem("activeSectionId", sectionId);
+          }
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadSection(link.dataset.section);
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector(".fa-chevron-right");
+            content.classList.toggle("open");
+            if (content.classList.contains("open")) {
+              icon.style.transform = "rotate(90deg)";
+            } else {
+              icon.style.transform = "rotate(0deg)";
+            }
+          });
+        });
+
+        searchInput.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          searchResults.innerHTML = "";
+          
+          if (query.length > 1) {
+            navLinks.forEach((link) => {
+              const text = link.textContent.toLowerCase();
+              const explanation = link.dataset.explanation ? link.dataset.explanation.toLowerCase() : "";
+              if (text.includes(query) || explanation.includes(query)) {
+                const div = document.createElement("div");
+                div.className = "p-2 hover:bg-gray-100 cursor-pointer";
+                div.textContent = link.textContent;
+                div.addEventListener("click", () => {
+                  loadSection(link.dataset.section);
+                  searchResults.classList.add("hidden");
+                  searchInput.value = "";
+                });
+                searchResults.appendChild(div);
+              }
+            });
+            searchResults.classList.remove("hidden");
+          } else {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos",
+          "tipo-bool": "dd-tipos", "tipo-char": "dd-tipos",
+          "vector": "dd-estruturas", "array": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+          "cout": "dd-io", "cin": "dd-io",
+          "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+          "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn) {
+              const icon = btn.querySelector(".fa-chevron-right");
+              if (icon) icon.style.transform = "rotate(90deg)";
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>

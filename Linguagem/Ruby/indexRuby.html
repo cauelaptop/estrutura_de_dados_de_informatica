@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados e POO: Referência da Linguagem Ruby</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      .keyword  { color: #f92672; font-weight: bold; }
+      .type     { color: #66d9ef; font-style: italic; }
+      .string   { color: #e6db74; }
+      .comment  { color: #75715e; font-style: italic; }
+      .function { color: #a6e22e; }
+      .builtin  { color: #ae81ff; }
+      .number   { color: #ae81ff; }
+      .symbol   { color: #fd971f; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+
+    <header class="bg-blue-700 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <i class="fas fa-gem text-3xl mr-3 text-red-400"></i>
+          <h1 class="text-2xl font-bold">Referência da Linguagem Ruby</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800"></div>
+          </div>
+        </div>
+        <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
+        <i class="fas fa-home mr-2"></i>
+        Voltar
+      </a>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="flex flex-1 container mx-auto px-4 py-8">
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8 overflow-y-auto" style="max-height: 85vh;">
+          <div class="p-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+          </div>
+          <nav>
+            <div class="mb-4 mt-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem Ruby e a sua filosofia.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados em Ruby (Tudo é Objeto).">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos Dinâmicos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Classe Integer em Ruby">Integer</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Classe Float em Ruby">Float</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Classe String e Interpolação">String</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-symbol" data-explanation="O uso de Symbols (:simbolo) em Ruby">Symbol</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="TrueClass, FalseClass e NilClass em Ruby">Boolean / nil</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Coleções de dados em Ruby.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Coleções (Collections)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="Classe Array em Ruby">Array (Vetores)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Classe Hash (Dicionários) em Ruby">Hash (Dicionários)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Classe Set em Ruby">Set (Conjuntos)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Funções de Input e Output em Ruby.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Comandos puts, print e p em Ruby">puts / print / p</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Comando gets.chomp em Ruby">gets.chomp</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle-fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Condicionais e Iteradores em Ruby.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="if, elsif, else e unless em Ruby">if / unless</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Iteradores .each e ranges em Ruby">Iteradores (.each)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Loops while e until em Ruby">while / until</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Estrutura case / when em Ruby">case / when</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Definição de Métodos e Blocos em Ruby.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Métodos e Blocos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de métodos com def em Ruby">Definição (def)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Argumentos nomeados (keyword args) e splat">Parâmetros (Keyword / Splat)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="O poder dos Blocks (yield), Procs e Lambdas">Blocks, Procs e Lambdas</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno implícito em Ruby">Retorno Implícito</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#oop" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="oop-intro" data-explanation="Programação Orientada a Objetos Pura em Ruby.">
+                <i class="fas fa-cubes mr-2"></i>
+                <span class="flex items-center">Orientação a Objetos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-oop" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-classes" data-explanation="Classes, initialize e attr_accessor em Ruby">Classes e Accessors</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-heranca" data-explanation="Herança simples com < em Ruby">Herança</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-polimorfismo" data-explanation="Polimorfismo e sobrescrita de métodos">Polimorfismo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-interfaces" data-explanation="Mixins e Módulos como interfaces em Ruby">Modules e Mixins</a>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1">
+          <div id="explanation"></div>
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm">
+            <p>© 2026 Referência da Linguagem Ruby. Todos os direitos reservados.</p>
+            <p class="mt-2">Este site é apenas para fins educacionais.</p>
+             <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> 
+                GitHub
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução à Linguagem Ruby</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          <strong>Ruby</strong> é uma linguagem de programação dinâmica, open source e puramente orientada a objetos. Foi criada em 1995 pelo programador japonês Yukihiro "Matz" Matsumoto, combinando partes de suas linguagens favoritas (Perl, Smalltalk, Eiffel, Ada e Lisp).
+        </p>
+        <p class="text-gray-700 mb-4">
+          A filosofia principal do Ruby é focar na <strong>felicidade do programador</strong>, tornando a sintaxe natural para leitura humana. A linguagem atingiu fama mundial após a criação do framework de desenvolvimento web <strong>Ruby on Rails</strong>.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Meu primeiro programa em Ruby</span>
+<span class="function">puts</span> <span class="string">"Olá, Mundo!"</span>
+
+<span class="comment"># Em Ruby, você não precisa declarar tipos (Tipagem Dinâmica)</span>
+linguagem = <span class="string">"Ruby"</span>
+versao = <span class="number">3.3</span>
+
+<span class="comment"># Interpolação de string super elegante com #{}</span>
+<span class="function">puts</span> <span class="string">"Bem-vindo ao #{linguagem} versão #{versao}!"</span></pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características Principais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li><strong>Tudo é um Objeto:</strong> Diferente de Java, até mesmo números literais como <code>5</code> são objetos e possuem métodos.</li>
+                <li><strong>Tipagem Dinâmica e Forte:</strong> Não precisa declarar tipos, mas o Ruby não converte tipos incompatíveis silenciosamente (como o JS faz).</li>
+                <li><strong>Sintaxe Limpa:</strong> Sem ponto-e-vírgula no final das linhas e, muitas vezes, parênteses são opcionais.</li>
+                <li><strong>Metaprogramação:</strong> Capacidade nativa brutal de escrever códigos que escrevem códigos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados Dinâmicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No Ruby, as variáveis armazenam referências a objetos. Para saber a classe (o tipo) de qualquer valor, basta chamar o método <code>.class</code> nele mesmo.</p>
+        <div class="code-block mb-4">
+          <pre>x = <span class="number">42</span>       <span class="comment"># Integer</span>
+y = <span class="number">3.14</span>     <span class="comment"># Float</span>
+nome = <span class="string">"BR"</span>  <span class="comment"># String</span>
+ativo = <span class="keyword">true</span> <span class="comment"># TrueClass</span>
+
+<span class="comment"># O método .class revela a origem do objeto</span>
+<span class="function">puts</span> x.<span class="keyword">class</span>     <span class="comment"># Imprime: Integer</span>
+<span class="function">puts</span> ativo.<span class="keyword">class</span> <span class="comment"># Imprime: TrueClass</span></pre>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Integer</strong> Números inteiros (lida com números gigantescos automaticamente).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Float</strong> Números com ponto decimal.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">String</strong> Textos mutáveis.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Symbol</strong> Strings leves e imutáveis, muito usadas como chaves (<code>:simbolo</code>).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Boolean (True/False)</strong> Instâncias das classes <code>TrueClass</code> e <code>FalseClass</code>.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">nil</strong> Representa "nada". É a única instância de <code>NilClass</code>.</div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Integer (Inteiros)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe <code>Integer</code> cuida dos números inteiros. O Ruby gere o tamanho dos inteiros automaticamente: se o número ultrapassar o tamanho de um inteiro normal, ele transforma-o num <code>Bignum</code> invisivelmente por trás dos panos, impedindo falhas de overflow (estouro de limite).</p>
+        <div class="code-block mb-4">
+          <pre>a = <span class="number">10</span>
+b = <span class="number">3</span>
+
+<span class="function">puts</span> a + b <span class="comment"># 13</span>
+<span class="function">puts</span> a / b <span class="comment"># 3 (Divisão entre inteiros sempre retorna inteiro)</span>
+
+<span class="comment"># Para forçar float, um deles deve ser float</span>
+<span class="function">puts</span> a.to_f / b <span class="comment"># 3.3333333333333335</span>
+
+<span class="comment"># Métodos interessantes direto do número (Tudo é objeto!)</span>
+<span class="number">5</span>.<span class="function">times</span> <span class="keyword">do</span>
+  <span class="function">puts</span> <span class="string">"Repete 5 vezes!"</span>
+<span class="keyword">end</span>
+
+<span class="function">puts</span> <span class="number">10</span>.<span class="function">even?</span> <span class="comment"># true (É par?)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-dot-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Float (Ponto Flutuante)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Representa números com precisão decimal. Para garantir precisão absoluta em cálculos com moeda, os programadores Ruby recomendam usar a classe <code>BigDecimal</code> (necessita um <code>require 'bigdecimal'</code>).</p>
+        <div class="code-block mb-4">
+          <pre>pi = <span class="number">3.14159</span>
+
+<span class="comment"># Arredondamentos e Matemática</span>
+<span class="function">puts</span> pi.<span class="function">round</span>(<span class="number">2</span>) <span class="comment"># 3.14</span>
+<span class="function">puts</span> pi.<span class="function">ceil</span>     <span class="comment"># 4 (Teto)</span>
+<span class="function">puts</span> pi.<span class="function">floor</span>    <span class="comment"># 3 (Chão)</span>
+
+<span class="comment"># Exponenciação nativa simplificada</span>
+<span class="function">puts</span> <span class="number">2</span> ** <span class="number">3</span>      <span class="comment"># 8</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">String e Interpolação</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Ruby, as Strings são <strong>mutáveis</strong>. Usar aspas duplas <code>" "</code> permite interpretar escapes (como <code>\n</code>) e interpolar variáveis utilizando <code>#{}</code>. Aspas simples <code>' '</code> criam strings puras, ligeiramente mais rápidas mas ignorando escapes complexos.</p>
+        <div class="code-block mb-4">
+          <pre>nome = <span class="string">"Lucas"</span>
+
+<span class="comment"># Interpolação de variáveis e métodos</span>
+saudacao = <span class="string">"Olá, #{nome.upcase}!"</span>
+<span class="function">puts</span> saudacao <span class="comment"># "Olá, LUCAS!"</span>
+
+<span class="comment"># Métodos comuns em Strings</span>
+<span class="function">puts</span> nome.<span class="function">length</span>      <span class="comment"># 5</span>
+<span class="function">puts</span> nome.<span class="function">reverse</span>     <span class="comment"># "sacuL"</span>
+<span class="function">puts</span> nome.<span class="function">include?</span>(<span class="string">"u"</span>) <span class="comment"># true</span>
+
+<span class="comment"># Concatenação</span>
+completo = nome + <span class="string">" Silva"</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-symbol">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-tag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Symbol (Símbolos)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Um <code>Symbol</code>, representado por dois pontos antes do nome (<code>:ativo</code>, <code>:nome</code>), parece uma string, mas na verdade é um identificador imutável que aponta para o mesmo local de memória ao longo de todo o programa. É a escolha primária de Ruby para chaves em dicionários (Hashes) devido à sua extrema eficiência.</p>
+        <div class="code-block mb-4">
+          <pre>string1 = <span class="string">"ruby"</span>
+string2 = <span class="string">"ruby"</span>
+<span class="function">puts</span> string1.object_id == string2.object_id <span class="comment"># false (Ocupam posições diferentes na RAM)</span>
+
+sym1 = <span class="symbol">:ruby</span>
+sym2 = <span class="symbol">:ruby</span>
+<span class="function">puts</span> sym1.object_id == sym2.object_id       <span class="comment"># true (Símbolos idênticos partilham sempre a memória)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Boolean e a regra de Ouro</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No Ruby, <code>true</code>, <code>false</code> e <code>nil</code> são objetos puros. <strong>A regra de ouro (Truthy e Falsy):</strong> No Ruby, apenas `false` e `nil` são avaliados como falsos. **Tudo o resto é verdadeiro!** O número 0 e a string vazia "" são considerados verdadeiros.</p>
+        <div class="code-block mb-4">
+          <pre>logado = <span class="keyword">true</span>
+perfil = <span class="keyword">nil</span>
+
+<span class="comment"># Operadores lógicos: &&, ||, !</span>
+<span class="function">puts</span> logado && perfil  <span class="comment"># nil (Falso lógico)</span>
+<span class="function">puts</span> logado || perfil  <span class="comment"># true</span>
+
+<span class="keyword">if</span> <span class="number">0</span>
+  <span class="function">puts</span> <span class="string">"O zero é avaliado como VERDADEIRO em Ruby!"</span>
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados (Coleções)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As coleções em Ruby são dinâmicas, não precisam de tipos genéricos complexos e permitem agrupar qualquer tipo de objeto numa mesma lista ou dicionário. A maioria delas herda o poder do módulo <code>Enumerable</code>, ganhando dezenas de métodos úteis nativamente.</p>
+      </div>
+    </template>
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Array (Vetores/Listas)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe <code>Array</code> representa uma coleção ordenada em Ruby. Índices começam em 0 e permitem extrações negativas para começar a contagem do final (<code>-1</code> é o último item).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Criação de um Array</span>
+frutas = [<span class="string">"Maçã"</span>, <span class="string">"Banana"</span>, <span class="string">"Laranja"</span>]
+
+<span class="comment"># Acesso e Inserção rápida (Operador Shovel <<)</span>
+<span class="function">puts</span> frutas[<span class="number">0</span>]   <span class="comment"># "Maçã"</span>
+<span class="function">puts</span> frutas[-<span class="number">1</span>]  <span class="comment"># "Laranja" (Acede ao fim da lista)</span>
+
+frutas << <span class="string">"Uva"</span>  <span class="comment"># Adiciona "Uva" ao final do array</span>
+frutas.<span class="function">push</span>(<span class="string">"Pera"</span>)
+
+<span class="comment"># Modificadores úteis</span>
+frutas.<span class="function">pop</span>       <span class="comment"># Remove e retorna o último elemento ("Pera")</span>
+frutas.<span class="function">shift</span>     <span class="comment"># Remove e retorna o primeiro elemento ("Maçã")</span>
+<span class="function">puts</span> frutas.size <span class="comment"># 3</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Hash (Dicionários)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Ruby, estruturas de chave-valor são chamadas de <code>Hashes</code>. A forma mais performática e idiomática de as construir é utilizando <code>Symbols</code> como chaves.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Criação usando Símbolos com sintaxe simplificada de Ruby 1.9+</span>
+jogador = { nome: <span class="string">"Lucas"</span>, nivel: <span class="number">5</span>, vivo: <span class="keyword">true</span> }
+
+<span class="comment"># Sintaxe clássica equivalente com Hashrocket (=>) :</span>
+<span class="comment"># jogador = { :nome => "Lucas", :nivel => 5, :vivo => true }</span>
+
+<span class="comment"># Acesso</span>
+<span class="function">puts</span> jogador[<span class="symbol">:nome</span>]  <span class="comment"># "Lucas"</span>
+
+<span class="comment"># Atualizar / Adicionar</span>
+jogador[<span class="symbol">:pontos</span>] = <span class="number">1500</span>
+
+<span class="comment"># Se a chave não existir, retorna nil</span>
+<span class="function">puts</span> jogador[<span class="symbol">:mana</span>]  <span class="comment"># nil</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Set (Conjuntos Únicos)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Para garantir coleções de elementos sem repetições com busca extremamente rápida, utilizamos o <code>Set</code>. É necessário incluir a biblioteca padrão <code>require 'set'</code> antes de utilizá-lo.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">require</span> <span class="string">'set'</span>
+
+conjunto = <span class="type">Set</span>.<span class="function">new</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>])
+
+<span class="comment"># Elementos repetidos são ignorados na inicialização</span>
+<span class="function">puts</span> conjunto.inspect <span class="comment"># #&lt;Set: {1, 2, 3}&gt;</span>
+
+conjunto.<span class="function">add</span>(<span class="number">4</span>)
+conjunto.<span class="function">add</span>(<span class="number">1</span>) <span class="comment"># Ignorado, já existe</span>
+
+<span class="function">puts</span> conjunto.<span class="function">include?</span>(<span class="number">3</span>) <span class="comment"># true (Verificação de altíssima performance)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída (I/O)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A interação pelo terminal em Ruby apoia-se num sistema muito amigável com comandos curtos e de compreensão fácil por falantes de inglês.</p>
+      </div>
+    </template>
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-desktop text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">puts, print e p</h2>
+        </div>
+        <p class="text-gray-700 mb-4"><code>puts</code> imprime o conteúdo e salta uma linha. <code>print</code> imprime sem saltar de linha. <code>p</code> imprime o valor com a sua estrutura técnica (muito usado para debugging interno).</p>
+        <div class="code-block mb-4">
+          <pre>nome = <span class="string">"Ruby"</span>
+
+<span class="function">print</span> <span class="string">"Bem-vindo ao "</span>
+<span class="function">puts</span> nome
+<span class="comment"># Output: Bem-vindo ao Ruby</span>
+
+<span class="comment"># O 'p' mostra aspas, escapes e tipos como um "console.log" nativo</span>
+<span class="function">p</span> <span class="string">"123"</span> <span class="comment"># Exibe "123" no terminal, e não apenas 123 solto</span>
+<span class="function">p</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment"># Exibe [1, 2, 3] legivelmente em vez de valores divididos em linhas</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">gets e gets.chomp</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A função <code>gets</code> (Get String) lê do teclado até que o "Enter" seja pressionado. No entanto, o próprio caractere "Enter" (<code>\n</code>) é salvo junto. Por isso, 99% das vezes o comando é seguido pelo método <code>.chomp</code>, que corta o "Enter" final da string capturada.</p>
+        <div class="code-block mb-4">
+          <pre><span class="function">print</span> <span class="string">"Digite a sua idade: "</span>
+entrada = <span class="function">gets</span>.<span class="function">chomp</span>
+
+<span class="comment"># gets sempre traz uma String. Converter para inteiro com .to_i</span>
+idade = entrada.to_i
+
+<span class="function">puts</span> <span class="string">"Em breve terá #{idade + 1} anos."</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Blocos em Ruby finalizam sempre com a palavra <code>end</code>, o que tira a exigência e a confusão associada à indentação restrita de chaves <code>{}</code>. Além disso, Ruby possui condicionais e laços invertidos (como <code>unless</code> ou <code>until</code>) que ajudam a leitura natural (parece quase que estamos a falar inglês).</p>
+      </div>
+    </template>
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if, elsif, else e unless</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Note a ortografia exata de <code>elsif</code>. O comando <code>unless</code> significa "a não ser que", e funciona como um "if-NOT".</p>
+        <div class="code-block mb-4">
+          <pre>nota = <span class="number">8</span>
+
+<span class="keyword">if</span> nota >= <span class="number">9</span>
+  <span class="function">puts</span> <span class="string">"Excelente!"</span>
+<span class="keyword">elsif</span> nota >= <span class="number">7</span>
+  <span class="function">puts</span> <span class="string">"Aprovado"</span>
+<span class="keyword">else</span>
+  <span class="function">puts</span> <span class="string">"Recuperação"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># O 'unless' processa quando a condição for FALSA</span>
+chovendo = <span class="keyword">false</span>
+<span class="keyword">unless</span> chovendo
+  <span class="function">puts</span> <span class="string">"Vamos à praia!"</span> <span class="comment"># Este bloco rodará</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Modificador de linha embutido (If/Unless curto e limpo)</span>
+<span class="function">puts</span> <span class="string">"Pega o casaco"</span> <span class="keyword">if</span> chovendo</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Iteradores (.each) em vez de For</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em Ruby, praticamente nunca usamos a palavra "for". A maneira padronizada e polida de varrer listas ou intervalos é enviando os dados em blocos de execução usando o método <code>.each</code>.</p>
+        <div class="code-block mb-4">
+          <pre>frutas = [<span class="string">"Maçã"</span>, <span class="string">"Banana"</span>, <span class="string">"Uva"</span>]
+
+<span class="comment"># Iteração preferencial em Ruby</span>
+frutas.<span class="function">each</span> <span class="keyword">do</span> |fruta|
+  <span class="function">puts</span> <span class="string">"Eu gosto de #{fruta}"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Iterando sobre um intervalo (Range). Os 2 pontos (..) incluem o 5.</span>
+(<span class="number">1</span>..<span class="number">5</span>).<span class="function">each</span> <span class="keyword">do</span> |numero|
+  <span class="function">puts</span> <span class="string">"Contando: #{numero}"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Hash iterations (Chave, Valor)</span>
+config = { tema: <span class="string">"escuro"</span>, volume: <span class="number">80</span> }
+config.<span class="function">each</span> <span class="keyword">do</span> |chave, valor|
+  <span class="function">puts</span> <span class="string">"A #{chave} está definida para #{valor}"</span>
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-history text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while e until</h2>
+        </div>
+        <p class="text-gray-700 mb-4"><code>while</code> repete enquanto algo for verdadeiro. <code>until</code> repete "até que" a condição se torne verdadeira (reage enquanto for falsa).</p>
+        <div class="code-block mb-4">
+          <pre>contador = <span class="number">1</span>
+<span class="keyword">while</span> contador <= <span class="number">3</span>
+  <span class="function">puts</span> contador
+  contador += <span class="number">1</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Até que a bateria se acabe (ou seja, enquanto tiver bateria)</span>
+bateria = <span class="number">10</span>
+<span class="keyword">until</span> bateria == <span class="number">0</span>
+  <span class="function">puts</span> <span class="string">"Bateria: #{bateria}"</span>
+  bateria -= <span class="number">2</span>
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">case e when</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O switch no Ruby é escrito usando a palavra <code>case</code>. Não existe necessidade do clássico `break` ao final de cada opção, o Ruby interrompe a varredura automaticamente assim que achar a condição correta e processá-la.</p>
+        <div class="code-block mb-4">
+          <pre>dia = <span class="string">"Sábado"</span>
+
+<span class="keyword">case</span> dia
+<span class="keyword">when</span> <span class="string">"Segunda"</span>, <span class="string">"Terça"</span>, <span class="string">"Quarta"</span>, <span class="string">"Quinta"</span>, <span class="string">"Sexta"</span>
+  <span class="function">puts</span> <span class="string">"Dia de trabalho"</span>
+<span class="keyword">when</span> <span class="string">"Sábado"</span>, <span class="string">"Domingo"</span>
+  <span class="function">puts</span> <span class="string">"Fim de semana!"</span>
+<span class="keyword">else</span>
+  <span class="function">puts</span> <span class="string">"Dia inválido"</span>
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Métodos e Blocos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma vez que tudo é um objeto em Ruby, nós tratamos as funções independentes pelo termo oficial de <strong>Métodos</strong> (pois eles estarão secretamente associados à instância global <code>main</code> do Ruby caso não estejam em classes).</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição (def)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A declaração usa a palavra reservada <code>def</code>. Parênteses são totalmente opcionais em Ruby para chamadas que não envolvem parâmetros complexos de repasse de argumentos.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">def</span> <span class="function">saudacao</span>(nome)
+  <span class="function">puts</span> <span class="string">"Olá, #{nome}!"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># As duas chamadas são válidas e aceitáveis</span>
+<span class="function">saudacao</span>(<span class="string">"Maria"</span>)
+saudacao <span class="string">"José"</span> <span class="comment"># Parênteses omitidos</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sliders-h text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros, Defaults e Splat</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Pode fornecer valores default usando igual `=`. Ruby também permite argumentos de comprimento ilimitado com o operador <em>Splat</em> (<code>*</code>), capturando múltiplos argumentos como um Array e duplos asteriscos para argumentos de chave/valor (Hash).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Parâmetro nomeado (Keyword argument) e com padrão predefinido</span>
+<span class="keyword">def</span> <span class="function">criar_usuario</span>(nome:, idade: <span class="number">18</span>)
+  <span class="function">puts</span> <span class="string">"#{nome} tem #{idade} anos"</span>
+<span class="keyword">end</span>
+<span class="function">criar_usuario</span>(nome: <span class="string">"Carlos"</span>) <span class="comment"># Puxa os 18 por default</span>
+
+<span class="comment"># Operador Splat (*). Recebe quantos itens mandar em Array</span>
+<span class="keyword">def</span> <span class="function">listar_amigos</span>(titular, *amigos)
+  <span class="function">puts</span> <span class="string">"#{titular} trouxe: #{amigos.join(', ')}"</span>
+<span class="keyword">end</span>
+<span class="function">listar_amigos</span>(<span class="string">"Ana"</span>, <span class="string">"Beto"</span>, <span class="string">"Clara"</span>, <span class="string">"Diego"</span>)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Blocos (yield), Procs e Lambdas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Este é o superpoder do Ruby. Qualquer método pode receber um bloco extra invisível de código junto de si e cedê-lo ao controle da palavra-chave <code>yield</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Criando um método que absorve código do lado de fora (Block)</span>
+<span class="keyword">def</span> <span class="function">fazer_duas_vezes</span>
+  <span class="keyword">yield</span> <span class="comment"># Roda o código injetado a primeira vez</span>
+  <span class="keyword">yield</span> <span class="comment"># Roda novamente</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Injetamos o comando "puts" para a palavra yield agir lá em cima</span>
+fazer_duas_vezes <span class="keyword">do</span>
+  <span class="function">puts</span> <span class="string">"Fui chamado pelo Yield!"</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Lambdas (Stabby lambda sintaxe '->')</span>
+dobro = -&gt;(x) { x * <span class="number">2</span> }
+<span class="function">puts</span> dobro.call(<span class="number">5</span>) <span class="comment"># 10</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-reply text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Retorno Implícito</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No Ruby a última instrução de qualquer método é **automaticamente retornada**, sem precisar explicitamente digitar `return`. O return em Ruby só é usado quando você quer interromper uma execução antes do seu final lógico final.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">def</span> <span class="function">multiplicar</span>(a, b)
+  a * b <span class="comment"># Sem a palavra 'return'. O Ruby devolve isto nativamente!</span>
+<span class="keyword">end</span>
+
+resultado = multiplicar(<span class="number">4</span>, <span class="number">5</span>)
+<span class="function">puts</span> resultado <span class="comment"># 20</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cubes text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Orientação a Objetos no Ruby</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Ruby não é apenas orientado a objetos... Ele é "obcecadamente" orientado a objetos. Não existem tipos primitivos puros. Tudo são classes interagindo umas com as outras enviando mensagens. Devido à imensa flexibilidade, Ruby permite modificar classes existentes abertas em tempo real (Monkey Patching), um poder gigantesco que deve ser usado com responsabilidade.</p>
+      </div>
+    </template>
+
+    <template id="tpl-oop-classes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-building text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Classes e Atributos de Instância</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Classes são definidas usando <code>class Nome</code>. O construtor oficial do Ruby chama-se sempre <code>initialize</code>. Todas as variáveis de instância internas ao escopo devem ser prefixadas com uma arroba <code>@</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">class</span> <span class="type">Pessoa</span>
+  <span class="comment"># Macro que gera os Getters e Setters por baixo dos panos</span>
+  <span class="function">attr_accessor</span> <span class="symbol">:nome</span>, <span class="symbol">:idade</span>
+
+  <span class="keyword">def</span> <span class="function">initialize</span>(nome_inicial, idade_inicial)
+    <span class="comment"># Atributos do Objeto atual salvos com a '@' na RAM</span>
+    <span class="variable">@nome</span> = nome_inicial
+    <span class="variable">@idade</span> = idade_inicial
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">apresentar</span>
+    <span class="function">puts</span> <span class="string">"Olá, eu sou #{@nome} e tenho #{@idade} anos."</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment"># Instanciação</span>
+p = <span class="type">Pessoa</span>.new(<span class="string">"Matz"</span>, <span class="number">58</span>)
+p.nome = <span class="string">"Yukihiro"</span> <span class="comment"># Funcionou porque usamos attr_accessor</span>
+p.apresentar</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-heranca">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Herança Simples</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A herança em Ruby é implementada usando o símbolo menor-que <code>&lt;</code>, significando que a Classe Filha deriva a Classe Mãe.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">class</span> <span class="type">Animal</span>
+  <span class="keyword">def</span> <span class="function">respirar</span>
+    <span class="function">puts</span> <span class="string">"Inalando oxigênio..."</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment"># O Cachorro Herda (é derivado) de Animal</span>
+<span class="keyword">class</span> <span class="type">Cachorro</span> &lt; <span class="type">Animal</span>
+  <span class="keyword">def</span> <span class="function">latir</span>
+    <span class="function">puts</span> <span class="string">"Au au!"</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+dog = <span class="type">Cachorro</span>.new
+dog.respirar <span class="comment"># Encontra a função na classe Animal</span>
+dog.latir    <span class="comment"># Encontra a função na classe Cachorro</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-polimorfismo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-random text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Polimorfismo e Duck Typing</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O polimorfismo dinâmico na sobrescrita de métodos não exige palavras ou diretivas complexas como <code>override</code>. Basta nomear a função nova igual ao pai que ela ganha precedência total. Você pode ainda invocar a versão do Pai usando <code>super</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">class</span> <span class="type">Trabalhador</span>
+  <span class="keyword">def</span> <span class="function">saudacao</span>
+    <span class="function">puts</span> <span class="string">"Olá, eu sou um funcionário."</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">class</span> <span class="type">Gerente</span> &lt; <span class="type">Trabalhador</span>
+  <span class="keyword">def</span> <span class="function">saudacao</span>
+    <span class="keyword">super</span> <span class="comment"># Dispara o print do Trabalhador primeiro</span>
+    <span class="function">puts</span> <span class="string">"Além disso, eu sou o chefe deste setor!"</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+chefe = <span class="type">Gerente</span>.new
+chefe.saudacao</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-interfaces">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plug text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Modules e Mixins (Em vez de Interfaces)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O Ruby não suporta herança múltipla (uma classe herdar de duas Mães separadas). Para solucionar este entrave e partilhar comportamentos entre famílias que não são compatíveis, Ruby introduz os <strong>Modules (Mixins)</strong>, que são pacotes de métodos empacotados que nós podemos injetar (<code>include</code>) numa Classe inteira sem comprometer a sua arvore hierárquica principal.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Definindo um Módulo com comportamento injetável</span>
+<span class="keyword">module</span> <span class="type">Pilotavel</span>
+  <span class="keyword">def</span> <span class="function">decolar</span>
+    <span class="function">puts</span> <span class="string">"Ligando motores de propulsão!"</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">class</span> <span class="type">Aviao</span>
+  <span class="keyword">include</span> <span class="type">Pilotavel</span> <span class="comment"># Injeta as habilidades contidas no Módulo (Mixin)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">class</span> <span class="type">Passaro</span> &lt; <span class="type">Animal</span>
+  <span class="comment"># include Pilotavel # Um animal que também recebe o pacote Pilotavel</span>
+<span class="keyword">end</span>
+
+meu_jato = <span class="type">Aviao</span>.new
+meu_jato.decolar</pre>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      const templates = {
+        "introducao": "tpl-introducao",
+        "tipos": "tpl-tipos",
+        "tipo-int": "tpl-tipo-int",
+        "tipo-float": "tpl-tipo-float",
+        "tipo-string": "tpl-tipo-string",
+        "tipo-symbol": "tpl-tipo-symbol",
+        "tipo-bool": "tpl-tipo-bool",
+        "estruturas": "tpl-estruturas",
+        "vector": "tpl-vector",
+        "map": "tpl-map",
+        "set": "tpl-set",
+        "entrada-saida": "tpl-entrada-saida",
+        "cout": "tpl-cout",
+        "cin": "tpl-cin",
+        "controle-fluxo": "tpl-controle-fluxo",
+        "if-else": "tpl-if-else",
+        "for": "tpl-for",
+        "while": "tpl-while",
+        "switch": "tpl-switch",
+        "funcoes": "tpl-funcoes",
+        "def": "tpl-def",
+        "parametros": "tpl-parametros",
+        "lambda": "tpl-lambda",
+        "retorno": "tpl-retorno",
+        "oop-intro": "tpl-oop-intro",
+        "oop-classes": "tpl-oop-classes",
+        "oop-heranca": "tpl-oop-heranca",
+        "oop-polimorfismo": "tpl-oop-polimorfismo",
+        "oop-interfaces": "tpl-oop-interfaces",
+      };
+
+      const explanationContainer = document.getElementById("explanation");
+      const navLinks = document.querySelectorAll(".nav-link");
+      const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+      const input = document.querySelector('input[type="text"]');
+      const resultsContainer = document.getElementById("search-results");
+
+      function loadSection(sectionId) {
+        const tplId = templates[sectionId];
+        if (!tplId) return;
+        const tpl = document.getElementById(tplId);
+        if (!tpl) return;
+
+        explanationContainer.innerHTML = "";
+        explanationContainer.appendChild(tpl.content.cloneNode(true));
+
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-section") === sectionId) {
+            link.classList.add("bg-blue-100", "font-semibold");
+          } else {
+            link.classList.remove("bg-blue-100", "font-semibold");
+          }
+        });
+
+        localStorage.setItem("activeSectionId", sectionId);
+      }
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const sectionId = link.getAttribute("data-section");
+          loadSection(sectionId);
+        });
+      });
+
+      dropdownBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const content = btn.nextElementSibling;
+          content.classList.toggle("open");
+          btn.querySelector(".fa-chevron-right").classList.toggle("rotate-90");
+        });
+      });
+
+      // Lógica de pesquisa reativa
+      const searchableItems = [];
+      navLinks.forEach((link) => {
+        const section = link.getAttribute("data-section");
+        const text = link.textContent.trim();
+        const explanation = link.getAttribute("data-explanation") || "";
+        if (section && templates[section]) {
+          searchableItems.push({ section, text, explanation });
+        }
+      });
+
+      input.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        resultsContainer.innerHTML = "";
+
+        if (!query) {
+          resultsContainer.classList.add("hidden");
+          return;
+        }
+
+        const filtered = searchableItems.filter(
+          (item) =>
+            item.text.toLowerCase().includes(query) ||
+            item.explanation.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+          const item = document.createElement("div");
+          item.className = "p-3 text-sm text-gray-500";
+          item.textContent = "Nenhum resultado encontrado";
+          resultsContainer.appendChild(item);
+        } else {
+          filtered.forEach((item) => {
+            const div = document.createElement("div");
+            div.className = "p-3 hover:bg-gray-100 cursor-pointer text-sm border-b last:border-0 text-gray-800";
+            div.innerHTML = `<strong>${item.text}</strong><br><span class="text-xs text-gray-500">${item.explanation}</span>`;
+            div.addEventListener("click", () => {
+              loadSection(item.section);
+              resultsContainer.classList.add("hidden");
+              input.value = "";
+            });
+            resultsContainer.appendChild(div);
+          });
+        }
+
+        resultsContainer.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+          resultsContainer.classList.add("hidden");
+        }
+      });
+
+      const lastSection = localStorage.getItem("activeSectionId");
+      const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+      const parentDropdownMap = {
+        "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos", "tipo-symbol": "dd-tipos",
+        "tipo-bool": "dd-tipos",
+        "vector": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+        "cout": "dd-io", "cin": "dd-io",
+        "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+        "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+        "oop-classes": "dd-oop", "oop-heranca": "dd-oop", "oop-polimorfismo": "dd-oop", "oop-interfaces": "dd-oop",
+      };
+
+      const parentId = parentDropdownMap[sectionToLoad];
+      if (parentId) {
+        const dd = document.getElementById(parentId);
+        if (dd) {
+          dd.classList.add("open");
+          const btn = dd.previousElementSibling;
+          if (btn && btn.querySelector(".fa-chevron-right")) {
+            btn.querySelector(".fa-chevron-right").classList.add("rotate-90");
+          }
+        }
+      }
+
+      loadSection(sectionToLoad);
+    ;
+    </script>
+  </body>
+</html>
