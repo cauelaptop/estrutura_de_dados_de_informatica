@@ -13,4 +13,4 @@ O HTML principal (**index.html**) foi desenvolvido por **Cauê Shishido** e func
 
 Já os HTMLs secundários (**index/nome-da-opcao.html**) foram desenvolvidos por **Lucas Fernandes** e **David Delgado**, com o objetivo de proporcionar uma experiência de aprendizado prática e acessível para os usuários.
 
-O link é: https://cauelaptop.github.io/estrutura_de_dados_de_informatica/
+O link é: 
