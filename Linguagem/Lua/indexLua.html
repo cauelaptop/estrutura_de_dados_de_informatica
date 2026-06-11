@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados e POO: Referência da Linguagem Lua</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .keyword  { color: #569cd6; font-weight: bold; }
+      .type     { color: #4ec9b0; font-style: italic; }
+      .string   { color: #ce9178; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .function { color: #dcdcaa; }
+      .builtin  { color: #c586c0; }
+      .number   { color: #b5cea8; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans flex flex-col min-h-screen w-full overflow-x-hidden">
+
+    <header class="bg-blue-700 text-white shadow-lg w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center w-full">
+        
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fas fa-moon text-2xl md:text-3xl mr-3 text-blue-200"></i>
+            <h1 class="text-xl md:text-2xl font-bold truncate">Referência Lua</h1>
+          </div>
+          <button id="btn-menu" class="md:hidden text-white hover:text-blue-200 focus:outline-none text-2xl p-2 ml-2">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 w-full md:w-auto">
+          <div class="relative w-full md:w-auto">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800 max-h-60 overflow-y-auto"></div>
+          </div>
+          <a href="../../index.html" class="flex justify-center items-center w-full md:w-auto px-4 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all font-medium" title="Voltar ao menu principal">
+            <i class="fas fa-home mr-2"></i> Voltar
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-full">
+      <div class="flex flex-col md:flex-row flex-1 container mx-auto px-4 py-6 md:py-8 w-full max-w-full">
+
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-xs z-50 bg-white p-4 shadow-2xl overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-8 md:h-auto md:max-h-[85vh] md:w-72 md:shrink-0 md:translate-x-0 md:shadow-md md:rounded-lg md:mr-8 md:mb-0 md:z-0">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-700">Sumário</h1>
+            <button id="btn-close-menu" class="md:hidden text-gray-500 hover:text-red-500 p-2">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <nav>
+            <div class="mb-4 mt-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem Lua, sua origem brasileira e conceitos.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados dinâmicos em Lua.">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos Dinâmicos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo number (Inteiros) em Lua">number (Inteiros)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipo number (Decimais/Float) em Lua">number (Decimais)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Tipo string e formatação em Lua">string</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo boolean (true, false e nil) em Lua">boolean / nil</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Como Lua trata caracteres individuais">Caracteres</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Tabelas: a única estrutura de dados da linguagem Lua.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Estruturas (Tabelas)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="Usando tabelas como arrays contíguos">Tabela como Array</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Matrizes bidimensionais em Lua">Matrizes</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Usando tabelas como dicionários chave-valor">Tabela como Dict</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Usando tabelas para simular Conjuntos (Sets)">Tabela como Set</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Funções de I/O em Lua.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Comandos print e io.write em Lua">print / io.write</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Comando io.read em Lua">io.read</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle-fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Estruturas de decisão e repetição em Lua.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Estrutura condicional if, elseif, else">if / elseif / else</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Loop numérico e genérico (pairs/ipairs)">for numérico/genérico</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Loops while e repeat-until em Lua">while / repeat until</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Alternativas ao switch em Lua (Tabelas)">Alternativa ao Switch</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Definição de funções em Lua.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Funções</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de blocos function em Lua">Definição (function)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Argumentos variáveis (...) e opcionais">Parâmetros (Varargs)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Funções de primeira classe e anónimas">Funções Anónimas</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno de múltiplos valores em Lua">Múltiplos Retornos</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#oop" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="oop-intro" data-explanation="Simulando Programação Orientada a Objetos com Metatables.">
+                <i class="fas fa-cubes mr-2"></i>
+                <span class="flex items-center">Orientação a Objetos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-oop" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-classes" data-explanation="Criando classes usando Tabelas e Metatables">Classes e Metatables</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-heranca" data-explanation="Herança delegada através de index">Herança (Delegation)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-polimorfismo" data-explanation="Açúcar sintático usando os dois pontos (:) e self">Sintaxe de ':' e self</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-interfaces" data-explanation="Módulos e Duck Typing">Duck Typing / Módulos</a>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1 min-w-0 w-full overflow-hidden">
+          <div id="explanation" class="w-full break-words"></div>
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm pb-6">
+            <p>© 2026 Referência da Linguagem Lua. Todos os direitos reservados.</p>
+            <p class="mt-2">Este site é apenas para fins educacionais.</p>
+            <p class="mt-2 font-semibold text-blue-700">Criado por Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução à Linguagem Lua</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          <strong>Lua</strong> é uma linguagem de programação poderosa, eficiente, leve e embutível. É um motivo de grande orgulho nacional, pois foi criada em 1993 no Brasil, pela equipe da <strong>PUC-Rio</strong> (Roberto Ierusalimschy, Luiz Henrique de Figueiredo e Waldemar Celes).
+        </p>
+        <p class="text-gray-700 mb-4">
+          Devido à sua incrível leveza (o interpretador inteiro tem pouquíssimos kilobytes) e facilidade de integração em código C/C++, Lua é o padrão universal da indústria de videojogos para <em>scripting</em> (Roblox, World of Warcraft, etc.) e extensões de softwares empresariais.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Meu primeiro programa em Lua</span>
+<span class="function">print</span>(<span class="string">"Olá, Mundo!"</span>)
+
+<span class="comment">-- Variáveis devem preferencialmente usar a palavra 'local' </span>
+<span class="comment">-- para evitar vazamento para o escopo global do sistema</span>
+<span class="keyword">local</span> linguagem = <span class="string">"Lua"</span>
+<span class="keyword">local</span> versao = <span class="number">5.4</span>
+
+<span class="function">print</span>(<span class="string">"Bem-vindo ao "</span> .. linguagem .. <span class="string">" versão "</span> .. versao .. <span class="string">"!"</span>)</pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características Principais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li><strong>Tipagem Dinâmica:</strong> Os valores possuem tipos, as variáveis não.</li>
+                <li><strong>O Poder das Tabelas:</strong> Há apenas UMA estrutura de dados em Lua (a <em>table</em>), que atua como array, dicionário, objeto e muito mais.</li>
+                <li><strong>Índices começam em 1:</strong> Ao contrário da maioria das linguagens C-like, o índice inicial padrão em Lua é o número 1.</li>
+                <li><strong>Extremamente Rápida:</strong> A máquina virtual (e projetos como LuaJIT) a tornam uma das linguagens interpretadas mais velozes do mundo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados em Lua</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Lua tem um conceito de "tipos dinâmicos". A linguagem possui 8 tipos fundamentais: <code>nil</code>, <code>boolean</code>, <code>number</code>, <code>string</code>, <code>function</code>, <code>userdata</code>, <code>thread</code> e <code>table</code>. Você pode descobrir o tipo de qualquer valor usando a função base <code>type()</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> x = <span class="number">42</span>       <span class="comment">-- number</span>
+<span class="keyword">local</span> y = <span class="number">3.14</span>     <span class="comment">-- number</span>
+<span class="keyword">local</span> nome = <span class="string">"BR"</span>  <span class="comment">-- string</span>
+<span class="keyword">local</span> ativo = <span class="keyword">true</span> <span class="comment">-- boolean</span>
+
+<span class="comment">-- A função type retorna uma string descrevendo o tipo</span>
+<span class="function">print</span>(<span class="function">type</span>(x))     <span class="comment">-- Imprime: "number"</span>
+<span class="function">print</span>(<span class="function">type</span>(ativo)) <span class="comment">-- Imprime: "boolean"</span></pre>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">number</strong> Representa tanto números inteiros (int64) como ponto flutuante (double).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">string</strong> Cadeia imutável de bytes (textos).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">boolean</strong> Lógicos (<code>true</code> e <code>false</code>).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">nil</strong> Representa a ausência de um valor (ou "anula" uma variável existente).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">table</strong> O alicerce universal que agrupa dados lógicos e de controle.</div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">number (Inteiros)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Historicamente (antes de Lua 5.3), Lua possuía apenas o tipo de ponto flutuante padrão (Double) para representar todos os números. Agora, Lua gerencia nativamente inteiros de 64 bits para maior segurança nas operações lógicas de manipulação pura.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> a = <span class="number">10</span>
+<span class="keyword">local</span> b = <span class="number">3</span>
+
+<span class="comment">-- O operador de divisão sempre tenta realizar quebra decimal (/)</span>
+<span class="function">print</span>(a / b)  <span class="comment">-- 3.3333333...</span>
+
+<span class="comment">-- Divisão Inteira usando o operador Floor (//) (Apenas em Lua 5.3+)</span>
+<span class="function">print</span>(a // b) <span class="comment">-- 3</span>
+
+<span class="comment">-- Operador de Módulo (Resto da divisão)</span>
+<span class="function">print</span>(a % b)  <span class="comment">-- 1</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-dot-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">number (Ponto Flutuante)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Os números decimais comportam-se como `double` padrão da arquitetura C por trás da linguagem Lua.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> pi = <span class="number">3.14159</span>
+
+<span class="comment">-- Biblioteca matemática nativa (math)</span>
+<span class="keyword">local</span> raiz = <span class="builtin">math</span>.<span class="function">sqrt</span>(<span class="number">16.0</span>) <span class="comment">-- 4.0</span>
+<span class="keyword">local</span> pot = <span class="builtin">math</span>.<span class="function">pow</span>(<span class="number">2</span>, <span class="number">3</span>)   <span class="comment">-- 8.0 (Ou use o operador: 2^3)</span>
+<span class="keyword">local</span> rand = <span class="builtin">math</span>.<span class="function">random</span>()   <span class="comment">-- Gera decimal entre 0.0 e 1.0</span>
+
+<span class="function">print</span>(<span class="builtin">math</span>.<span class="function">floor</span>(pi)) <span class="comment">-- 3 (Arredondamento para baixo)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">string (Cadeias de Caracteres)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As cadeias em Lua podem ser escritas em linha única com aspas ou aspas simples. Também existe um operador gigantesco com duplos colchetes <code>[[...]]</code> para gerar blocos textuais extensos em multilinhas sem ter de usar códigos de "escape". A concatenação não utiliza <code>+</code>, mas sim dois pontos seguidos <code>..</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> saudacao = <span class="string">"Bom dia"</span>
+<span class="keyword">local</span> nome = <span class="string">'Maria'</span>
+
+<span class="comment">-- Concatenação clássica</span>
+<span class="keyword">local</span> mensagem = saudacao .. <span class="string">", "</span> .. nome .. <span class="string">"!"</span>
+
+<span class="comment">-- Bloco Gigante em String</span>
+<span class="keyword">local</span> htmlGigante = <span class="string">[[
+&lt;html&gt;
+   &lt;body&gt;Incrível&lt;/body&gt;
+&lt;/html&gt;
+]]</span>
+
+<span class="comment">-- Biblioteca String atrelada diretamente na variável (Syntax Sugar)</span>
+<span class="function">print</span>(saudacao:<span class="function">upper</span>()) <span class="comment">-- BOM DIA</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">boolean e a Regra do Nil</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma regra rígida fundamental que choca programadores iniciantes no Lua: **Existem APENAS dois valores considerados "falsos" no universo inteiro da linguagem: <code>false</code> e <code>nil</code>**. O número 0 (zero) e uma string vazia <code>""</code> avaliam-se sempre verdadeiramente!</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> a = <span class="keyword">true</span>
+<span class="keyword">local</span> b = <span class="keyword">false</span>
+<span class="keyword">local</span> valorInexistente = <span class="keyword">nil</span>
+
+<span class="comment">-- Operadores lógicos de texto: and, or, not</span>
+<span class="function">print</span>(a <span class="keyword">and</span> b) <span class="comment">-- false</span>
+<span class="function">print</span>(a <span class="keyword">or</span> b)  <span class="comment">-- true</span>
+<span class="function">print</span>(<span class="keyword">not</span> a)   <span class="comment">-- false</span>
+
+<span class="keyword">if</span> <span class="number">0</span> <span class="keyword">then</span>
+    <span class="function">print</span>(<span class="string">"Isto vai imprimir! Zero é verdadeiro em Lua."</span>)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-char">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-ban text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Sem tipo Char distinto</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem não possui um tipo <code>char</code> dedicado. Um caractere individual é apenas uma string comum que tem o comprimento de 1 byte. As conversões para o código ASCII correspondente são feitas pela biblioteca <code>string.byte()</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> letra = <span class="string">"A"</span>
+<span class="keyword">local</span> codigoASCII = <span class="builtin">string</span>.<span class="function">byte</span>(letra) <span class="comment">-- 65</span>
+
+<span class="keyword">local</span> caractereConvertido = <span class="builtin">string</span>.<span class="function">char</span>(<span class="number">66</span>) <span class="comment">-- "B"</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas (A Grande Tabela)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A tabela (<code>table</code>) é a mais gloriosa - e única - ferramenta de estruturação de dados em Lua. Você não precisa usar e gerenciar Array, HashMap, Object e Structs. A tabela resolve todos esses escopos e molda a linguagem do zero de forma impecável. Tudo o que não for um tipo básico é uma tabela ou baseado numa.</p>
+      </div>
+    </template>
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas como Arrays Lineares</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma tabela instanciada de maneira "suja" contendo apenas valores brutos automaticamente associa esses valores a índices sequenciais inteiros ocultos. **Lembrete de Ouro: Em Lua os índices nativamente começam em 1.**</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Array de strings</span>
+<span class="keyword">local</span> frutas = {<span class="string">"Maçã"</span>, <span class="string">"Banana"</span>, <span class="string">"Laranja"</span>}
+
+<span class="comment">-- Acesso baseado no índice 1</span>
+<span class="function">print</span>(frutas[<span class="number">1</span>]) <span class="comment">-- "Maçã"</span>
+<span class="function">print</span>(frutas[<span class="number">3</span>]) <span class="comment">-- "Laranja"</span>
+
+<span class="comment">-- Inserção de dados usando a lib de tabela</span>
+<span class="builtin">table</span>.<span class="function">insert</span>(frutas, <span class="string">"Uva"</span>)
+<span class="comment">-- Remoção do último elemento (Pop)</span>
+<span class="keyword">local</span> ultima = <span class="builtin">table</span>.<span class="function">remove</span>(frutas)
+
+<span class="comment">-- Tamanho do array usa o operador sustenido (#)</span>
+<span class="function">print</span>(#frutas) <span class="comment">-- 3</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-array">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-th text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas de Tabelas (Matrizes)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Matrizes de múltiplas dimensões (como um tabuleiro de Xadrez ou Tetris) são implementadas através de um Array onde as suas caixas alocam "Arrays-Filhos".</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Criando uma Matriz/Grade 3x3 com zeros usando tabelas aninhadas</span>
+<span class="keyword">local</span> matriz = {
+    {<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>},
+    {<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>},
+    {<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>}
+}
+
+<span class="comment">-- Marcando uma cruz no meio da Matriz: Linha 2, Coluna 2</span>
+matriz[<span class="number">2</span>][<span class="number">2</span>] = <span class="number">1</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas como Dicionários e Recordes</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Se escrever explicitamente uma "Chave" acoplada a um "Valor" numa nova tabela, a sintaxe da tabela adapta-se instantaneamente para atuar como um `Dictionary`/`HashMap` hiperrápido de O(1). Você pode recuperar a propriedade acoplada com colchetes ou de maneira moderna, semelhante à notação por ponto (dot notation) de orientação a objetos!</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> jogador = {
+    nome = <span class="string">"Lucas"</span>,
+    pontos = <span class="number">1200</span>,
+    logado = <span class="keyword">true</span>
+}
+
+<span class="comment">-- Duas formas de recuperar o valor (Ambas funcionam 100%)</span>
+<span class="function">print</span>(jogador[<span class="string">"nome"</span>]) <span class="comment">-- "Lucas"</span>
+<span class="function">print</span>(jogador.pontos)  <span class="comment">-- 1200</span>
+
+<span class="comment">-- Adicionando valores novos arbitrariamente</span>
+jogador.armadura = <span class="number">50</span>
+
+<span class="comment">-- Como Lua define 'deletar' uma entrada de dicionário? Atribuindo 'nil' na propriedade</span>
+jogador.pontos = <span class="keyword">nil</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas como Sets (Conjuntos)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Como a própria linguagem Lua não exige importações, conjuntos que precisam ter garantias de "não repetidos" usam a própria chave da tabela como o valor que você quer guardar e atrelam ele ao valor booleano `true`.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> conjunto = {}
+
+<span class="comment">-- Inserção no "Set"</span>
+<span class="keyword">local function</span> <span class="function">inserir</span>(set, val)
+    set[val] = <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+<span class="function">inserir</span>(conjunto, <span class="string">"Maçã"</span>)
+<span class="function">inserir</span>(conjunto, <span class="string">"Banana"</span>)
+<span class="function">inserir</span>(conjunto, <span class="string">"Maçã"</span>) <span class="comment">-- Substitui invisivelmente o true anterior, sem duplicar.</span>
+
+<span class="comment">-- Verificação O(1) super rápida</span>
+<span class="keyword">if</span> conjunto[<span class="string">"Banana"</span>] <span class="keyword">then</span>
+    <span class="function">print</span>(<span class="string">"Banana existe!"</span>)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída Básica</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A biblioteca de input/output base no Lua lida silenciosamente com interações simples do terminal da mesma forma que os scripts de bash ou Python interagem com o sistema operacional.</p>
+      </div>
+    </template>
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-print text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Exibição de Mensagens</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="function">print</span>(<span class="string">"Comando universal de print que adiciona linha invisível de quebra"</span>)
+
+<span class="comment">-- O comando que não quebra a linha usa a base primitiva da I/O (Padrão nativo do Unix)</span>
+<span class="builtin">io</span>.<span class="function">write</span>(<span class="string">"Processando"</span>)
+<span class="builtin">io</span>.<span class="function">write</span>(<span class="string">"..."</span>)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Leituras Interativas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Como a função primária <code>io.read</code> sempre retorna dados de digitação do tipo textual <code>string</code>, a função universal <code>tonumber()</code> costuma ser fundamental para fazer a conversão correta ao calcular regras.</p>
+        <div class="code-block mb-4">
+          <pre><span class="builtin">io</span>.<span class="function">write</span>(<span class="string">"Informe a sua idade: "</span>) <span class="comment">-- Pausa a execução esperando o "Enter" do utilizador</span>
+<span class="keyword">local</span> entrada = <span class="builtin">io</span>.<span class="function">read</span>()
+<span class="keyword">local</span> idade = <span class="function">tonumber</span>(entrada)
+
+<span class="keyword">if</span> idade <span class="keyword">then</span>
+    <span class="function">print</span>(<span class="string">"Ano que vem terá "</span> .. (idade + <span class="number">1</span>))
+<span class="keyword">else</span>
+    <span class="function">print</span>(<span class="string">"Você não digitou um número válido!"</span>)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No Lua, os escopos de blocos não usam as chaves <code>{}</code> das linguagens derivadas do C. Todos os blocos começam com palavras descritivas (<code>then</code>, <code>do</code>) e terminam sempre com o fechamento explícito por <code>end</code>.</p>
+      </div>
+    </template>
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-question-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if / elseif / else</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> saude = <span class="number">50</span>
+
+<span class="keyword">if</span> saude &gt; <span class="number">80</span> <span class="keyword">then</span>
+    <span class="function">print</span>(<span class="string">"Condição Ótima!"</span>)
+<span class="keyword">elseif</span> saude &gt; <span class="number">30</span> <span class="keyword">then</span>
+    <span class="function">print</span>(<span class="string">"Atenção a ferimentos."</span>)
+<span class="keyword">else</span>
+    <span class="function">print</span>(<span class="string">"Risco Extremo!"</span>)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">For Numérico e Genérico</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Lua subdivide o ciclo <code>for</code> em duas categorias claras: o "numérico" (onde se conta um step de incremento constante) e o "genérico" construído sobre o auxiliar avançado de iteração (como <code>ipairs</code> para arrays e <code>pairs</code> para dicionários).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Loop Numérico padrão (Início, Fim, Incremento)</span>
+<span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span> <span class="keyword">do</span>
+    <span class="function">print</span>(i) <span class="comment">-- 1, 3, 5, 7, 9</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- Loop em Array Lineares Naturais (usa ipairs = integer pairs)</span>
+<span class="keyword">local</span> animais = {<span class="string">"Gato"</span>, <span class="string">"Cão"</span>}
+<span class="keyword">for</span> indice, animal <span class="keyword">in</span> <span class="function">ipairs</span>(animais) <span class="keyword">do</span>
+    <span class="function">print</span>(indice .. <span class="string">": "</span> .. animal)
+<span class="keyword">end</span>
+
+<span class="comment">-- Loop para recuperar Propriedades Mistas Textuais Associativas de Tabelas (Dicionários de tabelas)</span>
+<span class="keyword">local</span> config = {som = <span class="number">100</span>, dif = <span class="string">"Fácil"</span>}
+<span class="keyword">for</span> chave, valor <span class="keyword">in</span> <span class="function">pairs</span>(config) <span class="keyword">do</span>
+    <span class="function">print</span>(chave .. <span class="string">" : "</span> .. valor)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-history text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while e repeat-until</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>while</code> testa no início e faz a ação caso verdadeiro. A linguagem possui o inverso absoluto no <code>repeat until</code>: que efetua no mínimo uma vez e garante que vai sair quando a avaliação final ficar verdadeira (como se falasse: repita até atingir isto).</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> cont = <span class="number">1</span>
+<span class="keyword">while</span> cont &lt;= <span class="number">3</span> <span class="keyword">do</span>
+    <span class="function">print</span>(<span class="string">"Rodando while..."</span>)
+    cont = cont + <span class="number">1</span>
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> numeroSecreto = <span class="number">5</span>
+<span class="keyword">local</span> tentativa = <span class="number">0</span>
+<span class="keyword">repeat</span>
+    tentativa = tentativa + <span class="number">1</span>
+<span class="keyword">until</span> tentativa == numeroSecreto <span class="comment">-- Quando isto for true, quebra e finaliza a repetição</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Alternativa ao Switch Limitado</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Lua, assim como Python, <strong>NÃO</strong> possui a estrutura <code>switch case</code>. A forma mais eficaz (em vez de usar milhares de escopos "elseif") é o padrão de roteamento construído pela Tabela Associativa devolvendo um comportamento condicional (Callback/Mapping).</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> escolha = <span class="string">"A"</span>
+
+<span class="comment">-- Mapeando opções usando funções anónimas</span>
+<span class="keyword">local</span> switch = {
+    [<span class="string">"A"</span>] = <span class="keyword">function</span>() <span class="function">print</span>(<span class="string">"Abrindo Menu."</span>) <span class="keyword">end</span>,
+    [<span class="string">"B"</span>] = <span class="keyword">function</span>() <span class="function">print</span>(<span class="string">"Salvando Progresso."</span>) <span class="keyword">end</span>,
+}
+
+<span class="keyword">local</span> acaoProcessada = switch[escolha]
+<span class="keyword">if</span> acaoProcessada <span class="keyword">then</span>
+    <span class="function">acaoProcessada</span>() <span class="comment">-- Irá disparar a função designada</span>
+<span class="keyword">else</span>
+    <span class="function">print</span>(<span class="string">"Comando não encontrado!"</span>)
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Funções em Lua</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As funções na linguagem Lua são tratadas como Valores de Primeira Classe, e por debaixo dos panos a sintaxe clássica <code>function foo()</code> atua como uma variável <code>foo</code> recebendo uma atribuição invisível contendo o ponteiro de um bloco lógico operatório.</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição Base</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Você usa <code>function</code> junto com o nome, e fecha a sub-rotina usando <code>end</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> <span class="keyword">function</span> <span class="function">saudar</span>(nome)
+    <span class="function">print</span>(<span class="string">"Bem-vindo(a), "</span> .. nome)
+<span class="keyword">end</span>
+
+<span class="comment">-- Invocação padrão</span>
+<span class="function">saudar</span>(<span class="string">"Mariana"</span>)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-arrow-right text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros Múltiplos (Varargs)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No Lua os argumentos não informados tornam-se <code>nil</code> instantaneamente na interpretação. Se a sua função estiver propensa a engolir argumentos variados virtualmente infinitos, basta utilizar os 3 pontos <code>...</code> para transformar e encadear os parâmetros contíguos na forma de tabela dentro do escopo.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> <span class="keyword">function</span> <span class="function">somarTodos</span>(...)
+    <span class="keyword">local</span> soma = <span class="number">0</span>
+    <span class="comment">-- O comando pack agrupa o "vararg" (...) gerando um Array Table tradicional</span>
+    <span class="keyword">local</span> argumentosAgrupados = <span class="builtin">table</span>.<span class="function">pack</span>(...)
+    
+    <span class="keyword">for</span> i = <span class="number">1</span>, argumentosAgrupados.n <span class="keyword">do</span>
+        soma = soma + argumentosAgrupados[i]
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> soma
+<span class="keyword">end</span>
+
+<span class="function">print</span>(<span class="function">somarTodos</span>(<span class="number">10</span>, <span class="number">20</span>, <span class="number">5</span>)) <span class="comment">-- Vai disparar 35</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Funções Anónimas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Funções que são instanciadas durante eventos curtos sem o peso de registrar um nome explícito para serem retidas na memória permanente agem como blocos lambda genéricos perfeitamente aplicados como callbacks de roteamento em botões.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> operacoes = {
+    somarTrinitaria = <span class="keyword">function</span>(a, b, c) <span class="keyword">return</span> a + b + c <span class="keyword">end</span>
+}
+
+<span class="function">print</span>( operacoes.<span class="function">somarTrinitaria</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>) )
+
+<span class="comment">-- Usando função anónima como parâmetro de outra função imediatamente</span>
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function">executarAcao</span>(funcaoGatilho)
+    <span class="function">funcaoGatilho</span>()
+<span class="keyword">end</span>
+
+<span class="function">executarAcao</span>( <span class="keyword">function</span>() <span class="function">print</span>(<span class="string">"Engatilhado!"</span>) <span class="keyword">end</span> )</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-reply text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Múltiplos Retornos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Outro ponto espetacular e muito marcante em Lua é a sua capacidade de devolver múltiplos resultados individuais numa mesma viagem, sem precisar encapsular as saídas numa lista obrigatória (semelhante ao sistema de tuplas Python).</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">local</span> <span class="keyword">function</span> <span class="function">calcularTamanhoArea</span>(largura, altura)
+    <span class="keyword">local</span> perimetro = (largura * <span class="number">2</span>) + (altura * <span class="number">2</span>)
+    <span class="keyword">local</span> area = largura * altura
+    
+    <span class="comment">-- Retornando dados paralelos simultaneamente através de vírgulas!</span>
+    <span class="keyword">return</span> area, perimetro
+<span class="keyword">end</span>
+
+<span class="comment">-- Desempacotamento paralelo das variáveis nas atribuições originais em tempo real:</span>
+<span class="keyword">local</span> minArea, meuPerimetro = <span class="function">calcularTamanhoArea</span>(<span class="number">10</span>, <span class="number">5</span>)
+<span class="function">print</span>(<span class="string">"Área calculada final: "</span> .. minArea)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cubes text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Orientação a Objetos Assíncrona</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Diferente das linguagens modernas robustas que operam com palavras cruas como <code>class</code>, e instanciadores mágicos através de comandos construtores blindados (<code>new</code>), a arquitetura Lua <strong>NÃO</strong> possui essas garantias embutidas. A forma com que Lua domina a Programação Orientada a Objetos é <strong>simulando a estrutura perfeitamente usando Metatables</strong>.</p>
+        <p class="text-gray-700 mb-4">Isso dá uma flexibilidade monstruosa sem requerer nenhum suporte adicional profundo dos servidores ou do código em C da máquina raiz.</p>
+      </div>
+    </template>
+
+    <template id="tpl-oop-classes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-building text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Classes e Metatables Essenciais</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A técnica reside na construção fundamental onde instanciamos uma tabela "em branco" e forçamos secretamente todas as propriedades/métodos para procurarem comportamentos na Classe matriz protótipo atrelando os mesmos com a designação de fallback interna de tabelas associadas usando o atributo <code>__index</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Estruturando Tabela "Classe" Base e atrelando Índice primário para si própria</span>
+Conta = {}
+Conta.__index = Conta
+
+<span class="keyword">function</span> Conta.<span class="function">nova</span>(saldoInicial)
+    <span class="keyword">local</span> obj = { saldo = saldoInicial }
+    
+    <span class="comment">-- Conecta a tabela vazia à classe principal com a tag Metatable</span>
+    <span class="function">setmetatable</span>(obj, Conta)
+    <span class="keyword">return</span> obj
+<span class="keyword">end</span>
+
+<span class="comment">-- Criação de um método embutido usando a sintaxe dos 2 Pontos (Sintaxe Orientada Objeto em Lua!)</span>
+<span class="keyword">function</span> Conta:<span class="function">verSaldo</span>()
+    <span class="function">print</span>(<span class="string">"Saldo atrelado da instância atual: "</span> .. <span class="keyword">self</span>.saldo)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> minhaConta = Conta.<span class="function">nova</span>(<span class="number">1000</span>)
+minhaConta:<span class="function">verSaldo</span>() <span class="comment">-- 1000</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-heranca">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Herança de Metatables</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A herança em Lua baseia-se em delegação de responsabilidades. Uma conta Especial herda os dados da conta Normal se a metatabela inicial do "filho" simplesmente apontar para a tabela do seu "pai".</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Cria-se uma Especial puxando tudo e encobrindo uma Conta convencional</span>
+ContaEspecial = Conta.<span class="function">nova</span>(<span class="number">0</span>)
+
+<span class="comment">-- Sub-método construtor Especial (Adicionando o atributo do 'limite')</span>
+<span class="keyword">function</span> ContaEspecial.<span class="function">novaEspecial</span>(limite)
+    <span class="keyword">local</span> obj = Conta.<span class="function">nova</span>(<span class="number">0</span>)
+    <span class="function">setmetatable</span>(obj, ContaEspecial)
+    ContaEspecial.__index = ContaEspecial
+    
+    obj.limite = limite
+    <span class="keyword">return</span> obj
+<span class="keyword">end</span>
+
+<span class="comment">-- A classe Especial tem um método novo que os convencionais não alcançam</span>
+<span class="keyword">function</span> ContaEspecial:<span class="function">exibirLimite</span>()
+    <span class="function">print</span>(<span class="string">"Limite aprovado atual: "</span> .. <span class="keyword">self</span>.limite)
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> clienteVip = ContaEspecial.<span class="function">novaEspecial</span>(<span class="number">5000</span>)
+clienteVip:<span class="function">verSaldo</span>() <span class="comment">-- Herdou da normal</span>
+clienteVip:<span class="function">exibirLimite</span>() <span class="comment">-- Método exclusivo novo filho</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-polimorfismo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-magic text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Açúcar Sintático ':' e 'self'</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Lua oferece o uso de dois pontos <code>:</code> (colon syntax) de maneira integralmente interligada para abstrair e ignorar o acoplamento exaustivo do comando "This/Self". Ele adiciona passivamente no ambiente um primeiro argumento oculto (chamado explicitamente por `self`) contendo o contexto completo em operação em execução. O polimorfismo efetua-se tranquilamente simplesmente escrevendo a mesma nomenclatura de nome/assinatura para a Tabela Filha (Metatable) substituindo e abafando assim por via hierárquica o método herdado original do "pai".</p>
+      </div>
+    </template>
+
+    <template id="tpl-oop-interfaces">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plug text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Duck Typing Fluído (Interfaces soltas)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Pela ausência de validações tipadas na arquitetura e ausência de uma palavra explícita chamada <code>Interface</code>, Lua por natureza flexível defende integralmente o <strong>Duck Typing</strong> no núcleo estrutural de componentes de scripts em projetos. Se for um problema em runtime checar interfaces protocolares fixas (já que elas sequer englobam escopo formal restritivo em Lua), basta testar a sub-tipagem do "self" pela verificação de colchetes baseada.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">-- Testando interface polimorfica na base do "Pato"</span>
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function">tocarPlay</span>(meuObjeto)
+    <span class="keyword">if</span> <span class="function">type</span>(meuObjeto.tocar) == <span class="string">"function"</span> <span class="keyword">then</span>
+        meuObjeto:<span class="function">tocar</span>()
+    <span class="keyword">else</span>
+        <span class="function">print</span>(<span class="string">"A entidade enviada carece do design funcional esperado!"</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {
+          "introducao": "tpl-introducao",
+          "tipos": "tpl-tipos",
+          "tipo-int": "tpl-tipo-int",
+          "tipo-float": "tpl-tipo-float",
+          "tipo-string": "tpl-tipo-string",
+          "tipo-bool": "tpl-tipo-bool",
+          "tipo-char": "tpl-tipo-char",
+          "estruturas": "tpl-estruturas",
+          "vector": "tpl-vector",
+          "array": "tpl-array",
+          "map": "tpl-map",
+          "set": "tpl-set",
+          "entrada-saida": "tpl-entrada-saida",
+          "cout": "tpl-cout",
+          "cin": "tpl-cin",
+          "controle-fluxo": "tpl-controle-fluxo",
+          "if-else": "tpl-if-else",
+          "for": "tpl-for",
+          "while": "tpl-while",
+          "switch": "tpl-switch",
+          "funcoes": "tpl-funcoes",
+          "def": "tpl-def",
+          "parametros": "tpl-parametros",
+          "lambda": "tpl-lambda",
+          "retorno": "tpl-retorno",
+          "oop-intro": "tpl-oop-intro",
+          "oop-classes": "tpl-oop-classes",
+          "oop-heranca": "tpl-oop-heranca",
+          "oop-polimorfismo": "tpl-oop-polimorfismo",
+          "oop-interfaces": "tpl-oop-interfaces"
+        };
+
+        const contentDiv = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const input = document.querySelector('input[type="text"]');
+        const resultsContainer = document.getElementById("search-results");
+        
+        // Elementos do Menu Hambúrguer Mobile
+        const btnMenu = document.getElementById("btn-menu");
+        const btnCloseMenu = document.getElementById("btn-close-menu");
+        const sidebar = document.getElementById("sidebar");
+
+        // Lógica para abrir a gaveta lateral
+        if (btnMenu && sidebar) {
+            btnMenu.addEventListener("click", () => {
+                sidebar.classList.remove("-translate-x-full");
+            });
+        }
+
+        // Lógica para fechar a gaveta lateral (botão X)
+        if (btnCloseMenu && sidebar) {
+            btnCloseMenu.addEventListener("click", () => {
+                sidebar.classList.add("-translate-x-full");
+            });
+        }
+
+        function loadSection(sectionId) {
+          const tplId = templates[sectionId];
+          if (!tplId) return;
+          const tpl = document.getElementById(tplId);
+          if (!tpl) return;
+
+          contentDiv.innerHTML = "";
+          contentDiv.appendChild(tpl.content.cloneNode(true));
+
+          navLinks.forEach((link) => {
+            if (link.getAttribute("data-section") === sectionId) {
+              link.classList.add("bg-blue-100", "font-bold");
+            } else {
+              link.classList.remove("bg-blue-100", "font-bold");
+            }
+          });
+
+          localStorage.setItem("activeSectionId", sectionId);
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const sectionId = link.getAttribute("data-section");
+            loadSection(sectionId);
+            
+            // Fechar sidebar no Android após selecionar opção
+            if (window.innerWidth < 768) {
+                sidebar.classList.add("-translate-x-full");
+            }
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            content.classList.toggle("open");
+            btn.querySelector(".fa-chevron-right").classList.toggle("rotate-90");
+          });
+        });
+
+        // Lógica de pesquisa reativa
+        const searchableItems = [];
+        navLinks.forEach((link) => {
+          const section = link.getAttribute("data-section");
+          const text = link.textContent.trim();
+          const explanation = link.getAttribute("data-explanation") || "";
+          if (section && templates[section]) {
+            searchableItems.push({ section, text, explanation });
+          }
+        });
+
+        input.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          resultsContainer.innerHTML = "";
+
+          if (!query) {
+            resultsContainer.classList.add("hidden");
+            return;
+          }
+
+          const filtered = searchableItems.filter(
+            (item) =>
+              item.text.toLowerCase().includes(query) ||
+              item.explanation.toLowerCase().includes(query)
+          );
+
+          if (filtered.length === 0) {
+            const item = document.createElement("div");
+            item.className = "p-3 text-sm text-gray-500";
+            item.textContent = "Nenhum resultado encontrado";
+            resultsContainer.appendChild(item);
+          } else {
+            filtered.forEach((item) => {
+              const div = document.createElement("div");
+              div.className = "p-3 hover:bg-gray-100 cursor-pointer text-sm border-b last:border-0 text-gray-800";
+              div.innerHTML = `<strong>${item.text}</strong><br><span class="text-xs text-gray-500">${item.explanation}</span>`;
+              div.addEventListener("click", () => {
+                loadSection(item.section);
+                resultsContainer.classList.add("hidden");
+                input.value = "";
+                
+                // Fechar sidebar no Android após selecionar pesquisa
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add("-translate-x-full");
+                }
+              });
+              resultsContainer.appendChild(div);
+            });
+          }
+
+          resultsContainer.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos",
+          "tipo-bool": "dd-tipos", "tipo-char": "dd-tipos",
+          "vector": "dd-estruturas", "array": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+          "cout": "dd-io", "cin": "dd-io",
+          "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+          "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+          "oop-classes": "dd-oop", "oop-heranca": "dd-oop", "oop-polimorfismo": "dd-oop", "oop-interfaces": "dd-oop",
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn && btn.querySelector(".fa-chevron-right")) {
+              btn.querySelector(".fa-chevron-right").classList.add("rotate-90");
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>

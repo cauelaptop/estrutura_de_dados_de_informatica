@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estrutura e Web: Referência da Linguagem HTML5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .tag      { color: #569cd6; font-weight: bold; }
+      .attr     { color: #9cdcfe; }
+      .string   { color: #ce9178; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .text     { color: #d4d4d4; }
+      .doctype  { color: #808080; font-weight: bold; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans flex flex-col min-h-screen w-full overflow-x-hidden">
+
+    <header class="bg-blue-700 text-white shadow-lg w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center w-full">
+        
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fab fa-html5 text-3xl md:text-4xl mr-3 text-orange-400"></i>
+            <h1 class="text-xl md:text-2xl font-bold truncate">Referência HTML5</h1>
+          </div>
+          <button id="btn-menu" class="md:hidden text-white hover:text-blue-200 focus:outline-none text-2xl p-2 ml-2">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 w-full md:w-auto">
+          <div class="relative w-full md:w-auto">
+            <input type="text" placeholder="Pesquisar tags..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden max-h-60 overflow-y-auto text-gray-800"></div>
+          </div>
+          <a href="../../index.html" class="flex justify-center items-center w-full md:w-auto px-4 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all font-medium" title="Voltar ao menu principal">
+            <i class="fas fa-home mr-2"></i> Voltar
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-full">
+      <div class="flex flex-col md:flex-row flex-1 container mx-auto px-4 py-6 md:py-8 w-full max-w-full">
+
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-xs z-50 bg-white p-4 shadow-2xl overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-8 md:h-auto md:max-h-[85vh] md:w-72 md:shrink-0 md:translate-x-0 md:shadow-md md:rounded-lg md:mr-8 md:mb-0 md:z-0">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-700">Sumário</h1>
+            <button id="btn-close-menu" class="md:hidden text-gray-500 hover:text-red-500 p-2">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <nav>
+            <div class="mb-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução ao HTML5, a estrutura base e a árvore DOM.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#basicos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="basicos" data-explanation="Tags de texto, hiperligações e imagens no HTML.">
+                <i class="fas fa-font mr-2"></i>
+                <span class="flex items-center">Elementos Básicos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-basicos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="texto" data-explanation="Cabeçalhos (h1-h6), parágrafos e formatação de texto">Texto e Formatação</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="links-img" data-explanation="Tags <a> (links) e <img> (imagens) no HTML">Links e Imagens</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="listas" data-explanation="Listas ordenadas (ol), não ordenadas (ul) e de definição (dl)">Listas</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tabelas" data-explanation="Criação de tabelas com table, tr, td e th">Tabelas</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#semantica" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="semantica" data-explanation="A importância do HTML Semântico para SEO e Acessibilidade.">
+                <i class="fas fa-sitemap mr-2"></i>
+                <span class="flex items-center">Semântica e Layout</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-semantica" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tags-semanticas" data-explanation="header, nav, main, article, section e footer">Tags Semânticas</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="contentores" data-explanation="Contentores genéricos div e span (Block vs Inline)">Contentores (div / span)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="metadados" data-explanation="O cabeçalho do documento: head, meta, title e links externos">Head e Metadados</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#formularios" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="formularios" data-explanation="Como capturar dados do utilizador com formulários HTML.">
+                <i class="fas fa-keyboard mr-2"></i>
+                <span class="flex items-center">Formulários (Inputs)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-forms" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="form-tag" data-explanation="A tag <form>, métodos GET e POST">A tag &lt;form&gt;</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="inputs" data-explanation="Tipos de campos: text, password, email, radio, checkbox">Campos de Entrada (Input)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="select-text" data-explanation="Menus pendentes (select) e áreas de texto longo (textarea)">Select e Textarea</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="botoes" data-explanation="Botões de submissão, reset e botões genéricos">Botões (&lt;button&gt;)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#midia" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="midia" data-explanation="Inserção de conteúdos ricos: áudio, vídeo e iframes.">
+                <i class="fas fa-photo-video mr-2"></i>
+                <span class="flex items-center">Multimédia</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-midia" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="audio-video" data-explanation="Tags nativas HTML5: <audio> e <video>">Áudio e Vídeo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="iframes" data-explanation="Embeber conteúdos de terceiros com <iframe>">Iframes e Embeds</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#atributos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="atributos" data-explanation="Atributos globais, dados customizados e regras de acessibilidade (A11y).">
+                <i class="fas fa-universal-access mr-2"></i>
+                <span class="flex items-center">Atributos e A11y</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-atributos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="globais" data-explanation="Atributos class, id, style, title, hidden">Atributos Globais</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="data-attributes" data-explanation="Armazenamento de dados personalizados usando data-*">Data Attributes</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="acessibilidade" data-explanation="ARIA labels e aspetos essenciais para leitores de ecrã">Acessibilidade (ARIA)</a>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1 min-w-0 w-full overflow-hidden">
+          <div id="explanation" class="w-full break-words"></div>
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm pb-6">
+            <p>© 2026 Referência Estrutural HTML5. Todos os direitos reservados.</p>
+            <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fab fa-html5 text-orange-500 text-3xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao HTML5</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          O <strong>HTML</strong> (HyperText Markup Language) não é uma linguagem de programação; é uma linguagem de marcação utilizada para descrever a estrutura e a semântica do conteúdo de uma página web. Criado por Tim Berners-Lee no início da década de 1990, o HTML evoluiu para a versão atual, o <strong>HTML5</strong>, que introduziu suporte nativo multimédia e tags semânticas ricas.
+        </p>
+        <p class="text-gray-700 mb-4">
+          O navegador lê o documento HTML e converte-o na <strong>DOM (Document Object Model)</strong>, uma árvore de nós onde o CSS aplicará os estilos visuais e o JavaScript adicionará comportamento dinâmico.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Estrutura base de qualquer documento HTML5 moderno --&gt;</span>
+<span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="string">"pt-PT"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="text">A Minha Primeira Página</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="text">Olá, Mundo da Web!</span><span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="text">Este é o conteúdo visível da minha página.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">A Regra das Tags</h4>
+              <p class="mt-1 text-sm text-blue-700">A maioria dos elementos HTML tem uma tag de abertura <code>&lt;tag&gt;</code> e uma tag de fecho <code>&lt;/tag&gt;</code>. Elementos vazios (ou "self-closing"), como imagens ou quebras de linha, não precisam de ser fechados de forma explícita (ex: <code>&lt;img&gt;</code> ou <code>&lt;br&gt;</code>).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-texto">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-heading text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Texto e Formatação</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O HTML possui seis níveis de cabeçalhos (do `h1` ao `h6`). O `h1` é o mais importante e, idealmente, deve haver apenas um por página (para efeitos de SEO e Acessibilidade). Para blocos de texto normais, usamos a tag de parágrafo `p`.</p>
+        <div class="code-block mb-4">
+          <pre><span class="tag">&lt;h1&gt;</span><span class="text">Título Principal da Página</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="text">Subtítulo (Secção)</span><span class="tag">&lt;/h2&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="text">Isto é um parágrafo de texto normal. O navegador ignora
+múltiplos espaços        e quebras de linha no código fonte.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="comment">&lt;!-- Formatação Inline Semântica --&gt;</span>
+<span class="tag">&lt;p&gt;</span>
+    <span class="text">Este texto tem uma palavra </span><span class="tag">&lt;strong&gt;</span><span class="text">importante</span><span class="tag">&lt;/strong&gt;</span><span class="text">, 
+    uma palavra com </span><span class="tag">&lt;em&gt;</span><span class="text">ênfase</span><span class="tag">&lt;/em&gt;</span><span class="text"> e uma </span><span class="tag">&lt;br&gt;</span><span class="text"> quebra de linha manual.</span>
+<span class="tag">&lt;/p&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-links-img">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-link text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Links (Hiperligações) e Imagens</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A tag âncora <code>&lt;a&gt;</code> é o que faz a internet ser a "Web", permitindo saltar de um documento para outro através do atributo <code>href</code>. As imagens usam a tag <code>&lt;img&gt;</code>, cujo atributo <code>src</code> indica a fonte do ficheiro.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Link externo abrindo num novo separador (target="_blank") --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"https://google.com"</span> <span class="attr">target</span>=<span class="string">"_blank"</span><span class="tag">&gt;</span><span class="text">Visitar o Google</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Link interno para outra página no mesmo servidor --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"/sobre-nos.html"</span><span class="tag">&gt;</span><span class="text">Página Sobre</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Imagem com texto alternativo (Obrigatório para acessibilidade/leitores de ecrã) --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"foto.jpg"</span> <span class="attr">alt</span>=<span class="string">"Fotografia de uma paisagem de montanha"</span> <span class="attr">width</span>=<span class="string">"400"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Imagem que serve como link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"/"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"logotipo.png"</span> <span class="attr">alt</span>=<span class="string">"Logotipo da Empresa"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/a&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-listas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ul text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Listas Ordenadas e Não Ordenadas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Temos três tipos de listas em HTML: as Não Ordenadas (pontos/bullets) com <code>&lt;ul&gt;</code>, as Ordenadas (numeradas) com <code>&lt;ol&gt;</code> e as Listas de Definição/Descrição com <code>&lt;dl&gt;</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Lista Não Ordenada (Unordered List) --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Pão</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Leite</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Ovos</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="comment">&lt;!-- Lista Ordenada (Ordered List) --&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Acordar</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Escovar os dentes</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Ir trabalhar</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tabelas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-table text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tabelas e Dados Tabulares</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As tabelas (<code>&lt;table&gt;</code>) devem ser usadas <strong>apenas para exibir dados tabulares</strong>, e nunca para fazer o layout da página (prática antiga obsoleta). Uma tabela organiza-se em Linhas (<code>&lt;tr&gt;</code>) contendo Células normais (<code>&lt;td&gt;</code>) ou Células de Cabeçalho (<code>&lt;th&gt;</code>).</p>
+        <div class="code-block mb-4">
+          <pre><span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="string">"1"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;thead&gt;</span> <span class="comment">&lt;!-- Cabeçalho da Tabela --&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;th&gt;</span><span class="text">Nome</span><span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span><span class="text">Idade</span><span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/thead&gt;</span>
+    <span class="tag">&lt;tbody&gt;</span> <span class="comment">&lt;!-- Corpo da Tabela --&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">Maria Silva</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">28</span><span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">João Santos</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">35</span><span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tags-semanticas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Semântica e Organização HTML5</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O HTML5 introduziu as <strong>Tags Semânticas</strong>. Visualmente, elas não fazem nada sozinhas (funcionam como caixas normais), mas comunicam ao navegador, ao Google (SEO) e aos leitores de ecrã (acessibilidade) <em>qual é a importância daquele bloco de código</em>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="tag">&lt;body&gt;</span>
+    <span class="comment">&lt;!-- O cabeçalho global do site (Logótipo e Menu) --&gt;</span>
+    <span class="tag">&lt;header&gt;</span>
+        <span class="tag">&lt;h1&gt;</span><span class="text">O Meu Blog</span><span class="tag">&lt;/h1&gt;</span>
+        <span class="tag">&lt;nav&gt;</span>
+            <span class="comment">&lt;!-- Lista de hiperligações de navegação principal --&gt;</span>
+        <span class="tag">&lt;/nav&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+
+    <span class="comment">&lt;!-- O conteúdo único e central desta página específica --&gt;</span>
+    <span class="tag">&lt;main&gt;</span>
+        <span class="comment">&lt;!-- Um conteúdo autónomo que faria sentido ser lido de forma isolada --&gt;</span>
+        <span class="tag">&lt;article&gt;</span>
+            <span class="tag">&lt;h2&gt;</span><span class="text">Como programar em HTML</span><span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;section&gt;</span><span class="text">... parte 1 do artigo ...</span><span class="tag">&lt;/section&gt;</span>
+            <span class="tag">&lt;section&gt;</span><span class="text">... parte 2 do artigo ...</span><span class="tag">&lt;/section&gt;</span>
+        <span class="tag">&lt;/article&gt;</span>
+        
+        <span class="comment">&lt;!-- Informações periféricas ou barra lateral --&gt;</span>
+        <span class="tag">&lt;aside&gt;</span><span class="text">Anúncios ou artigos relacionados</span><span class="tag">&lt;/aside&gt;</span>
+    <span class="tag">&lt;/main&gt;</span>
+
+    <span class="comment">&lt;!-- O rodapé do site (Links legais, copyright) --&gt;</span>
+    <span class="tag">&lt;footer&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="text">&amp;copy; 2026 O Meu Blog</span><span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-contentores">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-box text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Contentores Genéricos (div e span)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Quando nenhuma tag semântica se aplica à situação, usamos contentores genéricos vazios estritamente para empacotar elementos visando manipulação por CSS ou JavaScript.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- DIV: Contentor de Nível de Bloco (Block-level). Ocupa 100% da largura. --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"cartao-produto"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h3&gt;</span><span class="text">Sapatilhas Desportivas</span><span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="text">Preço: 50,00€</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- SPAN: Contentor de Nível Em-linha (Inline). Não quebra a linha do texto. --&gt;</span>
+<span class="tag">&lt;p&gt;</span>
+    <span class="text">Este produto está com </span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"texto-vermelho"</span><span class="tag">&gt;</span><span class="text">desconto de 20%</span><span class="tag">&lt;/span&gt;</span><span class="text"> aproveite já!</span>
+<span class="tag">&lt;/p&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-metadados">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-head-side-mask text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">O Bloco Head e Metadados</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O elemento <code>&lt;head&gt;</code> é o "cérebro" invisível da página. O que está lá dentro não é desenhado no ecrã principal; em vez disso, fornece metadados cruciais para o navegador e para os motores de busca.</p>
+        <div class="code-block mb-4">
+          <pre><span class="tag">&lt;head&gt;</span>
+    <span class="comment">&lt;!-- Define a codificação para suportar acentos como á, ç, ã --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- Torna a página responsiva para telemóveis (Vital hoje em dia!) --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- SEO: Descrição que aparece na pesquisa do Google --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"Aprenda HTML5 de forma rápida."</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- Título que aparece no separador do navegador --&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="text">Aulas de Web</span><span class="tag">&lt;/title&gt;</span>
+
+    <span class="comment">&lt;!-- Incorporação de ficheiros CSS externos --&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"estilos.css"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- Incorporação de ficheiros JavaScript externos --&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="string">"app.js"</span> <span class="attr">defer</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-form-tag">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-file-signature text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">A Tag Form: Enviando Dados</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Para interagir com o servidor enviando informações (registos, logins, mensagens), encapsulamos os campos dentro de um <code>&lt;form&gt;</code>. Os atributos principais são o <code>action</code> (o endereço destino) e o <code>method</code> (geralmente GET ou POST).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Método POST: Os dados viajam ocultos e de forma segura no corpo do pedido --&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="string">"/servidor/processar-login.php"</span> <span class="attr">method</span>=<span class="string">"POST"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- O elemento label é vital para ligar o texto à caixa de input via id --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"user"</span><span class="tag">&gt;</span><span class="text">Nome de Utilizador:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span><span class="text">Entrar</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-inputs">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-i-cursor text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Campos de Entrada (Input)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A tag vazia <code>&lt;input&gt;</code> é um autêntico canivete suíço. Mudando apenas o atributo <code>type</code>, ela pode transformar-se numa caixa de texto, num selecionador de data, num botão de upload de ficheiro e muito mais. O atributo <code>name</code> é como a variável vai ser identificada no servidor.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Texto simples --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"nome"</span> <span class="attr">placeholder</span>=<span class="string">"Insira o seu nome"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Senha (Oculta os caracteres com bolinhas) --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"senha"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Email (O telemóvel exibe teclado adaptado com símbolo '@') --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"correio"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Data (Mostra um calendário popup nativo no navegador) --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">name</span>=<span class="string">"nascimento"</span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- Múltipla Escolha e Seleção Única --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"termos"</span> <span class="attr">id</span>=<span class="string">"termos"</span><span class="tag">&gt;</span> <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"termos"</span><span class="tag">&gt;</span><span class="text">Aceito</span><span class="tag">&lt;/label&gt;</span>
+
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"genero"</span> <span class="attr">value</span>=<span class="string">"M"</span><span class="tag">&gt;</span> <span class="text">Masculino</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"genero"</span> <span class="attr">value</span>=<span class="string">"F"</span><span class="tag">&gt;</span> <span class="text">Feminino</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-select-text">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-caret-square-down text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Select e Textarea</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Para recolher textos imensos que quebram linha ou forçar o utilizador a escolher uma opção duma lista fechada, usamos elementos dedicados diferentes da clássica tag de input.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Menu pendente de opções (Dropdown) --&gt;</span>
+<span class="tag">&lt;select</span> <span class="attr">name</span>=<span class="string">"pais"</span> <span class="attr">id</span>=<span class="string">"pais"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"pt"</span><span class="tag">&gt;</span><span class="text">Portugal</span><span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"br"</span><span class="tag">&gt;</span><span class="text">Brasil</span><span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"mz"</span><span class="tag">&gt;</span><span class="text">Moçambique</span><span class="tag">&lt;/option&gt;</span>
+<span class="tag">&lt;/select&gt;</span>
+
+<span class="comment">&lt;!-- Área de texto de múltiplas linhas expansível --&gt;</span>
+<span class="tag">&lt;textarea</span> <span class="attr">name</span>=<span class="string">"mensagem"</span> <span class="attr">rows</span>=<span class="string">"5"</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">placeholder</span>=<span class="string">"Escreva a sua mensagem..."</span><span class="tag">&gt;&lt;/textarea&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-botoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-mouse-pointer text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Botões (&lt;button&gt;)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O elemento <code>&lt;button&gt;</code> é superior ao antigo <code>&lt;input type="button"&gt;</code> porque permite colocar ícones, imagens e formatações complexas dentro da sua caixa.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Botão padrão para envio do formulário no qual está contido --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span><span class="text">Confirmar Dados</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">&lt;!-- Botão genérico (não atualiza a página, ideal para ativar JavaScript) --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onclick</span>=<span class="string">"alert('Olá!')"</span><span class="tag">&gt;</span><span class="text">Clique aqui</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">&lt;!-- Botão para limpar campos do formulário --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"reset"</span><span class="tag">&gt;</span><span class="text">Apagar Tudo</span><span class="tag">&lt;/button&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-audio-video">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Áudio e Vídeo no HTML5</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Antes do HTML5 era necessário instalar plugins lentos como o Adobe Flash para ver vídeos. Hoje a Web toca ficheiros multimédia nativamente, oferecendo atributos úteis como <code>controls</code> (mostra botões de play/pause), <code>autoplay</code>, <code>loop</code> e <code>muted</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Reprodutor de Música --&gt;</span>
+<span class="tag">&lt;audio</span> <span class="attr">controls</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="string">"musica.mp3"</span> <span class="attr">type</span>=<span class="string">"audio/mpeg"</span><span class="tag">&gt;</span>
+    <span class="text">O seu navegador não suporta a tag de áudio.</span>
+<span class="tag">&lt;/audio&gt;</span>
+
+<span class="comment">&lt;!-- Reprodutor de Vídeo que repete infinitamente sem som --&gt;</span>
+<span class="tag">&lt;video</span> <span class="attr">width</span>=<span class="string">"640"</span> <span class="attr">height</span>=<span class="string">"360"</span> <span class="attr">controls</span> <span class="attr">loop</span> <span class="attr">muted</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="string">"apresentacao.mp4"</span> <span class="attr">type</span>=<span class="string">"video/mp4"</span><span class="tag">&gt;</span>
+    <span class="text">Atualize o navegador para assistir.</span>
+<span class="tag">&lt;/video&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-iframes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-window-restore text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Iframes (Embeber sites terceiros)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O elemento <code>&lt;iframe&gt;</code> cria um contexto de navegação independente, literalmente "abrindo uma janela" na sua página que carrega e exibe o conteúdo de um site de terceiros (como mapas do Google ou vídeos do YouTube).</p>
+        <div class="code-block mb-4">
+          <pre><span class="tag">&lt;h3&gt;</span><span class="text">Localização da Empresa:</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;iframe</span> 
+    <span class="attr">src</span>=<span class="string">"https://www.google.com/maps/embed?pb=!1m18..."</span> 
+    <span class="attr">width</span>=<span class="string">"600"</span> 
+    <span class="attr">height</span>=<span class="string">"450"</span> 
+    <span class="attr">style</span>=<span class="string">"border:0;"</span> 
+    <span class="attr">allowfullscreen</span>=<span class="string">""</span> 
+    <span class="attr">loading</span>=<span class="string">"lazy"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/iframe&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-globais">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-tags text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Atributos Globais</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Existem atributos no HTML que podem ser aplicados em praticamente <strong>qualquer tag</strong>. Os mais importantes são aqueles criados para permitir a formatação externa (CSS) e o controlo dinâmico (JavaScript).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- ID: Único na página. O Javascript encontra-o rapidamente --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="string">"cabecalho-principal"</span><span class="tag">&gt;</span><span class="text">...</span><span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- CLASS: Reutilizável. Agrupa várias tags para ganhar o mesmo estilo CSS --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="string">"texto-vermelho fonte-grande"</span><span class="tag">&gt;</span><span class="text">Aviso!</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="string">"texto-vermelho"</span><span class="tag">&gt;</span><span class="text">Outro erro!</span><span class="tag">&lt;/span&gt;</span>
+
+<span class="comment">&lt;!-- STYLE: Injeta CSS diretamente "inline" (evite usar demasiado) --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="string">"color: blue; margin-top: 10px;"</span><span class="tag">&gt;</span><span class="text">Texto azul.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="comment">&lt;!-- TITLE: Cria aquele pequeno balão amarelo de informação (tooltip) ao focar o rato --&gt;</span>
+<span class="tag">&lt;abbr</span> <span class="attr">title</span>=<span class="string">"HyperText Markup Language"</span><span class="tag">&gt;</span><span class="text">HTML</span><span class="tag">&lt;/abbr&gt;</span>
+
+<span class="comment">&lt;!-- HIDDEN: Esconde o elemento do ecrã (O JS pode remover depois para o mostrar) --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">hidden</span><span class="tag">&gt;</span><span class="text">O utilizador não me consegue ver.</span><span class="tag">&lt;/div&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-data-attributes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Data Attributes (Dados Customizados)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Pode inventar os seus próprios atributos no HTML para guardar informações ocultas nas tags, desde que comece com o prefixo <code>data-</code>. Estes são ignorados pelo navegador, mas são lidos perfeitamente pelo JavaScript (através de <code>element.dataset</code>).</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- Guardando o ID do produto da base de dados e o stock atual direto no HTML visível --&gt;</span>
+<span class="tag">&lt;article</span> <span class="attr">class</span>=<span class="string">"card-tenis"</span> <span class="attr">data-produto-id</span>=<span class="string">"49221"</span> <span class="attr">data-estoque</span>=<span class="string">"15"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h3&gt;</span><span class="text">Ténis de Corrida</span><span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;button&gt;</span><span class="text">Comprar</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/article&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-acessibilidade">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-wheelchair text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Acessibilidade (A11y e WAI-ARIA)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A Web deve ser universal. Pessoas com deficiência visual dependem de <em>Screen Readers (Leitores de Ecrã)</em>. O pacote ARIA (Accessible Rich Internet Applications) permite injetar atributos que ditam ao software de acessibilidade o que uma secção faz.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">&lt;!-- aria-label dita a função a um cego num botão que contém apenas um ícone (sem texto) --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">aria-label</span>=<span class="string">"Fechar Janela"</span><span class="tag">&gt;</span><span class="text">✖</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">&lt;!-- aria-hidden impede que o leitor de ecrã leia algo puramente decorativo --&gt;</span>
+<span class="tag">&lt;span</span> <span class="attr">aria-hidden</span>=<span class="string">"true"</span><span class="tag">&gt;</span><span class="text">~decorativo~</span><span class="tag">&lt;/span&gt;</span>
+
+<span class="comment">&lt;!-- Role indica o papel de uma tag div caso não usemos as tags semânticas novas --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">role</span>=<span class="string">"navigation"</span><span class="tag">&gt;</span>
+    <span class="text">... links ...</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {
+          "introducao": "tpl-introducao",
+          "texto": "tpl-texto",
+          "links-img": "tpl-links-img",
+          "listas": "tpl-listas",
+          "tabelas": "tpl-tabelas",
+          "tags-semanticas": "tpl-tags-semanticas",
+          "contentores": "tpl-contentores",
+          "metadados": "tpl-metadados",
+          "form-tag": "tpl-form-tag",
+          "inputs": "tpl-inputs",
+          "select-text": "tpl-select-text",
+          "botoes": "tpl-botoes",
+          "audio-video": "tpl-audio-video",
+          "iframes": "tpl-iframes",
+          "globais": "tpl-globais",
+          "data-attributes": "tpl-data-attributes",
+          "acessibilidade": "tpl-acessibilidade"
+        };
+
+        const explanationContainer = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const input = document.querySelector('input[type="text"]');
+        const resultsContainer = document.getElementById("search-results");
+        
+        // Elementos do Menu Hambúrguer Mobile
+        const btnMenu = document.getElementById("btn-menu");
+        const btnCloseMenu = document.getElementById("btn-close-menu");
+        const sidebar = document.getElementById("sidebar");
+
+        // Lógica para abrir a gaveta lateral
+        if (btnMenu && sidebar) {
+            btnMenu.addEventListener("click", () => {
+                sidebar.classList.remove("-translate-x-full");
+            });
+        }
+
+        // Lógica para fechar a gaveta lateral (botão X)
+        if (btnCloseMenu && sidebar) {
+            btnCloseMenu.addEventListener("click", () => {
+                sidebar.classList.add("-translate-x-full");
+            });
+        }
+
+        function loadSection(sectionId) {
+          const tplId = templates[sectionId];
+          if (!tplId) return;
+          const tpl = document.getElementById(tplId);
+          if (!tpl) return;
+
+          explanationContainer.innerHTML = "";
+          explanationContainer.appendChild(tpl.content.cloneNode(true));
+
+          navLinks.forEach((link) => {
+            if (link.getAttribute("data-section") === sectionId) {
+              link.classList.add("bg-blue-100", "font-semibold");
+            } else {
+              link.classList.remove("bg-blue-100", "font-semibold");
+            }
+          });
+
+          localStorage.setItem("activeSectionId", sectionId);
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const sectionId = link.getAttribute("data-section");
+            loadSection(sectionId);
+            // Fechar sidebar no Android após selecionar opção
+            if (window.innerWidth < 768) {
+                sidebar.classList.add("-translate-x-full");
+            }
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            content.classList.toggle("open");
+            btn.querySelector(".fa-chevron-right").classList.toggle("rotate-90");
+          });
+        });
+
+        // Lógica de pesquisa reativa
+        const searchableItems = [];
+        navLinks.forEach((link) => {
+          const section = link.getAttribute("data-section");
+          const text = link.textContent.trim();
+          const explanation = link.getAttribute("data-explanation") || "";
+          if (section && templates[section]) {
+            searchableItems.push({ section, text, explanation });
+          }
+        });
+
+        input.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          resultsContainer.innerHTML = "";
+
+          if (!query) {
+            resultsContainer.classList.add("hidden");
+            return;
+          }
+
+          const filtered = searchableItems.filter(
+            (item) =>
+              item.text.toLowerCase().includes(query) ||
+              item.explanation.toLowerCase().includes(query)
+          );
+
+          if (filtered.length === 0) {
+            const item = document.createElement("div");
+            item.className = "p-3 text-sm text-gray-500";
+            item.textContent = "Nenhum resultado encontrado";
+            resultsContainer.appendChild(item);
+          } else {
+            filtered.forEach((item) => {
+              const div = document.createElement("div");
+              div.className = "p-3 hover:bg-gray-100 cursor-pointer text-sm border-b last:border-0 text-gray-800";
+              div.innerHTML = `<strong>${item.text}</strong><br><span class="text-xs text-gray-500">${item.explanation}</span>`;
+              div.addEventListener("click", () => {
+                loadSection(item.section);
+                resultsContainer.classList.add("hidden");
+                input.value = "";
+                // Fechar sidebar no Android após selecionar pesquisa
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add("-translate-x-full");
+                }
+              });
+              resultsContainer.appendChild(div);
+            });
+          }
+
+          resultsContainer.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "texto": "dd-basicos", "links-img": "dd-basicos", "listas": "dd-basicos", "tabelas": "dd-basicos",
+          "tags-semanticas": "dd-semantica", "contentores": "dd-semantica", "metadados": "dd-semantica",
+          "form-tag": "dd-forms", "inputs": "dd-forms", "select-text": "dd-forms", "botoes": "dd-forms",
+          "audio-video": "dd-midia", "iframes": "dd-midia",
+          "globais": "dd-atributos", "data-attributes": "dd-atributos", "acessibilidade": "dd-atributos"
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn && btn.querySelector(".fa-chevron-right")) {
+              btn.querySelector(".fa-chevron-right").classList.add("rotate-90");
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>

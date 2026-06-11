@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados: Referência da Linguagem R</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+      .keyword  { color: #f92672; font-weight: bold; }
+      .type     { color: #66d9ef; font-style: italic; }
+      .string   { color: #e6db74; }
+      .comment  { color: #75715e; font-style: italic; }
+      .function { color: #a6e22e; }
+      .builtin  { color: #ae81ff; }
+      .number   { color: #ae81ff; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+
+    <header class="bg-blue-700 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center mb-4 md:mb-0">
+          <i class="fas fa-chart-bar text-3xl mr-3"></i>
+          <h1 class="text-2xl font-bold">Referência da Linguagem R</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800"></div>
+          </div>
+        </div>
+        <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
+        <i class="fas fa-home mr-2"></i>
+        Voltar
+      </a>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="flex flex-1 container mx-auto px-4 py-8">
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8">
+          <div class="p-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+          </div>
+          <nav>
+
+            <div class="mb-4 mt-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem R e computação estatística.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados atómicos na linguagem R.">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo integer (Inteiros com sufixo L)">Integer</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipo numeric / double (Ponto flutuante padrão)">Numeric</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Tipo character (Textos e cadeias de caracteres)">Character</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo logical (TRUE e FALSE)">Logical</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Fatores para variáveis categóricas (Factor)">Factor</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Estruturas de dados multidimensionais e heterogéneas em R.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Estruturas de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="Vetores atómicos unidimensionais com a função c()">Vector</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Matrizes (matrix) e Data Frames estruturados">Matrix &amp; Data Frame</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Listas heterogéneas e indexadas (List)">List</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Operações de conjuntos com valores únicos">Conjuntos (unique)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Exibição e leitura de dados na consola em R.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Impressão de dados com print e cat">print / cat</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Leitura de dados do utilizador com readline">readline</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle-fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Estruturas condicionais e loops em R.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Condicionais if, else if, else">if, else if, else</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Ciclos iterativos for">for</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Ciclos condicionais while">while</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Função switch em R">switch</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Criação de funções e sub-rotinas em R.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Funções</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Declaração de funções com a palavra function">Definição</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Argumentos opcionais, default e o operador reticências ...">Parâmetros</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Funções anónimas usando a nova sintaxe de barra invertida ou padrão">Funções Anónimas</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retornos implícitos e explícitos com a função return">Retorno</a>
+              </div>
+            </div>
+
+            <div class="mt-8 border-t pt-4">
+              <h3 class="font-bold mb-2 text-gray-700">Recursos Úteis</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="documentacao" data-explanation="Links para o CRAN e documentação oficial da linguagem R.">
+                    <i class="fas fa-external-link-alt mr-2 text-xs"></i>Documentação CRAN
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="tutoriais" data-explanation="Guias práticos para análise de dados com R.">
+                    <i class="fas fa-book-open mr-2 text-xs"></i>Tutoriais R
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1">
+          <div id="explanation"></div>
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm">
+            <p>© 2026 Referência da Linguagem R. Todos os direitos reservados.</p>
+            <p class="mt-2">Este site é focado em computação estatística e ciência de dados.</p>
+            <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao R</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          <strong>R</strong> é uma linguagem de programação orientada a objetos e um ambiente de desenvolvimento integrado focado em **computação estatística, análise de dados e gráficos**. Criada por Ross Ihaka e Robert Gentleman em 1993, a linguagem é amplamente adotada por estatísticos, cientistas de dados e investigadores em todo o mundo devido ao seu ecossistema massivo de pacotes (CRAN).
+        </p>
+        <p class="text-gray-700 mb-4">
+          Uma das principais caraterísticas do R é a sua natureza **vetorizada**: as operações básicas aplicam-se automaticamente a coleções inteiras de dados sem a necessidade explícita de loops estruturados, otimizando o fluxo de manipulação matemática.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Meu primeiro script em R</span>
+<span class="function">print</span>(<span class="string">"Olá, Mundo!"</span>)
+
+<span class="comment"># Atribuição padrão em R usa o operador &lt;-</span>
+nome &lt;- <span class="string">"Linguagem R"</span>
+versao &lt;- <span class="number">4.3</span>
+<span class="function">cat</span>(<span class="string">"Bem-vindo ao"</span>, nome, <span class="string">"versão"</span>, versao, <span class="string">"\n"</span>)</pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características Fundamentais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li><strong>Operador de Atribuição:</strong> Embora o sinal <code>=</code> funcione, o uso de <code>&lt;-</code> é o padrão idiomático da comunidade.</li>
+                <li><strong>Indexação Baseada em 1:</strong> Tal como em Julia e MATLAB, o primeiro elemento de qualquer vetor ou lista começa no índice 1.</li>
+                <li><strong>Tipagem Dinâmica:</strong> Os objetos alteram o seu tipo dinamicamente, mas são fortemente validados em tempo de execução.</li>
+                <li><strong>Suporte Gráfico Nativo:</strong> Capacidades impressionantes de visualização estatística prontas a usar (e expandidas pelo pacote <code>ggplot2</code>).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados Atómicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em R, não existem variáveis escalares puras: qualquer valor isolado é, na verdade, um vetor de tamanho 1. Os tipos fundamentais (chamados de vetores atómicos) guardam dados de uma única classe.</p>
+        <div class="code-block mb-4">
+          <pre>x &lt;- <span class="number">15.5</span>   <span class="comment"># Tipo 'numeric' (double por padrão)</span>
+y &lt;- <span class="number">20L</span>    <span class="comment"># Tipo 'integer' (o sufixo L força o tipo inteiro)</span>
+logico &lt;- <span class="keyword">TRUE</span> <span class="comment"># Tipo 'logical'</span></pre>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">numeric / double</strong> Números reais de ponto flutuante de dupla precisão.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">integer</strong> Números inteiros. Identificados explicitamente com o sufixo <code>L</code>.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">character</strong> Textos e literais de string (delimitados por <code>""</code> ou <code>''</code>).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">logical</strong> Valores booleanos estruturados: <code>TRUE</code> (ou <code>T</code>) e <code>FALSE</code> (ou <code>F</code>).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">factor</strong> Estrutura especial para codificar dados categóricos com níveis fixos (levels).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">complex / raw</strong> Números complexos e bytes puros na memória.</div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Integer: Inteiros em R</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Qualquer número digitado sem sufixo é tratado como real (numeric). Para guardar memória ou garantir tipagem exata de inteiros, usa-se a letra <code>L</code> após o valor.</p>
+        <div class="code-block mb-4">
+          <pre>a &lt;- <span class="number">10L</span>
+b &lt;- <span class="number">3L</span>
+
+<span class="comment"># R sempre converte divisões comuns para real se necessário</span>
+resultado &lt;- a / b <span class="comment"># 3.333333</span>
+
+<span class="comment"># Divisão Inteira e Resto</span>
+div_inteira &lt;- a %/% b <span class="comment"># 3</span>
+resto &lt;- a %% b        <span class="comment"># 1</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-calculator text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Numeric: Ponto Flutuante</h2>
+        </div>
+        <p class="text-gray-700 mb-4">É a classe padrão para qualquer dado numérico em R. Suporta valores especiais como indeterminações matemáticas ou dados em falta (valores omissos).</p>
+        <div class="code-block mb-4">
+          <pre>pi_val &lt;- <span class="number">3.141592</span>
+nao_disponivel &lt;- <span class="builtin">NA</span> <span class="comment"># Not Available (Dado ausente muito comum em R)</span>
+
+<span class="comment"># Valores de limite ou erros</span>
+div_zero &lt;- <span class="number">5</span> / <span class="number">0</span>   <span class="comment"># Inf</span>
+indeterminado &lt;- <span class="number">0</span> / <span class="number">0</span> <span class="comment"># NaN (Not a Number)</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Character: Strings e Textos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Armazena cadeias de caracteres. Diferente de outras linguagens, a concatenação de strings não é feita por operadores lógicos como <code>+</code>, mas sim pelas funções nativas <code>paste()</code> ou <code>paste0()</code>.</p>
+        <div class="code-block mb-4">
+          <pre>txt1 &lt;- <span class="string">"Ciência"</span>
+txt2 &lt;- <span class="string">"Dados"</span>
+
+<span class="comment"># Concatenação com espaço padrão</span>
+completo &lt;- <span class="function">paste</span>(txt1, <span class="string">"de"</span>, txt2) <span class="comment"># "Ciência de Dados"</span>
+
+<span class="comment"># Concatenação sem separador</span>
+junto &lt;- <span class="function">paste0</span>(txt1, txt2)         <span class="comment"># "CiênciaDados"</span>
+
+<span class="comment"># Quantidade de caracteres</span>
+n_letras &lt;- <span class="function">nchar</span>(txt1)             <span class="comment"># 7</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Logical: Valores Booleanos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Armazena estados lógicos. Devem ser escritos obrigatoriamente em maiúsculas: <code>TRUE</code> ou <code>FALSE</code>. As abreviações <code>T</code> e <code>F</code> são válidas, mas o seu uso deve ser evitado por razões de segurança no código.</p>
+        <div class="code-block mb-4">
+          <pre>condicao1 &lt;- <span class="keyword">TRUE</span>
+condicao2 &lt;- <span class="keyword">FALSE</span>
+
+<span class="comment"># Operadores Lógicos Vetoriais (Elemento a elemento)</span>
+e_logico &lt;- condicao1 &amp; condicao2
+ou_logico &lt;- condicao1 | condicao2
+
+<span class="comment"># Operadores Lógicos de Curto-Circuito (Escalares)</span>
+e_estrito &lt;- condicao1 &amp;&amp; condicao2
+nao_logico &lt;- !condicao1</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-char">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-tags text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Factor: Dados Categóricos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>Factor</code> é um tipo crucial em R para modelação estatística. Trata os caracteres como categorias discretas com mapeamentos inteiros subjacentes, otimizando o agrupamento de dados.</p>
+        <div class="code-block mb-4">
+          <pre>tamanhos &lt;- <span class="function">c</span>(<span class="string">"P"</span>, <span class="string">"G"</span>, <span class="string">"M"</span>, <span class="string">"P"</span>, <span class="string">"G"</span>)
+
+<span class="comment"># Convertendo para Factor</span>
+fac_tamanhos &lt;- <span class="function">factor</span>(tamanhos)
+
+<span class="comment"># Exibindo os níveis (categorias únicas)</span>
+<span class="function">print</span>(<span class="function">levels</span>(fac_tamanhos)) <span class="comment"># "G" "M" "P"</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados Multidimensionais</h2>
+        </div>
+        <p class="text-gray-700 mb-4">R destaca-se pela facilidade de organizar coleções de dados, tanto homogéneas (mesmo tipo) como heterogéneas (tipos mistos).</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Vector</strong> Coleção unidimensional homogénea. Criada com a função <code>c()</code>.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Matrix</strong> Estrutura bidimensional tabular homogénea (linhas e colunas).</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">Data Frame</strong> A estrutura mais usada: tabela bidimensional heterogénea.</div>
+          <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">List</strong> Contentor genérico encadeado que pode conter qualquer tipo de dados.</div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Vector: Vetores Atómicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Construídos através da função de combinação/concatenação <code>c()</code>. Lembre-se: em R a indexação começa em 1.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Criando um vetor numérico</span>
+meu_vetor &lt;- <span class="function">c</span>(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>)
+
+<span class="comment"># Acedendo ao primeiro elemento</span>
+primeiro &lt;- meu_vetor[<span class="number">1</span>] <span class="comment"># 10</span>
+
+<span class="comment"># Adicionando elementos</span>
+meu_vetor &lt;- <span class="function">c</span>(meu_vetor, <span class="number">50</span>)
+
+<span class="comment"># Natureza vetorizada da linguagem R (multiplica todos os elementos automaticamente)</span>
+dobro &lt;- meu_vetor * <span class="number">2</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-array">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-table text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Matrix e Data Frame</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A <code>matrix</code> é puramente homogénea. O <code>data.frame</code> representa uma tabela real de base de dados, permitindo colunas numéricas ao lado de colunas de texto.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Criando uma matriz 2x2</span>
+mat &lt;- <span class="function">matrix</span>(<span class="function">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>), nrow = <span class="number">2</span>, ncol = <span class="number">2</span>)
+
+<span class="comment"># Criando um Data Frame estruturado</span>
+dados &lt;- <span class="function">data.frame</span>(
+  id = <span class="function">c</span>(<span class="number">1</span>, <span class="number">2</span>),
+  produto = <span class="function">c</span>(<span class="string">"Teclado"</span>, <span class="string">"Rato"</span>),
+  preco = <span class="function">c</span>(<span class="number">150.0</span>, <span class="number">80.0</span>)
+)
+
+<span class="comment"># Acesso rápido a colunas com o operador $</span>
+precos &lt;- dados$preco</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-boxes text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">List: Listas Genéricas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As listas em R são estruturas recursivas e heterogéneas. Podem guardar vetores, matrizes ou outras listas internas. Funcionam como mapas chave-valor se os elementos forem nomeados.</p>
+        <div class="code-block mb-4">
+          <pre>lista_usuario &lt;- <span class="function">list</span>(
+  nome = <span class="string">"Carlos"</span>,
+  idade = <span class="number">34</span>,
+  notas = <span class="function">c</span>(<span class="number">9.5</span>, <span class="number">8.0</span>, <span class="number">10</span>)
+)
+
+<span class="comment"># Aceder ao conteúdo diretamente via dois parênteses retos ou $</span>
+idade &lt;- lista_usuario[[<span class="number">2</span>]]
+nome_usuario &lt;- lista_usuario$nome</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Conjuntos e Elementos Únicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">R lida nativamente com teoria dos conjuntos utilizando vetores comuns e aplicando funções globais para filtrar e remover elementos repetidos.</p>
+        <div class="code-block mb-4">
+          <pre>vetor_repetido &lt;- <span class="function">c</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>)
+
+<span class="comment"># Extrair elementos únicos</span>
+conjunto &lt;- <span class="function">unique</span>(vetor_repetido) <span class="comment"># c(1, 2, 3, 4)</span>
+
+<span class="comment"># Operações Matemáticas de Conjunto</span>
+set1 &lt;- <span class="function">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)
+set2 &lt;- <span class="function">c</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)
+
+uniao &lt;- <span class="function">union</span>(set1, set2)       <span class="comment"># 1 2 3 4 5</span>
+intersecao &lt;- <span class="function">intersect</span>(set1, set2) <span class="comment"># 3</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída de Dados</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Manipulação simples de strings e fluxos de consola para interação e depuração de scripts.</p>
+      </div>
+    </template>
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-desktop text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">print e cat</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A função <code>print()</code> exibe o objeto completo com os seus metadados estruturais de índice. Já a função <code>cat()</code> concatena e imprime o texto limpo na consola de forma direta.</p>
+        <div class="code-block mb-4">
+          <pre>x &lt;- <span class="number">42</span>
+<span class="function">print</span>(x) <span class="comment"># Exibe: [1] 42</span>
+
+<span class="comment"># cat limpa formatações extras e interpreta quebras de linha \n</span>
+<span class="function">cat</span>(<span class="string">"O resultado final é:"</span>, x, <span class="string">"\n"</span>)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">readline</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A função <code>readline()</code> aguarda que o utilizador insira um dado na consola de comandos. Retorna sempre um dado do tipo <code>character</code>.</p>
+        <div class="code-block mb-4">
+          <pre>entrada &lt;- <span class="function">readline</span>(prompt = <span class="string">"Insira a sua idade: "</span>)
+
+<span class="comment"># Conversão de tipo necessária para cálculos matemáticos</span>
+idade &lt;- <span class="function">as.integer</span>(entrada)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Estruturas tradicionais de decisão e ciclos iterativos. Exigem a utilização de parênteses para delimitar as condições.</p>
+      </div>
+    </template>
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if, else if, else</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Execução condicional. Note que o delimitador <code>else</code> deve obrigatoriamente estar na mesma linha do fecho de chaves anterior.</p>
+        <div class="code-block mb-4">
+          <pre>nota &lt;- <span class="number">8.5</span>
+
+<span class="keyword">if</span> (nota &gt;= <span class="number">9.0</span>) {
+  <span class="function">print</span>(<span class="string">"Aprovado com Distinção"</span>)
+} <span class="keyword">else if</span> (nota &gt;= <span class="number">7.0</span>) {
+  <span class="function">print</span>(<span class="string">"Aprovado"</span>)
+} <span class="keyword">else</span> {
+  <span class="function">print</span>(<span class="string">"Reprovado"</span>)
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">for: Ciclos Iterativos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O ciclo <code>for</code> percorre de forma sequencial coleções, vetores ou intervalos gerados em R.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Iterar de 1 a 5 inclusive</span>
+<span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">5</span>) {
+  <span class="function">cat</span>(<span class="string">"Número:"</span>, i, <span class="string">"\n"</span>)
+}
+
+<span class="comment"># Iterando sobre strings de um vetor</span>
+meses &lt;- <span class="function">c</span>(<span class="string">"Janeiro"</span>, <span class="string">"Fevereiro"</span>)
+<span class="keyword">for</span> (m <span class="keyword">in</span> meses) {
+  <span class="function">print</span>(m)
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-history text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while: Ciclos Condicionais</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Mantém o processamento em loop enquanto a avaliação da condição booleana resultar em <code>TRUE</code>.</p>
+        <div class="code-block mb-4">
+          <pre>contador &lt;- <span class="number">1</span>
+
+<span class="keyword">while</span> (contador &lt;= <span class="number">3</span>) {
+  <span class="function">print</span>(contador)
+  contador &lt;- contador + <span class="number">1</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Função switch em R</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Diferente de estruturas de controle puras baseadas em palavras-chave, em R o <code>switch()</code> é uma função incorporada extremamente útil para correspondências de strings.</p>
+        <div class="code-block mb-4">
+          <pre>operacao &lt;- <span class="string">"soma"</span>
+
+resultado &lt;- <span class="function">switch</span>(operacao,
+  <span class="string">"soma"</span> = <span class="number">10</span> + <span class="number">5</span>,
+  <span class="string">"sub"</span>  = <span class="number">10</span> - <span class="number">5</span>,
+  <span class="string">"Valor Padrão Opcional"</span>
+)
+<span class="comment"># resultado = 15</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Funções em R</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As funções em R são objetos de primeira classe, o que significa que podem ser armazenadas em variáveis, passadas como parâmetros ou retornadas por outras rotinas.</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição de Funções</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Declaradas instanciando a palavra-chave reservada <code>function()</code> vinculada a um identificador/variável por atribuição.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Definição convencional</span>
+calcular_area &lt;- <span class="keyword">function</span>(base, altura) {
+  area &lt;- base * altura
+  <span class="keyword">return</span>(area)
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sliders-h text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros Opcionais e Reticências</h2>
+        </div>
+        <p class="text-gray-700 mb-4">R permite definir valores padrão para os parâmetros. Também oferece o operador especial de reticências (<code>...</code>), usado para passar argumentos indefinidos para funções internas.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Parâmetro com valor default padrão</span>
+saudacao &lt;- <span class="keyword">function</span>(nome, prefixo = <span class="string">"Dr."</span>) {
+  <span class="function">cat</span>(<span class="string">"Olá,"</span>, prefixo, nome, <span class="string">"\n"</span>)
+}
+
+<span class="comment"># O uso de ... para repassar argumentos</span>
+minha_plotagem &lt;- <span class="keyword">function</span>(x, y, ...) {
+  <span class="comment"># Repassa argumentos estéticos extras (ex: col, pch) para plot()</span>
+  <span class="function">plot</span>(x, y, ...)
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Funções Anónimas (Lambda)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Úteis para computações rápidas em funções funcionais (como a família <code>lapply</code>). Versões recentes do R (4.1+) introduziram uma sintaxe curta extremamente limpa usando uma barra invertida <code>\()</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment"># Sintaxe Moderna Clássica Lambda (R 4.1+)</span>
+quadrado &lt;- \(x) x^<span class="number">2</span>
+
+<span class="comment"># Sintaxe Tradicional equivalente</span>
+cubo &lt;- <span class="keyword">function</span>(x) x^<span class="number">3</span>
+
+<span class="comment"># Uso prático inline rápido</span>
+resultado &lt;- <span class="function">sapply</span>(<span class="function">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>), \(x) x + <span class="number">10</span>)</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-reply text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Retorno de Valores</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em R, o retorno da última expressão calculada dentro do corpo da função é **implícito** se você omitir a palavra-chave. No entanto, usar <code>return()</code> explicitamente é recomendado para interrupções precoces.</p>
+        <div class="code-block mb-4">
+          <pre>soma_implicita &lt;- <span class="keyword">function</span>(a, b) {
+  a + b <span class="comment"># Última linha avaliada. Será retornada de forma automática!</span>
+}
+
+retorno_multiplo &lt;- <span class="keyword">function</span>(dados) {
+  <span class="comment"># Para retornar múltiplos valores estruturados, agrupe em uma List</span>
+  <span class="keyword">return</span>(<span class="function">list</span>(minimo = <span class="function">min</span>(dados), maximo = <span class="function">max</span>(dados)))
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-documentacao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Documentação CRAN</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Aceda aos repositórios oficiais e manuais do núcleo do projeto R:</p>
+        <ul class="list-disc list-inside space-y-2 text-blue-600">
+          <li><a href="https://cran.r-project.org/" target="_blank" class="hover:underline">The Comprehensive R Archive Network (CRAN)</a></li>
+          <li><a href="https://www.r-project.org/about.html" target="_blank" class="hover:underline">Sobre o Projeto R Core</a></li>
+        </ul>
+      </div>
+    </template>
+
+    <template id="tpl-tutoriais">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-graduation-cap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tutoriais e Práticas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Canais recomendados para evoluir em Ciência de Dados com R:</p>
+        <ul class="list-disc list-inside space-y-2 text-blue-600">
+          <li><a href="https://r4ds.hadley.nz/" target="_blank" class="hover:underline">R for Data Science (Livro do Hadley Wickham)</a></li>
+          <li><a href="https://posit.co/resources/cheatsheets/" target="_blank" class="hover:underline">Posit / RStudio Cheatsheets Gratuitas</a></li>
+        </ul>
+      </div>
+    </template>
+
+    <script>
+      const templates = {
+        "introducao": "tpl-introducao",
+        "tipos": "tpl-tipos",
+        "tipo-int": "tpl-tipo-int",
+        "tipo-float": "tpl-tipo-float",
+        "tipo-string": "tpl-tipo-string",
+        "tipo-bool": "tpl-tipo-bool",
+        "tipo-char": "tpl-tipo-char",
+        "estruturas": "tpl-estruturas",
+        "vector": "tpl-vector",
+        "array": "tpl-array",
+        "map": "tpl-map",
+        "set": "tpl-set",
+        "entrada-saida": "tpl-entrada-saida",
+        "cout": "tpl-cout",
+        "cin": "tpl-cin",
+        "controle-fluxo": "tpl-controle-fluxo",
+        "if-else": "tpl-if-else",
+        "for": "tpl-for",
+        "while": "tpl-while",
+        "switch": "tpl-switch",
+        "funcoes": "tpl-funcoes",
+        "def": "tpl-def",
+        "parametros": "tpl-parametros",
+        "lambda": "tpl-lambda",
+        "retorno": "tpl-retorno",
+        "documentacao": "tpl-documentacao",
+        "tutoriais": "tpl-tutoriais"
+      };
+
+      const explanationContainer = document.getElementById("explanation");
+      const navLinks = document.querySelectorAll(".nav-link");
+      const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+      const input = document.querySelector('input[type="text"]');
+      const resultsContainer = document.getElementById("search-results");
+
+      function loadSection(sectionId) {
+        const tplId = templates[sectionId];
+        if (!tplId) return;
+        const tpl = document.getElementById(tplId);
+        if (!tpl) return;
+
+        explanationContainer.innerHTML = "";
+        explanationContainer.appendChild(tpl.content.cloneNode(true));
+
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-section") === sectionId) {
+            link.classList.add("bg-blue-100", "font-semibold");
+          } else {
+            link.classList.remove("bg-blue-100", "font-semibold");
+          }
+        });
+
+        localStorage.setItem("activeSectionId", sectionId);
+      }
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const sectionId = link.getAttribute("data-section");
+          loadSection(sectionId);
+        });
+      });
+
+      dropdownBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const content = btn.nextElementSibling;
+          content.classList.toggle("open");
+          btn.querySelector(".fa-chevron-right").classList.toggle("rotate-90");
+        });
+      });
+
+      // Lógica de pesquisa reativa
+      const searchableItems = [];
+      navLinks.forEach((link) => {
+        const section = link.getAttribute("data-section");
+        const text = link.textContent.trim();
+        const explanation = link.getAttribute("data-explanation") || "";
+        if (section && templates[section]) {
+          searchableItems.push({ section, text, explanation });
+        }
+      });
+
+      input.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        resultsContainer.innerHTML = "";
+
+        if (!query) {
+          resultsContainer.classList.add("hidden");
+          return;
+        }
+
+        const filtered = searchableItems.filter(
+          (item) =>
+            item.text.toLowerCase().includes(query) ||
+            item.explanation.toLowerCase().includes(query)
+        );
+
+        if (filtered.length === 0) {
+          const item = document.createElement("div");
+          item.className = "p-3 text-sm text-gray-500";
+          item.textContent = "Nenhum resultado encontrado";
+          resultsContainer.appendChild(item);
+        } else {
+          filtered.forEach((item) => {
+            const div = document.createElement("div");
+            div.className = "p-3 hover:bg-gray-100 cursor-pointer text-sm border-b last:border-0 text-gray-800";
+            div.innerHTML = `<strong>${item.text}</strong><br><span class="text-xs text-gray-500">${item.explanation}</span>`;
+            div.addEventListener("click", () => {
+              loadSection(item.section);
+              resultsContainer.classList.add("hidden");
+              input.value = "";
+            });
+            resultsContainer.appendChild(div);
+          });
+        }
+
+        resultsContainer.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+          resultsContainer.classList.add("hidden");
+        }
+      });
+
+      const lastSection = localStorage.getItem("activeSectionId");
+      const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+      const parentDropdownMap = {
+        "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos",
+        "tipo-bool": "dd-tipos", "tipo-char": "dd-tipos",
+        "vector": "dd-estruturas", "array": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+        "cout": "dd-io", "cin": "dd-io",
+        "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+        "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+      };
+
+      const parentId = parentDropdownMap[sectionToLoad];
+      if (parentId) {
+        const dd = document.getElementById(parentId);
+        if (dd) {
+          dd.classList.add("open");
+          const btn = dd.previousElementSibling;
+          if (btn && btn.querySelector(".fa-chevron-right")) {
+            btn.querySelector(".fa-chevron-right").classList.add("rotate-90");
+          }
+        }
+      }
+
+      loadSection(sectionToLoad);
+    </script>
+  </body>
+</html>

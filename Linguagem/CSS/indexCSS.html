@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estilização e Web: Referência da Linguagem CSS3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .selector { color: #d7ba7d; font-weight: bold; }
+      .property { color: #9cdcfe; }
+      .value    { color: #ce9178; }
+      .keyword  { color: #c586c0; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .number   { color: #b5cea8; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans flex flex-col min-h-screen w-full overflow-x-hidden">
+
+    <header class="bg-blue-700 text-white shadow-lg w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center w-full">
+        
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fab fa-css3-alt text-2xl md:text-3xl mr-3 text-blue-400"></i>
+            <h1 class="text-xl md:text-2xl font-bold truncate">Referência CSS3</h1>
+          </div>
+          <button id="btn-menu" class="md:hidden text-white hover:text-blue-200 focus:outline-none text-2xl p-2 ml-2">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 w-full md:w-auto">
+          <div class="relative w-full md:w-auto">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white text-gray-800 border border-gray-300 rounded shadow-lg z-50 hidden max-h-60 overflow-y-auto"></div>
+          </div>
+          <a href="../../index.html" class="flex justify-center items-center w-full md:w-auto px-4 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all font-medium" title="Voltar ao menu principal">
+            <i class="fas fa-home mr-2"></i> Voltar
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-full">
+      <div class="flex flex-col md:flex-row flex-1 container mx-auto px-4 py-6 md:py-8 w-full max-w-full">
+
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-xs z-50 bg-white p-4 shadow-2xl overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-8 md:h-auto md:max-h-[85vh] md:w-72 md:shrink-0 md:translate-x-0 md:shadow-md md:rounded-lg md:mr-8 md:mb-0 md:z-0">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-700">Sumário</h1>
+            <button id="btn-close-menu" class="md:hidden text-gray-500 hover:text-red-500 p-2">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <nav>
+            <div class="mb-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução ao CSS3, sintaxe básica e como aplicá-lo ao HTML.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#seletores" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="seletores" data-explanation="Como selecionar elementos HTML para estilização.">
+                <i class="fas fa-mouse-pointer mr-2"></i>
+                <span class="flex items-center">Seletores CSS</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-seletores" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="seletores-basicos" data-explanation="Seletores de tipo, classe (.) e ID (#)">Básicos (Tipo, Classe, ID)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="seletores-avancados" data-explanation="Pseudo-classes (:hover), Pseudo-elementos (::before) e Combinadores">Avançados e Pseudo-classes</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#boxmodel" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="boxmodel" data-explanation="O Modelo de Caixa do CSS: Margens, Bordas e Espaçamentos.">
+                <i class="fas fa-box-open mr-2"></i>
+                <span class="flex items-center">O Modelo de Caixa</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-boxmodel" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="box-conceito" data-explanation="Margin, Border, Padding e Content">O Conceito Base</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="box-sizing" data-explanation="A propriedade revolucionária box-sizing: border-box">Box-Sizing</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#layouts" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="layouts" data-explanation="Sistemas de layout para organizar os elementos no ecrã.">
+                <i class="fas fa-th-large mr-2"></i>
+                <span class="flex items-center">Sistemas de Layout</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-layouts" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="flexbox" data-explanation="O módulo Flexbox (display: flex) para layouts unidimensionais">Flexbox</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="grid" data-explanation="O CSS Grid Layout (display: grid) para layouts bidimensionais">CSS Grid</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="posicionamento" data-explanation="Position: static, relative, absolute, fixed e sticky">Posicionamento (Position)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estilos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estilos" data-explanation="Estilização visual, fontes, fundos e cores.">
+                <i class="fas fa-paint-brush mr-2"></i>
+                <span class="flex items-center">Estilos Visuais</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estilos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipografia" data-explanation="Font-family, font-size, text-align, line-height">Tipografia</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cores-fundos" data-explanation="Color, background, gradientes (linear-gradient) e transparências">Cores e Fundos</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#responsividade" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="responsividade" data-explanation="Técnicas para adaptar sites a telemóveis e tablets.">
+                <i class="fas fa-mobile-alt mr-2"></i>
+                <span class="flex items-center">Responsividade</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-responsividade" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="media-queries" data-explanation="Uso de @media para aplicar estilos condicionados ao tamanho do ecrã">Media Queries (@media)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="unidades" data-explanation="Unidades relativas: %, vw, vh, rem e em">Unidades Relativas</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#animacoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="animacoes" data-explanation="Movimento e transições dinâmicas sem Javascript.">
+                <i class="fas fa-film mr-2"></i>
+                <span class="flex items-center">Animações</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-animacoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="transicoes" data-explanation="Transições suaves de estados com a propriedade transition">Transições (Transitions)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="keyframes" data-explanation="Animações complexas utilizando @keyframes">Animações (@keyframes)</a>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1 min-w-0 w-full overflow-hidden">
+          <div id="explanation" class="w-full break-words"></div>
+
+          <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm pb-6">
+            <p>© 2026 Referência de Cascading Style Sheets (CSS). Todos os direitos reservados.</p>
+             <p class="mt-2">Este site é apenas para fins educacionais.</p>
+            <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+            <div class="flex justify-center space-x-4 mt-4">
+              <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fab fa-css3-alt text-blue-500 text-3xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao CSS</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          O <strong>CSS</strong> (Cascading Style Sheets, ou Folhas de Estilo em Cascata) é a linguagem de design utilizada para descrever a apresentação visual de um documento escrito em HTML. Enquanto o HTML define a estrutura, o CSS define as cores, os layouts, as fontes e as animações.
+        </p>
+        <p class="text-gray-700 mb-4">
+          A sintaxe do CSS é construída através de um <strong>Seletor</strong> (para encontrar o elemento HTML) seguido por um bloco de declarações de <strong>Propriedades</strong> e <strong>Valores</strong>.
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* O seletor 'body' aplica as regras ao corpo inteiro da página */</span>
+<span class="selector">body</span> {
+    <span class="property">background-color</span>: <span class="value">#f4f4f9</span>;
+    <span class="property">font-family</span>: <span class="value">"Arial", sans-serif</span>;
+    <span class="property">color</span>: <span class="value">#333333</span>;
+}
+
+<span class="comment">/* A regra abaixo aplica-se apenas a elementos com a classe 'botao' */</span>
+<span class="selector">.botao</span> {
+    <span class="property">padding</span>: <span class="number">10px 20px</span>;
+    <span class="property">background-color</span>: <span class="value">blue</span>;
+    <span class="property">border-radius</span>: <span class="number">5px</span>;
+}</pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Como inserir CSS no HTML</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li><strong>Externo (Recomendado):</strong> Usando <code>&lt;link rel="stylesheet" href="estilos.css"&gt;</code> na tag <code>&lt;head&gt;</code>.</li>
+                <li><strong>Interno:</strong> Usando a tag <code>&lt;style&gt;</code> dentro do <code>&lt;head&gt;</code>.</li>
+                <li><strong>Inline:</strong> Usando o atributo <code>style="..."</code> diretamente na tag HTML (evite esta prática).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-seletores-basicos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-mouse-pointer text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Seletores Básicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Os seletores indicam ao navegador quais os elementos HTML que devem ser alvo das regras de estilo.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* 1. Seletor de Tipo (Tag): Afeta TODOS os &lt;h1&gt; da página */</span>
+<span class="selector">h1</span> {
+    <span class="property">color</span>: <span class="value">darkred</span>;
+}
+
+<span class="comment">/* 2. Seletor de Classe (Ponto .): Afeta elementos com class="destaque" */</span>
+<span class="selector">.destaque</span> {
+    <span class="property">font-weight</span>: <span class="value">bold</span>;
+    <span class="property">background-color</span>: <span class="value">yellow</span>;
+}
+
+<span class="comment">/* 3. Seletor de ID (Cardinal #): Afeta o ÚNICO elemento com id="cabecalho" */</span>
+<span class="selector">#cabecalho</span> {
+    <span class="property">border-bottom</span>: <span class="number">2px</span> <span class="value">solid gray</span>;
+}
+
+<span class="comment">/* 4. Seletor Universal (*): Afeta absolutamente TUDO no documento */</span>
+<span class="selector">*</span> {
+    <span class="property">margin</span>: <span class="number">0</span>;
+    <span class="property">padding</span>: <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-seletores-avancados">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-magic text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Seletores Avançados e Pseudo-Classes</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As pseudo-classes (com <code>:</code>) alteram o estilo baseado num "estado" do elemento (ex: focado pelo rato). Os pseudo-elementos (com <code>::</code>) injetam ou estilizam partes invisíveis de um elemento. Os combinadores estilizam com base na hierarquia HTML.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* Pseudo-classe: Aplica-se quando o rato (hover) passa por cima do botão */</span>
+<span class="selector">.botao:hover</span> {
+    <span class="property">background-color</span>: <span class="value">darkblue</span>;
+    <span class="property">cursor</span>: <span class="value">pointer</span>;
+}
+
+<span class="comment">/* Pseudo-classe estrutural: Pinta de cinza apenas as linhas ímpares de uma tabela */</span>
+<span class="selector">tr:nth-child(odd)</span> {
+    <span class="property">background-color</span>: <span class="value">#f2f2f2</span>;
+}
+
+<span class="comment">/* Pseudo-elemento: Injeta conteúdo ANTES do parágrafo */</span>
+<span class="selector">p::before</span> {
+    <span class="property">content</span>: <span class="value">"Atenção: "</span>;
+    <span class="property">color</span>: <span class="value">red</span>;
+}
+
+<span class="comment">/* Combinador de Filho Direto (>): Apenas &lt;p&gt; que sejam filhos diretos do &lt;article&gt; */</span>
+<span class="selector">article &gt; p</span> {
+    <span class="property">font-size</span>: <span class="number">1.2rem</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-box-conceito">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-box text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">O Modelo de Caixa (Box Model)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em CSS, absolutamente tudo é considerado uma "caixa" retangular. Compreender o <strong>Box Model</strong> é o passo mais importante para aprender a posicionar elementos num ecrã.</p>
+        
+        <ul class="list-disc list-inside space-y-2 text-gray-700 mt-4 mb-4">
+          <li><strong>Content (Conteúdo):</strong> Onde aparece o texto ou as imagens. (<code>width</code> e <code>height</code>).</li>
+          <li><strong>Padding (Enchimento):</strong> O espaço interno transparente <em>entre</em> o conteúdo e a borda.</li>
+          <li><strong>Border (Borda):</strong> A linha que envolve o padding e o conteúdo.</li>
+          <li><strong>Margin (Margem):</strong> O espaço externo transparente <em>fora</em> da borda, que empurra os outros elementos para longe.</li>
+        </ul>
+        <div class="code-block mb-4">
+          <pre><span class="selector">.caixa-exemplo</span> {
+    <span class="property">width</span>: <span class="number">300px</span>;
+    <span class="property">padding</span>: <span class="number">20px</span>;           <span class="comment">/* Espaço por dentro */</span>
+    <span class="property">border</span>: <span class="number">2px</span> <span class="value">solid black</span>; <span class="comment">/* Linha de contorno */</span>
+    <span class="property">margin</span>: <span class="number">50px auto</span>;       <span class="comment">/* 'auto' centra a caixa horizontalmente! */</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-box-sizing">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-compress-arrows-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">A Propriedade Box-Sizing</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Por defeito, se definir <code>width: 300px</code> e adicionar <code>padding: 20px</code>, a caixa vai ficar com 340px totais (300 + 20 esquerda + 20 direita), o que destrói layouts. Para corrigir isto e obrigar o CSS a manter os 300px (encolhendo o conteúdo interno para compensar o padding), aplicamos a regra de ouro do CSS moderno:</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* O "CSS Reset" utilizado por 99% dos programadores profissionais */</span>
+<span class="selector">*</span>, <span class="selector">*::before</span>, <span class="selector">*::after</span> {
+    <span class="property">box-sizing</span>: <span class="value">border-box</span>;
+    <span class="property">margin</span>: <span class="number">0</span>;
+    <span class="property">padding</span>: <span class="number">0</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-flexbox">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-arrows-alt-h text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">CSS Flexbox</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O Flexbox revolucionou o CSS. Ele foi concebido para distribuir espaço e alinhar itens num contentor de forma <strong>unidimensional</strong> (numa linha horizontal OU numa coluna vertical). O controlo é feito no elemento "Pai", e os elementos "Filhos" obedecem.</p>
+        
+        <div class="code-block mb-4">
+          <pre><span class="selector">.contentor-pai</span> {
+    <span class="property">display</span>: <span class="value">flex</span>;
+    
+    <span class="comment">/* Direção: row (linha, lado a lado), column (coluna, empilhados) */</span>
+    <span class="property">flex-direction</span>: <span class="value">row</span>; 
+    
+    <span class="comment">/* Alinhamento no Eixo Principal (Horizontal na row) */</span>
+    <span class="comment">/* Opções: flex-start, center, flex-end, space-between, space-around */</span>
+    <span class="property">justify-content</span>: <span class="value">space-between</span>;
+    
+    <span class="comment">/* Alinhamento no Eixo Transversal (Vertical na row) */</span>
+    <span class="comment">/* Opções: stretch, center, flex-start, flex-end */</span>
+    <span class="property">align-items</span>: <span class="value">center</span>;
+    
+    <span class="comment">/* Espaçamento entre os itens sem precisar de margins! */</span>
+    <span class="property">gap</span>: <span class="number">20px</span>; 
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-grid">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-th text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">CSS Grid Layout</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Enquanto o Flexbox é para uma dimensão, o CSS Grid foi criado para sistemas de layout <strong>bidimensionais</strong> complexos (linhas E colunas simultaneamente). É ideal para montar a estrutura base de uma página web inteira ou galerias de fotos.</p>
+        <div class="code-block mb-4">
+          <pre><span class="selector">.galeria</span> {
+    <span class="property">display</span>: <span class="value">grid</span>;
+    
+    <span class="comment">/* Cria 3 colunas. '1fr' significa "1 Fração" do espaço disponível. */</span>
+    <span class="property">grid-template-columns</span>: <span class="number">1</span><span class="value">fr</span> <span class="number">1</span><span class="value">fr</span> <span class="number">1</span><span class="value">fr</span>;
+    
+    <span class="comment">/* Outra opção: Repetir automaticamente colunas com no mínimo 250px */</span>
+    <span class="comment">/* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */</span>
+    
+    <span class="property">gap</span>: <span class="number">15px</span>;
+}
+
+<span class="comment">/* Um item específico pode ocupar mais do que uma coluna/linha */</span>
+<span class="selector">.item-destaque</span> {
+    <span class="property">grid-column</span>: <span class="value">span</span> <span class="number">2</span>; <span class="comment">/* Ocupa o espaço de 2 colunas */</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-posicionamento">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-crosshairs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Posicionamento (Position)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A propriedade <code>position</code> retira ou manipula elementos do fluxo normal do documento HTML.</p>
+        <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4">
+          <li><strong>static (padrão):</strong> Fluxo normal de leitura.</li>
+          <li><strong>relative:</strong> Move-se em relação à sua posição normal, mas não afeta os outros elementos. Permite criar um ponto de referência (Pai) para o absolute.</li>
+          <li><strong>absolute:</strong> O elemento é "arrancado" do ecrã e voa livremente por cima de tudo, baseando-se no ancestral "relative" mais próximo.</li>
+          <li><strong>fixed:</strong> Fica colado ao ecrã mesmo quando o utilizador faz scroll (ex: menus superiores fixos).</li>
+          <li><strong>sticky:</strong> Funciona como relative até o ecrã rolar por ele, aí cola-se ao topo como fixed.</li>
+        </ul>
+        <div class="code-block mb-4">
+          <pre><span class="selector">.notificacao-flutuante</span> {
+    <span class="property">position</span>: <span class="value">fixed</span>;
+    <span class="property">bottom</span>: <span class="number">20px</span>;
+    <span class="property">right</span>: <span class="number">20px</span>;
+    <span class="property">z-index</span>: <span class="number">999</span>; <span class="comment">/* Garante que fica por cima de outros elementos */</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipografia">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipografia (Textos)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O CSS oferece propriedades granulares para tratar do design e da legibilidade textual.</p>
+        <div class="code-block mb-4">
+          <pre><span class="selector">p</span> {
+    <span class="comment">/* Fonte primária e fontes de fallback (caso a primeira falhe) */</span>
+    <span class="property">font-family</span>: <span class="value">"Roboto", "Helvetica Neue", sans-serif</span>;
+    
+    <span class="comment">/* Tamanho da letra (16px equivale a 1rem em navegadores padrão) */</span>
+    <span class="property">font-size</span>: <span class="number">1.2rem</span>; 
+    
+    <span class="comment">/* Espaçamento entre as linhas (melhora a leitura) */</span>
+    <span class="property">line-height</span>: <span class="number">1.6</span>;
+    
+    <span class="comment">/* Peso da letra (normal = 400, negrito = 700) */</span>
+    <span class="property">font-weight</span>: <span class="number">400</span>;
+    
+    <span class="comment">/* Alinhamento: left, right, center, justify */</span>
+    <span class="property">text-align</span>: <span class="value">justify</span>;
+    
+    <span class="comment">/* Remoção de sublinhados em links, por exemplo */</span>
+    <span class="property">text-decoration</span>: <span class="value">none</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cores-fundos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-palette text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Cores e Fundos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As cores em CSS podem ser escritas pelos seus nomes (<code>red</code>), códigos Hexadecimais (<code>#ff0000</code>), funções RGB/RGBA, ou modernas funções HSL.</p>
+        <div class="code-block mb-4">
+          <pre><span class="selector">.cabecalho</span> {
+    <span class="comment">/* Cor da letra */</span>
+    <span class="property">color</span>: <span class="value">rgba</span>(<span class="number">255, 255, 255, 0.9</span>); <span class="comment">/* Branco com 90% de opacidade */</span>
+    
+    <span class="comment">/* Cor de fundo sólida */</span>
+    <span class="property">background-color</span>: <span class="value">#1a202c</span>;
+    
+    <span class="comment">/* Alternativa: Fundo como um gradiente linear */</span>
+    <span class="property">background</span>: <span class="value">linear-gradient</span>(<span class="number">90deg</span>, <span class="value">#4facfe</span> <span class="number">0%</span>, <span class="value">#00f2fe</span> <span class="number">100%</span>);
+    
+    <span class="comment">/* Alternativa: Imagem de Fundo */</span>
+    <span class="property">background-image</span>: <span class="value">url</span>(<span class="string">'fundo.jpg'</span>);
+    <span class="property">background-size</span>: <span class="value">cover</span>;     <span class="comment">/* Cobre toda a área */</span>
+    <span class="property">background-position</span>: <span class="value">center</span>; <span class="comment">/* Centraliza a imagem */</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-media-queries">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-mobile-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Media Queries (@media)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O segredo para um site <strong>responsivo</strong> (que se adapta a telemóveis, tablets e monitores). O bloco <code>@media</code> funciona como um <code>if</code> para o CSS: permite reescrever propriedades apenas quando o ecrã atinge um certo tamanho.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* Estilo padrão (Geralmente começa-se pelo layout de telemóvel - Mobile First) */</span>
+<span class="selector">.menu</span> {
+    <span class="property">display</span>: <span class="value">block</span>; <span class="comment">/* Itens empilhados verticalmente */</span>
+    <span class="property">width</span>: <span class="number">100%</span>;
+}
+
+<span class="comment">/* Quando o ecrã atingir no MÍNIMO 768px (Tablets e Desktops)... */</span>
+<span class="keyword">@media</span> (<span class="property">min-width</span>: <span class="number">768px</span>) {
+    <span class="selector">.menu</span> {
+        <span class="property">display</span>: <span class="value">flex</span>; <span class="comment">/* Muda para horizontal */</span>
+        <span class="property">justify-content</span>: <span class="value">space-between</span>;
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-unidades">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-ruler text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Unidades Relativas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em vez de usar píxeis fixos (<code>px</code>), o CSS moderno incentiva o uso de unidades relativas, que esticam ou encolhem dependendo do contexto.</p>
+        <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4">
+          <li><strong>% (Percentagem):</strong> Relativo ao tamanho do elemento pai.</li>
+          <li><strong>vw (Viewport Width):</strong> 1vw = 1% da largura total da janela do navegador.</li>
+          <li><strong>vh (Viewport Height):</strong> 1vh = 1% da altura total da janela do navegador. (Ex: <code>height: 100vh</code> ocupa o ecrã inteiro).</li>
+          <li><strong>rem:</strong> Relativo ao tamanho da fonte do root (a tag <code>&lt;html&gt;</code>). Se o html tem 16px, <code>2rem</code> são 32px. É a unidade recomendada para acessibilidade tipográfica.</li>
+          <li><strong>em:</strong> Relativo ao tamanho da fonte do elemento pai direto.</li>
+        </ul>
+      </div>
+    </template>
+
+    <template id="tpl-transicoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Transições (Transitions)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A propriedade <code>transition</code> permite que as mudanças de estado num elemento (como quando se passa o rato por cima com <code>:hover</code>) não sejam instantâneas e agressivas, mas sim interpoladas num movimento suave.</p>
+        <div class="code-block mb-4">
+          <pre><span class="selector">.botao</span> {
+    <span class="property">background-color</span>: <span class="value">blue</span>;
+    <span class="property">transform</span>: <span class="value">scale</span>(<span class="number">1</span>);
+    
+    <span class="comment">/* propriedade, duração, função de aceleração (ease, linear) */</span>
+    <span class="property">transition</span>: <span class="value">all</span> <span class="number">0.3s ease-in-out</span>;
+}
+
+<span class="selector">.botao:hover</span> {
+    <span class="property">background-color</span>: <span class="value">darkblue</span>;
+    <span class="property">transform</span>: <span class="value">scale</span>(<span class="number">1.1</span>); <span class="comment">/* Aumenta 10% de tamanho suavemente em 0.3s */</span>
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-keyframes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-film text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Animações (@keyframes)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Quando precisa de movimentos complexos em múltiplos passos (sem precisar de interagir com o elemento), usamos o <code>@keyframes</code> em conjunto com a propriedade <code>animation</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">/* 1. Definição da "linha do tempo" da animação */</span>
+<span class="keyword">@keyframes</span> <span class="selector">flutuar</span> {
+    <span class="number">0%</span>   { <span class="property">transform</span>: <span class="value">translateY</span>(<span class="number">0px</span>); }
+    <span class="number">50%</span>  { <span class="property">transform</span>: <span class="value">translateY</span>(<span class="number">-20px</span>); }
+    <span class="number">100%</span> { <span class="property">transform</span>: <span class="value">translateY</span>(<span class="number">0px</span>); }
+}
+
+<span class="comment">/* 2. Aplicação da animação no elemento alvo */</span>
+<span class="selector">.icone-flutuante</span> {
+    <span class="comment">/* nome, duração, aceleração, atraso, contagem (infinite), direção */</span>
+    <span class="property">animation</span>: <span class="value">flutuar</span> <span class="number">2s ease-in-out infinite</span>;
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {
+          "introducao": "tpl-introducao",
+          "seletores-basicos": "tpl-seletores-basicos",
+          "seletores-avancados": "tpl-seletores-avancados",
+          "box-conceito": "tpl-box-conceito",
+          "box-sizing": "tpl-box-sizing",
+          "flexbox": "tpl-flexbox",
+          "grid": "tpl-grid",
+          "posicionamento": "tpl-posicionamento",
+          "tipografia": "tpl-tipografia",
+          "cores-fundos": "tpl-cores-fundos",
+          "media-queries": "tpl-media-queries",
+          "unidades": "tpl-unidades",
+          "transicoes": "tpl-transicoes",
+          "keyframes": "tpl-keyframes"
+        };
+
+        const explanationContainer = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const input = document.querySelector('input[type="text"]');
+        const resultsContainer = document.getElementById("search-results");
+        
+        // Elementos do Menu Hamburguer
+        const btnMenu = document.getElementById("btn-menu");
+        const btnCloseMenu = document.getElementById("btn-close-menu");
+        const sidebar = document.getElementById("sidebar");
+
+        // NOVO: Lógica do botão hamburguer para puxar a gaveta lateral
+        if (btnMenu && sidebar) {
+            btnMenu.addEventListener("click", () => {
+                sidebar.classList.remove("-translate-x-full");
+            });
+        }
+
+        // NOVO: Lógica para o botão fechar do sumário esconder a gaveta lateral
+        if (btnCloseMenu && sidebar) {
+            btnCloseMenu.addEventListener("click", () => {
+                sidebar.classList.add("-translate-x-full");
+            });
+        }
+
+        function loadSection(sectionId) {
+          const tplId = templates[sectionId];
+          if (!tplId) return;
+          const tpl = document.getElementById(tplId);
+          if (!tpl) return;
+
+          explanationContainer.innerHTML = "";
+          explanationContainer.appendChild(tpl.content.cloneNode(true));
+
+          navLinks.forEach((link) => {
+            if (link.getAttribute("data-section") === sectionId) {
+              link.classList.add("bg-blue-100", "font-semibold");
+            } else {
+              link.classList.remove("bg-blue-100", "font-semibold");
+            }
+          });
+
+          localStorage.setItem("activeSectionId", sectionId);
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const sectionId = link.getAttribute("data-section");
+            loadSection(sectionId);
+            // Fechar sidebar no Android logo após clicar em uma opção
+            if (window.innerWidth < 768) {
+                sidebar.classList.add("-translate-x-full");
+            }
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            content.classList.toggle("open");
+            btn.querySelector(".fa-chevron-right").classList.toggle("rotate-90");
+          });
+        });
+
+        // Lógica de pesquisa reativa
+        const searchableItems = [];
+        navLinks.forEach((link) => {
+          const section = link.getAttribute("data-section");
+          const text = link.textContent.trim();
+          const explanation = link.getAttribute("data-explanation") || "";
+          if (section && templates[section]) {
+            searchableItems.push({ section, text, explanation });
+          }
+        });
+
+        input.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          resultsContainer.innerHTML = "";
+
+          if (!query) {
+            resultsContainer.classList.add("hidden");
+            return;
+          }
+
+          const filtered = searchableItems.filter(
+            (item) =>
+              item.text.toLowerCase().includes(query) ||
+              item.explanation.toLowerCase().includes(query)
+          );
+
+          if (filtered.length === 0) {
+            const item = document.createElement("div");
+            item.className = "p-3 text-sm text-gray-500";
+            item.textContent = "Nenhum resultado encontrado";
+            resultsContainer.appendChild(item);
+          } else {
+            filtered.forEach((item) => {
+              const div = document.createElement("div");
+              div.className = "p-3 hover:bg-gray-100 cursor-pointer text-sm border-b last:border-0 text-gray-800";
+              div.innerHTML = `<strong>${item.text}</strong><br><span class="text-xs text-gray-500">${item.explanation}</span>`;
+              div.addEventListener("click", () => {
+                loadSection(item.section);
+                resultsContainer.classList.add("hidden");
+                input.value = "";
+                // Fechar sidebar no Android logo após selecionar pesquisa
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add("-translate-x-full");
+                }
+              });
+              resultsContainer.appendChild(div);
+            });
+          }
+
+          resultsContainer.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "seletores-basicos": "dd-seletores", "seletores-avancados": "dd-seletores",
+          "box-conceito": "dd-boxmodel", "box-sizing": "dd-boxmodel",
+          "flexbox": "dd-layouts", "grid": "dd-layouts", "posicionamento": "dd-layouts",
+          "tipografia": "dd-estilos", "cores-fundos": "dd-estilos",
+          "media-queries": "dd-responsividade", "unidades": "dd-responsividade",
+          "transicoes": "dd-animacoes", "keyframes": "dd-animacoes"
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn && btn.querySelector(".fa-chevron-right")) {
+              btn.querySelector(".fa-chevron-right").classList.add("rotate-90");
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estruturas de Dados e POO: Referência da Linguagem C#</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+      .transition-all { transition: all 0.3s ease; }
+      .code-block {
+        font-family: "Courier New", monospace;
+        background-color: #2d2d2d;
+        color: #f8f8f2;
+        border-radius: 6px;
+        padding: 1rem;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .keyword  { color: #569cd6; }
+      .type     { color: #4ec9b0; }
+      .string   { color: #ce9178; }
+      .comment  { color: #6a9955; font-style: italic; }
+      .function { color: #dcdcaa; }
+      .builtin  { color: #c586c0; }
+      .pp       { color: #c586c0; } 
+      .number   { color: #b5cea8; }
+      .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+      .dropdown-content.open { max-height: 500px; }
+      .content-section { display: none; }
+      .content-section.active { display: block; }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans flex flex-col min-h-screen w-full overflow-x-hidden">
+
+    <header class="bg-blue-700 text-white shadow-lg w-full">
+      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center w-full">
+        
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fas fa-code text-2xl md:text-3xl mr-3"></i>
+            <h1 class="text-xl md:text-2xl font-bold truncate">Referência C#</h1>
+          </div>
+          <button id="btn-menu" class="md:hidden text-white hover:text-blue-200 focus:outline-none text-2xl p-2 ml-2">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 w-full md:w-auto">
+          <div class="relative w-full md:w-auto">
+            <input type="text" placeholder="Pesquisar..."
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-64" />
+            <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search-results"
+              class="absolute left-0 mt-2 w-full bg-white text-gray-800 border border-gray-300 rounded shadow-lg z-50 hidden max-h-60 overflow-y-auto"></div>
+          </div>
+          <a href="../../index.html" class="flex justify-center items-center w-full md:w-auto px-4 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all font-medium" title="Voltar ao menu principal">
+            <i class="fas fa-home mr-2"></i> Voltar
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-full">
+      <div class="flex flex-col md:flex-row flex-1 container mx-auto px-4 py-6 md:py-8 w-full max-w-full">
+
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-[80%] max-w-xs z-50 bg-white p-4 shadow-2xl overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out md:sticky md:top-8 md:h-auto md:max-h-[85vh] md:w-72 md:shrink-0 md:translate-x-0 md:shadow-md md:rounded-lg md:mr-8 md:mb-0 md:z-0">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-700">Sumário</h1>
+            <button id="btn-close-menu" class="md:hidden text-gray-500 hover:text-red-500 p-2">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <nav>
+            <div class="mb-4">
+              <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="introducao" data-explanation="Introdução à linguagem C# e seus conceitos básicos.">
+                <i class="fas fa-play mr-2 ml-2"></i>
+                <span class="flex items-center mr-12">Introdução</span>
+              </a>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="tipos" data-explanation="Tipos de dados em C#.">
+                <i class="fas fa-laptop-code mr-2"></i>
+                <span class="flex items-center">Tipos de Dados</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-tipos" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo inteiro em C#">int</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipos de ponto flutuante em C#">float / double / decimal</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Tipo string em C#">string</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo booleano em C#">bool</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Tipo caractere em C#">char</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="estruturas" data-explanation="Estruturas de dados e coleções em C#.">
+                <i class="fas fa-database mr-2"></i>
+                <span class="flex items-center">Coleções (Collections)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-estruturas" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="List<T> em C#">Lista Dinâmica (List&lt;T&gt;)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Arrays em C#">Array (Vetores)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Dictionary em C#">Dicionário (Dictionary)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="HashSet em C#">Conjuntos (HashSet)</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="entrada-saida" data-explanation="Entrada e saída no Console C#.">
+                <i class="fa fa-exchange mr-2"></i>
+                <span class="flex items-center">Entrada e Saída</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-io" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Console.WriteLine em C#">Console.WriteLine</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Console.ReadLine em C#">Console.ReadLine</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#controle_fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="controle-fluxo" data-explanation="Estruturas de controle de fluxo em C#.">
+                <i class="fas fa-code-branch mr-2"></i>
+                <span class="flex items-center">Controle de Fluxo</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-controle" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Estrutura condicional if/else em C#">if, else if, else</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Laço for e foreach em C#">for / foreach</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Laço while em C#">while / do-while</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Estrutura switch em C#">switch</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="funcoes" data-explanation="Definição e uso de métodos em C#.">
+                <i class="fas fa-cogs mr-2"></i>
+                <span class="flex items-center">Métodos (Funções)</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-funcoes" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de métodos em C#">Definição de Métodos</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Parâmetros out e ref em C#">Parâmetros (ref / out)</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Expressões Lambda e LINQ em C#">Lambdas e LINQ</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno de valores em C#">Retorno</a>
+              </div>
+            </div>
+
+            <div class="mb-4 relative">
+              <a href="#oop" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+                data-section="oop-intro" data-explanation="Programação Orientada a Objetos em C#.">
+                <i class="fas fa-cubes mr-2"></i>
+                <span class="flex items-center">Orientação a Objetos</span>
+                <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+              </a>
+              <div id="dd-oop" class="dropdown-content pl-6 mt-1">
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-classes" data-explanation="Classes e Propriedades em C#">Classes e Propriedades</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-heranca" data-explanation="Herança em C#">Herança</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-polimorfismo" data-explanation="Polimorfismo (virtual/override) em C#">Polimorfismo</a>
+                <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="oop-interfaces" data-explanation="Interfaces em C#">Interfaces</a>
+              </div>
+            </div>
+
+          </nav>
+          
+          <div class="mt-8 border-t pt-4 pb-12 md:pb-4">
+              <h3 class="font-bold mb-2 text-gray-800">Recursos Úteis</h3>
+              <ul class="space-y-2">
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="documentacao" data-explanation="Links para leitura recomendada e recursos adicionais.">
+                    <i class="fas fa-external-link-alt mr-2 text-xs"></i>Leitura Recomendada
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="tutoriais" data-explanation="Links para tutoriais e guias práticos.">
+                    <i class="fas fa-book-open mr-2 text-xs"></i>Tutoriais
+                  </a>
+                </li>
+              </ul>
+          </div>
+        </div>
+
+        <div id="content" class="flex flex-col flex-1 min-w-0 w-full overflow-hidden">
+          <div id="explanation" class="w-full break-words"></div>
+        </div>
+      </div>
+    </main>
+
+    <template id="tpl-introducao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Introdução ao C#</h2>
+        </div>
+        <p class="text-gray-700 mb-4">
+          O <strong>C#</strong> (lê-se "C Sharp") é uma linguagem de programação moderna, orientada a objetos e fortemente tipada, desenvolvida pela Microsoft no início dos anos 2000 (liderada por Anders Hejlsberg). Ela foi projetada para a plataforma <strong>.NET</strong>.
+        </p>
+        <p class="text-gray-700 mb-4">
+          É amplamente utilizada no desenvolvimento de aplicações corporativas, APIs web (ASP.NET Core), desenvolvimento de jogos (Unity) e aplicativos móveis/desktop (MAUI, WPF). O código C# é compilado para uma linguagem intermediária (IL) e executado pela CLR (Common Language Runtime).
+        </p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">using</span> <span class="type">System</span>;
+
+<span class="keyword">namespace</span> <span class="type">MeuPrograma</span>
+{
+    <span class="keyword">class</span> <span class="type">Program</span>
+    {
+        <span class="keyword">static void</span> <span class="function">Main</span>(<span class="type">string</span>[] args)
+        {
+            <span class="comment">// Meu primeiro programa em C#</span>
+            <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Olá, mundo!"</span>);
+
+            <span class="type">string</span> linguagem = <span class="string">"C#"</span>;
+            <span class="type">int</span> versao = <span class="number">12</span>;
+            
+            <span class="comment">// Interpolação de string (usando o símbolo $)</span>
+            <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">$"Bem-vindo ao {linguagem} versão {versao}!"</span>);
+        }
+    }
+}</pre>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-4">
+          <div class="flex">
+            <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+            <div>
+              <h4 class="text-sm font-medium text-blue-800">Características principais</h4>
+              <ul class="mt-1 text-sm text-blue-700 list-disc list-inside">
+                <li>desenvolvida pela Microsoft</li>
+                <li>linguagem de programação orientada a objetos</li>
+                <li>Multiplataforma</li>
+                <li>Pode ser usado para fazer aplicações corporativas, APIs web e jogos</li>
+                <li>componentes do ecossistema .NET</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipos">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-laptop-code text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tipos de Dados</h2>
+        </div>
+        <p class="text-gray-700 mb-4">No C#, os tipos são categorizados principalmente em <strong>Tipos de Valor (Value Types)</strong>, que armazenam os dados diretamente na memória (como `int` e `bool`), e <strong>Tipos de Referência (Reference Types)</strong>, que armazenam uma referência ao local da memória (como `string` ou classes customizadas).</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> quantidade = <span class="number">42</span>;
+<span class="type">double</span> preco = <span class="number">19.99</span>;
+<span class="type">string</span> nome = <span class="string">"Produto A"</span>;
+<span class="type">bool</span> ativo = <span class="keyword">true</span>;
+<span class="type">char</span> letra = <span class="string">'X'</span>;
+
+<span class="comment">// C# possui inferência de tipo utilizando 'var'</span>
+<span class="comment">// O compilador define automaticamente o tipo com base no valor atribuído</span>
+<span class="keyword">var</span> idade = <span class="number">25</span>;       <span class="comment">// Compilado como int</span>
+<span class="keyword">var</span> taxa = <span class="number">1.5</span>;       <span class="comment">// Compilado como double</span>
+<span class="keyword">var</span> saudacao = <span class="string">"Oi"</span>;  <span class="comment">// Compilado como string</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-int">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-hashtag text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">int e long: Inteiros</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O tipo <code>int</code> armazena números inteiros de 32 bits (até ~2 bilhões). Se precisar de números maiores, utilize <code>long</code> (64 bits), indicando-o com o sufixo <code>L</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> a = <span class="number">10</span>;
+<span class="type">int</span> b = <span class="number">3</span>;
+<span class="type">long</span> populacao = <span class="number">8000000000L</span>;
+
+<span class="type">Console</span>.<span class="function">WriteLine</span>(a + b); <span class="comment">// 13</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(a / b); <span class="comment">// 3 (Divisão inteira, descarta o resto)</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(a % b); <span class="comment">// 1 (Operador de módulo, pega o resto)</span>
+
+<span class="comment">// Underlines para facilitar a leitura de números longos (C# 7.0+)</span>
+<span class="type">int</span> milhao = <span class="number">1_000_000</span>;</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-float">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-dot-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Ponto Flutuante (double, float, decimal)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O C# possui 3 tipos principais para lidar com decimais. O <code>double</code> é o padrão matemático. O <code>float</code> ocupa menos memória (exige sufixo <code>f</code>). O <code>decimal</code> tem altíssima precisão de base 10 (exige sufixo <code>m</code>) e é o <strong>padrão absoluto da indústria para trabalhar com dinheiro/finanças</strong>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">double</span> pi = <span class="number">3.1415926535</span>;
+<span class="type">float</span> gravidade = <span class="number">9.81f</span>;      <span class="comment">// 'f' para float</span>
+<span class="type">decimal</span> saldo = <span class="number">1500.50m</span>;     <span class="comment">// 'm' para decimal (Money)</span>
+
+<span class="comment">// Classe Math integrada no namespace System</span>
+<span class="type">double</span> raiz = <span class="type">Math</span>.<span class="function">Sqrt</span>(<span class="number">25</span>);  <span class="comment">// 5</span>
+<span class="type">double</span> elevado = <span class="type">Math</span>.<span class="function">Pow</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 8</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-string">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-font text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">string: Textos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe <code>string</code> (alias de <code>System.String</code>) é um tipo de referência imutável usado para armazenar sequências de caracteres. C# é poderoso para manipulação de textos através de métodos integrados e interpolação.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">string</span> primeiro = <span class="string">"C#"</span>;
+<span class="type">string</span> segundo = <span class="string">"é incrível"</span>;
+
+<span class="comment">// Interpolação de string com $</span>
+<span class="type">string</span> frase = <span class="string">$"{primeiro} {segundo}!"</span>; 
+<span class="type">Console</span>.<span class="function">WriteLine</span>(frase); <span class="comment">// "C# é incrível!"</span>
+
+<span class="comment">// Propriedades e Métodos comuns</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(frase.Length);              <span class="comment">// Tamanho</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(frase.<span class="function">ToUpper</span>());           <span class="comment">// "C# É INCRÍVEL!"</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(frase.<span class="function">Contains</span>(<span class="string">"incrível"</span>)); <span class="comment">// True</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(frase.<span class="function">Replace</span>(<span class="string">"C#"</span>, <span class="string">".NET"</span>)); <span class="comment">// ".NET é incrível!"</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-bool">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-toggle-on text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">bool: Lógicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O tipo <code>bool</code> assume apenas dois valores possíveis: <code>true</code> (verdadeiro) ou <code>false</code> (falso). É o pilar de todas as estruturas condicionais.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">bool</span> ehMaiorDeIdade = <span class="keyword">true</span>;
+<span class="type">bool</span> temCNH = <span class="keyword">false</span>;
+
+<span class="comment">// Operadores lógicos: && (E), || (OU), ! (NÃO)</span>
+<span class="type">bool</span> podeDirigir = ehMaiorDeIdade && temCNH; <span class="comment">// false</span>
+<span class="type">bool</span> inverter = !ehMaiorDeIdade;             <span class="comment">// false</span>
+
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="number">10</span> > <span class="number">5</span>); <span class="comment">// true</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-tipo-char">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-ban text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">char: Caracteres Únicos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O tipo <code>char</code> armazena um único caractere Unicode em 16 bits. É delimitado estritamente por aspas simples (<code>' '</code>). Diferente do C++, no C# o char não se converte silenciosamente para int sem um cast explícito em certas operações.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">char</span> letra = <span class="string">'A'</span>;
+<span class="type">char</span> digito = <span class="string">'7'</span>;
+
+<span class="comment">// O struct Char possui métodos úteis</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="type">char</span>.<span class="function">IsDigit</span>(digito)); <span class="comment">// True</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="type">char</span>.<span class="function">IsLetter</span>(letra)); <span class="comment">// True</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="type">char</span>.<span class="function">ToLower</span>(letra));  <span class="comment">// 'a'</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-estruturas">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-database text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados (Coleções)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A plataforma .NET oferece o namespace <code>System.Collections.Generic</code>. Diferente dos vetores arcaicos, as coleções genéricas em C# exigem que você defina o tipo de objeto entre os sinais de menor e maior <code>&lt;T&gt;</code>, o que garante a segurança de tipos no momento da compilação.</p>
+      </div>
+    </template>
+
+    <template id="tpl-vector">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Lista Dinâmica (List&lt;T&gt;)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe <code>List&lt;T&gt;</code> é o equivalente do <code>std::vector</code> do C++ ou <code>ArrayList</code> do Java. É a coleção mais utilizada no dia a dia por ser dinâmica, crescendo ou diminuindo automaticamente conforme elementos são adicionados ou removidos.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">using</span> <span class="type">System.Collections.Generic</span>;
+
+<span class="comment">// Instanciando uma lista de inteiros</span>
+<span class="type">List</span>&lt;<span class="type">int</span>&gt; numeros = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">int</span>&gt;();
+
+<span class="comment">// Adicionando elementos</span>
+numeros.<span class="function">Add</span>(<span class="number">10</span>);
+numeros.<span class="function">Add</span>(<span class="number">20</span>);
+numeros.<span class="function">Add</span>(<span class="number">30</span>);
+
+<span class="comment">// Acessando (Índices começam em 0)</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(numeros[<span class="number">0</span>]); <span class="comment">// 10</span>
+
+<span class="comment">// Removendo o valor 20 da lista</span>
+numeros.<span class="function">Remove</span>(<span class="number">20</span>);
+
+<span class="comment">// Tamanho da lista dinamicamente atualizado</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(numeros.Count); <span class="comment">// 2</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-array">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-lock text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Arrays (Vetores Fixos)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Arrays em C# têm um tamanho fixo definido no momento da sua criação. Não é possível adicionar mais itens do que o limite estipulado, o que os torna muito rápidos e eficientes em termos de memória quando se sabe o volume de dados antecipadamente.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Declarando um array de 5 posições</span>
+<span class="type">int</span>[] notas = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];
+notas[<span class="number">0</span>] = <span class="number">85</span>;
+notas[<span class="number">1</span>] = <span class="number">90</span>;
+
+<span class="comment">// Inicialização direta</span>
+<span class="type">string</span>[] nomes = { <span class="string">"Ana"</span>, <span class="string">"Carlos"</span>, <span class="string">"Beatriz"</span> };
+
+<span class="comment">// Propriedade para pegar o tamanho</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(nomes.Length); <span class="comment">// 3</span>
+
+<span class="comment">// Arrays Multidimensionais (Matrizes) e Jagged Arrays (Arrays de Arrays)</span>
+<span class="type">int</span>[,] matriz2D = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">3</span>, <span class="number">3</span>];
+matriz2D[<span class="number">0</span>, <span class="number">0</span>] = <span class="number">1</span>;</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-map">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Dicionário (Dictionary&lt;TKey, TValue&gt;)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O <code>Dictionary</code> permite mapear uma "Chave" única para um "Valor". Operando internamente como uma Tabela Hash, a busca por um elemento pela chave é quase instantânea (O(1)).</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">using</span> <span class="type">System.Collections.Generic</span>;
+
+<span class="comment">// Chave será string, Valor será int</span>
+<span class="type">Dictionary</span>&lt;<span class="type">string</span>, <span class="type">int</span>&gt; idades = <span class="keyword">new</span> <span class="type">Dictionary</span>&lt;<span class="type">string</span>, <span class="type">int</span>&gt;();
+
+<span class="comment">// Adicionando elementos</span>
+idades.<span class="function">Add</span>(<span class="string">"Lucas"</span>, <span class="number">28</span>);
+idades[<span class="string">"Maria"</span>] = <span class="number">30</span>; <span class="comment">// Sintaxe alternativa (insere ou atualiza)</span>
+
+<span class="comment">// Lendo dados</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(idades[<span class="string">"Lucas"</span>]); <span class="comment">// 28</span>
+
+<span class="comment">// Prevenindo exceções ao checar se a chave existe antes</span>
+<span class="keyword">if</span> (idades.<span class="function">ContainsKey</span>(<span class="string">"João"</span>)) {
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(idades[<span class="string">"João"</span>]);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-set">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-circle-notch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Conjuntos (HashSet&lt;T&gt;)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Um <code>HashSet</code> é uma coleção de itens que <strong>não permite valores duplicados</strong> e que não garante ordenação. É a estrutura mais rápida para verificar se um determinado item já existe dentro do grupo.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">using</span> <span class="type">System.Collections.Generic</span>;
+
+<span class="type">HashSet</span>&lt;<span class="type">string</span>&gt; cpfsCadastrados = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;<span class="type">string</span>&gt;();
+
+cpfsCadastrados.<span class="function">Add</span>(<span class="string">"111.111.111-11"</span>);
+<span class="type">bool</span> adicionouDnv = cpfsCadastrados.<span class="function">Add</span>(<span class="string">"111.111.111-11"</span>); 
+
+<span class="comment">// A segunda tentativa é simplesmente ignorada (retorna false)</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>(adicionouDnv); <span class="comment">// False</span>
+
+<span class="comment">// Verificação rápida (O(1))</span>
+<span class="type">bool</span> existe = cpfsCadastrados.<span class="function">Contains</span>(<span class="string">"111.111.111-11"</span>); <span class="comment">// True</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entrada-saida">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída (I/O) no Terminal</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A classe estática <code>Console</code> presente no namespace <code>System</code> domina a comunicação por texto em C#. A sintaxe é incrivelmente direta em comparação a linguagens mais arcaicas.</p>
+      </div>
+    </template>
+
+    <template id="tpl-cout">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-print text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Console.WriteLine (Saída de Dados)</h2>
+        </div>
+        <p class="text-gray-700 mb-4"><code>Console.WriteLine</code> imprime o texto na tela e salta para a próxima linha. <code>Console.Write</code> imprime sem pular linha.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">string</span> nome = <span class="string">"C#"</span>;
+<span class="type">int</span> idade = <span class="number">24</span>;
+
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Exibindo texto básico com quebra de linha."</span>);
+<span class="type">Console</span>.<span class="function">Write</span>(<span class="string">"Este texto "</span>);
+<span class="type">Console</span>.<span class="function">Write</span>(<span class="string">"continua na mesma linha."</span>);
+
+<span class="comment">// Interpolação de Strings ($) é a forma favorita da comunidade hoje:</span>
+<span class="type">Console</span>.<span class="function">WriteLine</span>();
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">$"O {nome} tem {idade} anos de existência."</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cin">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-keyboard text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Console.ReadLine (Entrada de Dados)</h2>
+        </div>
+        <p class="text-gray-700 mb-4"><code>Console.ReadLine()</code> pausa a execução e lê a entrada do teclado do usuário até que ele pressione a tecla 'Enter'. <strong>Atenção:</strong> Esta função retorna sempre uma <code>string</code>. Se você quer capturar um número, precisa "Parsear" a string para int/double.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">Console</span>.<span class="function">Write</span>(<span class="string">"Digite seu nome: "</span>);
+<span class="type">string</span> entradaNome = <span class="type">Console</span>.<span class="function">ReadLine</span>();
+
+<span class="type">Console</span>.<span class="function">Write</span>(<span class="string">"Digite sua idade: "</span>);
+<span class="type">string</span> entradaIdade = <span class="type">Console</span>.<span class="function">ReadLine</span>();
+
+<span class="comment">// Conversão (Parse) da string para um tipo numérico real</span>
+<span class="type">int</span> idade = <span class="type">int</span>.<span class="function">Parse</span>(entradaIdade);
+
+<span class="comment">// Forma mais segura de conversão (evita crash do programa se o user digitar letras):</span>
+<span class="comment">// int.TryParse(entradaIdade, out int idadeSegura);</span>
+
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">$"Bem-vindo {entradaNome}! Ano que vem você terá {idade + 1} anos."</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-controle-fluxo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A linguagem C# herda a sintaxe da linguagem C, baseada em blocos definidos por chaves `{ }`. Suas estruturas condicionais são sólidas e dependem estritamente da avaliação de booleanos.</p>
+      </div>
+    </template>
+
+    <template id="tpl-if-else">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-question-circle text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">if / else if / else</h2>
+        </div>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> nota = <span class="number">75</span>;
+
+<span class="keyword">if</span> (nota >= <span class="number">70</span>) 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Aprovado"</span>);
+} 
+<span class="keyword">else if</span> (nota >= <span class="number">50</span>) 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Recuperação"</span>);
+} 
+<span class="keyword">else</span> 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Reprovado"</span>);
+}
+
+<span class="comment">// Operador Ternário (If em uma linha)</span>
+<span class="type">string</span> resultado = (nota >= <span class="number">70</span>) ? <span class="string">"Passou"</span> : <span class="string">"Falhou"</span>;</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-for">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-redo text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Laços: for e foreach</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O C# possui o clássico <code>for</code> e um prático <code>foreach</code>, especializado em extrair automaticamente itens de arrays ou Listas um por um, simplificando radicalmente o código de iteração.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Conta de 0 até 4</span>
+<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) 
+{
+    <span class="type">Console</span>.<span class="function">Write</span>(i + <span class="string">" "</span>);
+}
+<span class="type">Console</span>.<span class="function">WriteLine</span>();
+
+<span class="type">string</span>[] nomes = { <span class="string">"João"</span>, <span class="string">"Maria"</span>, <span class="string">"Pedro"</span> };
+
+<span class="comment">// Laço Foreach: "Para cada 'nome' dentro do array 'nomes'..."</span>
+<span class="keyword">foreach</span> (<span class="type">string</span> nome <span class="keyword">in</span> nomes) 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(nome);
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-while">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sync text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while / do-while</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Utilizados enquanto uma condição continuar sendo verdadeira.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> contador = <span class="number">0</span>;
+
+<span class="keyword">while</span> (contador &lt; <span class="number">3</span>) 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Processando..."</span>);
+    contador++;
+}
+
+<span class="comment">// Executa o bloco obrigatoriamente 1 vez, só depois faz a checagem</span>
+<span class="keyword">do</span> 
+{
+    <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Isto vai aparecer no terminal"</span>);
+} <span class="keyword">while</span> (<span class="keyword">false</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-switch">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-list-ol text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">switch (Instruções e Expressões)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Em C#, o <code>switch</code> requer obrigatoriamente um <code>break</code> para evitar o vazamento entre os casos. O C# 8.0 introduziu as "Switch Expressions" que encurtam a lógica violentamente para retornar valores diretamente.</p>
+        <div class="code-block mb-4">
+          <pre><span class="type">int</span> dia = <span class="number">2</span>;
+
+<span class="comment">// Switch Tradicional</span>
+<span class="keyword">switch</span> (dia) 
+{
+    <span class="keyword">case</span> <span class="number">1</span>:
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Domingo"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Segunda"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Outro"</span>);
+        <span class="keyword">break</span>; <span class="comment">// O default também exige break no C#</span>
+}
+
+<span class="comment">// Switch Expression (C# 8+) - Atribuição direta e limpa</span>
+<span class="type">string</span> nomeDoDia = dia <span class="keyword">switch</span>
+{
+    <span class="number">1</span> =&gt; <span class="string">"Domingo"</span>,
+    <span class="number">2</span> =&gt; <span class="string">"Segunda"</span>,
+    _ =&gt; <span class="string">"Outro"</span> <span class="comment">// O _ representa o default</span>
+};</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-funcoes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Métodos em C#</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Como o C# é puramente orientado a objetos, as funções globais não existem; elas sempre pertencem a alguma Classe (ou Struct), por isso recebem o nome de <strong>Métodos</strong>.</p>
+      </div>
+    </template>
+
+    <template id="tpl-def">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plus-square text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Definição de Métodos</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Os métodos contêm um modificador de acesso (<code>public</code>, <code>private</code>), o tipo de retorno, o nome (em formato PascalCase) e os parênteses com os parâmetros. O modificador <code>static</code> significa que o método pertence à própria classe e não a um objeto instanciado.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">class</span> <span class="type">Calculadora</span> 
+{
+    <span class="comment">// Método que não retorna nada (void)</span>
+    <span class="keyword">public static void</span> <span class="function">ExibirMensagem</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Calculadora Iniciada!"</span>);
+    }
+}
+
+<span class="comment">// Como usá-lo:</span>
+<span class="type">Calculadora</span>.<span class="function">ExibirMensagem</span>();</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-parametros">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-arrow-right text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Parâmetros (Por Valor e Referência)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Tipos primitivos no C# são passados por "Valor" (cópia de gaveta de memória). Se você precisar que um método modifique diretamente a variável original informada (Passagem por Referência), o C# abandona os ponteiros confusos de C/C++ e utiliza as palavras-chave explícitas <code>ref</code> e <code>out</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// ref exige que a variável já tenha sido inicializada</span>
+<span class="keyword">public static void</span> <span class="function">DobrarValor</span>(<span class="keyword">ref int</span> numero) 
+{
+    numero = numero * <span class="number">2</span>;
+}
+
+<span class="comment">// out exige que o método preencha o valor da variável antes de retornar</span>
+<span class="keyword">public static void</span> <span class="function">ObterCoordenadas</span>(<span class="keyword">out int</span> x, <span class="keyword">out int</span> y) 
+{
+    x = <span class="number">10</span>;
+    y = <span class="number">20</span>;
+}
+
+<span class="comment">// Execução:</span>
+<span class="type">int</span> minhaIdade = <span class="number">30</span>;
+<span class="function">DobrarValor</span>(<span class="keyword">ref</span> minhaIdade);
+<span class="type">Console</span>.<span class="function">WriteLine</span>(minhaIdade); <span class="comment">// Imprime 60</span>
+
+<span class="function">ObterCoordenadas</span>(<span class="keyword">out int</span> finalX, <span class="keyword">out int</span> finalY);
+<span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">$"Posição: {finalX}, {finalY}"</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-lambda">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Expressões Lambda e LINQ</h2>
+        </div>
+        <p class="text-gray-700 mb-4">As Lambdas em C# utilizam o operador de flecha espessa <code>=&gt;</code> (lê-se "vai para"). Elas são a base do poderoso sistema <strong>LINQ (Language Integrated Query)</strong>, que permite manipular coleções no código C# com comandos semelhantes a banco de dados.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">using</span> <span class="type">System</span>;
+<span class="keyword">using</span> <span class="type">System.Linq</span>;
+<span class="keyword">using</span> <span class="type">System.Collections.Generic</span>;
+
+<span class="type">List</span>&lt;<span class="type">int</span>&gt; numeros = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">int</span>&gt; { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span> };
+
+<span class="comment">// LINQ combinada com Lambdas: Filtra e eleva ao quadrado numa linha só</span>
+<span class="keyword">var</span> quadradosDosPares = numeros
+    .<span class="function">Where</span>(n =&gt; n % <span class="number">2</span> == <span class="number">0</span>)  <span class="comment">// Somente os pares (2, 4, 6)</span>
+    .<span class="function">Select</span>(n =&gt; n * n)      <span class="comment">// Multiplica os filtrados por si (4, 16, 36)</span>
+    .<span class="function">ToList</span>();</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-retorno">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-undo-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Retorno de Valores</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Para devolver dados o método deve usar o comando <code>return</code>, compatível com o tipo de dado explicitado em sua criação.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public static</span> <span class="type">int</span> <span class="function">Somar</span>(<span class="type">int</span> x, <span class="type">int</span> y) 
+{
+    <span class="keyword">return</span> x + y;
+}
+
+<span class="comment">// Se o método possuir apenas 1 linha de retorno, o C# permite</span>
+<span class="comment">// o Expression-Bodied Members para economizar blocos de chaves:</span>
+<span class="keyword">public static int</span> <span class="function">Subtrair</span>(<span class="type">int</span> x, <span class="type">int</span> y) =&gt; x - y;
+
+<span class="comment">// Uso:</span>
+<span class="type">int</span> total = <span class="function">Somar</span>(<span class="number">10</span>, <span class="number">5</span>);</pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-intro">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-cubes text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Programação Orientada a Objetos (POO)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A POO é um paradigma essencial no C#. Onde o código procedimental trabalha solto escrevendo funções para interagir com variáveis, a POO encapsula Dados (Propriedades) e Comportamentos (Métodos) em pacotes únicos chamados <strong>Classes</strong> e instancia esses pacotes na memória sob a forma de <strong>Objetos</strong>.</p>
+        <p class="text-gray-700">Seus pilares fundamentais são a Abstração, o Encapsulamento, a Herança e o Polimorfismo.</p>
+      </div>
+    </template>
+
+    <template id="tpl-oop-classes">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-building text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Classes e Propriedades Automáticas</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O C# modernizou violentamente o encapsulamento. Diferente de outras linguagens que exigem escrever `GetNome()` e `SetNome()` à exaustão manualmente para esconder uma variável, o C# utiliza o poder das <strong>Properties (Propriedades)</strong> com sintaxe `get; set;`.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Pessoa</span> 
+{
+    <span class="comment">// Propriedade Automática: o C# esconde os dados por baixo dos panos</span>
+    <span class="keyword">public string</span> Nome { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    
+    <span class="comment">// Propriedade que permite leitura pública, mas escrita restrita (private)</span>
+    <span class="keyword">public int</span> Idade { <span class="keyword">get</span>; <span class="keyword">private set</span>; }
+
+    <span class="comment">// Construtor (Roda ao dar 'new')</span>
+    <span class="keyword">public</span> <span class="function">Pessoa</span>(<span class="type">string</span> nome, <span class="type">int</span> idadeInicial) 
+    {
+        Nome = nome;
+        Idade = idadeInicial;
+    }
+
+    <span class="keyword">public void</span> <span class="function">FazerAniversario</span>() 
+    {
+        Idade++; <span class="comment">// Permitido, pois o método pertence à própria classe</span>
+    }
+}
+
+<span class="comment">// Na hora de usar (Instanciando o Objeto na memória):</span>
+<span class="type">Pessoa</span> p = <span class="keyword">new</span> <span class="type">Pessoa</span>(<span class="string">"Lucas"</span>, <span class="number">25</span>);
+p.Nome = <span class="string">"João"</span>;         <span class="comment">// Sucesso (set é público)</span>
+<span class="comment">// p.Idade = 30;         // ERRO: O set é private! Encapsulado com sucesso.</span>
+p.<span class="function">FazerAniversario</span>();    <span class="comment">// Passa para 26</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-heranca">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sitemap text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Herança (Classe base/Classe derivada)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">A herança permite que uma classe herde os campos, propriedades e métodos de outra classe pai. Em C#, utilizamos o símbolo de dois pontos (<code>:</code>) para herdar, eliminando reutilização desnecessária de código. O C# suporta apenas herança de classes simples (uma classe só pode ter uma única classe Pai).</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Veiculo</span> 
+{
+    <span class="keyword">public string</span> Marca { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    
+    <span class="keyword">public void</span> <span class="function">Buzinar</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"Bi bi!"</span>);
+    }
+}
+
+<span class="comment">// Carro "é um" Veiculo. Herda de Veiculo através do ':'</span>
+<span class="keyword">public class</span> <span class="type">Carro</span> : <span class="type">Veiculo</span> 
+{
+    <span class="keyword">public string</span> Modelo { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+
+<span class="comment">// Uso:</span>
+<span class="type">Carro</span> meuCarro = <span class="keyword">new</span> <span class="type">Carro</span>();
+meuCarro.Marca = <span class="string">"Ford"</span>;   <span class="comment">// Propriedade vinda do Pai (Veiculo)</span>
+meuCarro.Modelo = <span class="string">"Mustang"</span>; <span class="comment">// Propriedade do Filho</span>
+meuCarro.<span class="function">Buzinar</span>();        <span class="comment">// Método vindo do Pai</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-polimorfismo">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-random text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Polimorfismo (virtual / override)</h2>
+        </div>
+        <p class="text-gray-700 mb-4">O Polimorfismo permite que classes derivadas forneçam a sua própria versão de execução para um método do Pai. Em C#, a classe Pai autoriza isso sinalizando o método com <code>virtual</code>, e o Filho substitui esse comportamento usando <code>override</code>.</p>
+        <div class="code-block mb-4">
+          <pre><span class="keyword">public class</span> <span class="type">Animal</span> 
+{
+    <span class="comment">// O 'virtual' diz: "Meus filhos podem reescrever isto se quiserem."</span>
+    <span class="keyword">public virtual void</span> <span class="function">EmitirSom</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"O animal faz um som."</span>);
+    }
+}
+
+<span class="keyword">public class</span> <span class="type">Cachorro</span> : <span class="type">Animal</span> 
+{
+    <span class="comment">// O 'override' diz: "Vou ignorar a regra do Pai e ditar uma regra nova para cães."</span>
+    <span class="keyword">public override void</span> <span class="function">EmitirSom</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"O cachorro late: Au au!"</span>);
+    }
+}
+
+<span class="type">Animal</span> meuPet = <span class="keyword">new</span> <span class="type">Cachorro</span>(); 
+meuPet.<span class="function">EmitirSom</span>(); <span class="comment">// Vai imprimir o latido, não a mensagem base do animal genérico.</span></pre>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-oop-interfaces">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-plug text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Interfaces</h2>
+        </div>
+        <p class="text-gray-700 mb-4">Uma <code>interface</code> age puramente como um "contrato". Ela define os comportamentos que as classes deverão ter, sem escrever o código que faz a ação em si. Diferente de classes base, você <strong>pode implementar múltiplas interfaces em uma única classe</strong>. Por convenção, todas começam com a letra "I".</p>
+        <div class="code-block mb-4">
+          <pre><span class="comment">// Contrato ditando que quem assinar isso deverá voar</span>
+<span class="keyword">public interface</span> <span class="type">IVoador</span> 
+{
+    <span class="keyword">void</span> <span class="function">Voar</span>();
+}
+
+<span class="comment">// Contrato ditando que quem assinar isso deverá nadar</span>
+<span class="keyword">public interface</span> <span class="type">INadador</span>
+{
+    <span class="keyword">void</span> <span class="function">Nadar</span>();
+}
+
+<span class="comment">// O Pato implementa múltiplos comportamentos separando por vírgula</span>
+<span class="keyword">public class</span> <span class="type">Pato</span> : <span class="type">IVoador</span>, <span class="type">INadador</span> 
+{
+    <span class="keyword">public void</span> <span class="function">Voar</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"O pato voa desajeitadamente."</span>);
+    }
+
+    <span class="keyword">public void</span> <span class="function">Nadar</span>() 
+    {
+        <span class="type">Console</span>.<span class="function">WriteLine</span>(<span class="string">"O pato flutua e nada."</span>);
+    }
+}</pre>
+        </div>
+      </div>
+    </template>
+
+    <footer class="mt-auto border-t pt-8 text-center text-gray-600 text-sm pb-6">
+      <p>© 2026 Referência da Linguagem C#. Todos os direitos reservados.</p>
+      <p class="mt-2">Este site é apenas para fins educacionais.</p>
+      <p class="mt-2 font-semibold text-blue-700">Lucas Fernandes &amp; David Delgado &amp; Cauê Shishido</p>
+      <div class="flex justify-center space-x-4 mt-4">
+        <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+      </div>
+    </footer>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const templates = {};
+        document.querySelectorAll("template").forEach((t) => {
+          templates[t.id.replace("tpl-", "")] = t.innerHTML;
+        });
+
+        const contentDiv = document.getElementById("explanation");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchResults = document.getElementById("search-results");
+        
+        // Elementos do Menu Hamburguer
+        const btnMenu = document.getElementById("btn-menu");
+        const btnCloseMenu = document.getElementById("btn-close-menu");
+        const sidebar = document.getElementById("sidebar");
+
+        // NOVO: Lógica do botão hamburguer para puxar a gaveta lateral
+        if (btnMenu && sidebar) {
+            btnMenu.addEventListener("click", () => {
+                sidebar.classList.remove("-translate-x-full");
+            });
+        }
+
+        // NOVO: Lógica para o botão fechar do sumário esconder a gaveta lateral
+        if (btnCloseMenu && sidebar) {
+            btnCloseMenu.addEventListener("click", () => {
+                sidebar.classList.add("-translate-x-full");
+            });
+        }
+
+        function loadSection(sectionId) {
+          if (templates[sectionId]) {
+            contentDiv.innerHTML = templates[sectionId];
+            navLinks.forEach((link) => link.classList.remove("bg-blue-100", "font-bold"));
+            const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+            if (activeLink) activeLink.classList.add("bg-blue-100", "font-bold");
+            localStorage.setItem("activeSectionId", sectionId);
+          }
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            loadSection(link.dataset.section);
+            // Fechar sidebar no Android logo após clicar em uma opção
+            if (window.innerWidth < 768) {
+                sidebar.classList.add("-translate-x-full");
+            }
+          });
+        });
+
+        dropdownBtns.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector(".fa-chevron-right");
+            content.classList.toggle("open");
+            if (content.classList.contains("open")) {
+              icon.style.transform = "rotate(90deg)";
+            } else {
+              icon.style.transform = "rotate(0deg)";
+            }
+          });
+        });
+
+        searchInput.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          searchResults.innerHTML = "";
+          
+          if (query.length > 1) {
+            navLinks.forEach((link) => {
+              const text = link.textContent.toLowerCase();
+              const explanation = link.dataset.explanation ? link.dataset.explanation.toLowerCase() : "";
+              if (text.includes(query) || explanation.includes(query)) {
+                const div = document.createElement("div");
+                div.className = "p-2 hover:bg-gray-100 cursor-pointer";
+                div.textContent = link.textContent;
+                div.addEventListener("click", () => {
+                  loadSection(link.dataset.section);
+                  searchResults.classList.add("hidden");
+                  searchInput.value = "";
+                  if (window.innerWidth < 768) {
+                      sidebar.classList.add("-translate-x-full");
+                  }
+                });
+                searchResults.appendChild(div);
+              }
+            });
+            searchResults.classList.remove("hidden");
+          } else {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add("hidden");
+          }
+        });
+
+        const lastSection = localStorage.getItem("activeSectionId");
+        const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
+
+        const parentDropdownMap = {
+          "tipo-int": "dd-tipos", "tipo-float": "dd-tipos", "tipo-string": "dd-tipos",
+          "tipo-bool": "dd-tipos", "tipo-char": "dd-tipos",
+          "vector": "dd-estruturas", "array": "dd-estruturas", "map": "dd-estruturas", "set": "dd-estruturas",
+          "cout": "dd-io", "cin": "dd-io",
+          "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
+          "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
+          "oop-classes": "dd-oop", "oop-heranca": "dd-oop", "oop-polimorfismo": "dd-oop", "oop-interfaces": "dd-oop",
+        };
+
+        const parentId = parentDropdownMap[sectionToLoad];
+        if (parentId) {
+          const dd = document.getElementById(parentId);
+          if (dd) {
+            dd.classList.add("open");
+            const btn = dd.previousElementSibling;
+            if (btn) {
+              const icon = btn.querySelector(".fa-chevron-right");
+              if (icon) icon.style.transform = "rotate(90deg)";
+            }
+          }
+        }
+
+        loadSection(sectionToLoad);
+      });
+    </script>
+  </body>
+</html>
