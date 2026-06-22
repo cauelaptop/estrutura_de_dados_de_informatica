@@ -10,7 +10,7 @@ body {
 }
 
 .site-header {
-    background-color: #2563eb;
+    background-color: #33373f;
     color: #ffffff;
     padding: 1.25rem 0;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
@@ -168,14 +168,14 @@ body {
     font-weight: 600;
     font-size: 0.95rem;
     color: #ffffff;
-    background: #2563eb;
+    background: #33373f;
     border: 1px solid transparent;
     transition: all 0.25s ease;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }
 
 .menu-button:hover {
-    background: #1d4ed8;
+    background: #33373f;
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
 }
