@@ -30,44 +30,54 @@
       .number   { color: #b5cea8; }
       .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
       .dropdown-content.open { max-height: 500px; }
-      .content-section { display: none; }
-      .content-section.active { display: block; }
     </style>
   </head>
   <body class="bg-gray-100 font-sans">
 
     <header class="bg-blue-700 text-white shadow-lg">
       <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center mb-4 md:mb-0">
-          <i class="fas fa-database text-3xl mr-3"></i>
-          <h1 class="text-2xl font-bold">Referência da Linguagem SQL</h1>
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fas fa-database text-3xl mr-3"></i>
+            <h1 class="text-2xl font-bold">Referência da Linguagem SQL</h1>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none" title="Abrir sumário">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
-        <div class="flex items-center space-x-4">
-          <div class="relative">
+        
+        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full md:w-auto">
+          <div class="relative w-full sm:w-64">
             <input type="text" placeholder="Pesquisar..."
-              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
+              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" />
             <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
               <i class="fas fa-search"></i>
             </button>
             <div id="search-results"
-              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden"></div>
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800"></div>
           </div>
+          <a href="../../index.html" class="inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all shrink-0" title="Voltar ao menu principal">
+            <i class="fas fa-home mr-2"></i>
+            Voltar
+          </a>
         </div>
-        <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
-        <i class="fas fa-home mr-2"></i>
-        Voltar
-      </a>
       </div>
     </header>
 
     <main class="flex-1">
       <div class="flex flex-1 container mx-auto px-4 py-8">
 
-        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8">
-          <div class="p-4 border-b border-gray-200">
-            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity"></div>
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-r-lg md:rounded-lg shadow-md p-4 mr-0 md:mr-8 fixed md:sticky top-0 md:top-8 left-0 h-screen md:h-fit z-50 md:z-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto md:overflow-visible">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center md:block md:p-0 md:border-none">
+            <h1 class="text-2xl font-bold md:mb-4 text-blue-700">Sumário</h1>
+            <button id="close-sidebar-btn" class="md:hidden text-gray-500 hover:text-blue-700 text-2xl focus:outline-none">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
           <nav>
+
             <div class="mb-4 mt-4">
               <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="introducao" data-explanation="Introdução à linguagem SQL e seus conceitos básicos.">
@@ -150,35 +160,27 @@
               </div>
             </div>
 
-          <div class="mt-8 border-t pt-4">
+            <div class="mt-8 border-t pt-4">
               <h3 class="font-bold mb-2">Recursos Úteis</h3>
               <ul class="space-y-2">
                 <li>
-                  <a
-                    href="#"
-                    class="nav-link text-sm text-blue-600 hover:underline flex items-center"
-                    data-section="documentacao"
-                    data-explanation="Links para leitura recomendada e recursos adicionais."
-                    ><i class="fas fa-external-link-alt mr-2 text-xs"></i>
-                    Leitura Recomendada</a
-                  >
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="documentacao" data-explanation="Links para leitura recomendada e recursos adicionais.">
+                    <i class="fas fa-external-link-alt mr-2 text-xs"></i>Leitura Recomendada
+                  </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    class="nav-link text-sm text-blue-600 hover:underline flex items-center"
-                    data-section="tutoriais"
-                    data-explanation="Links para tutoriais e guias práticos."
-                    ><i class="fas fa-book-open mr-2 text-xs"></i> Tutoriais</a
-                  >
+                  <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                    data-section="tutoriais" data-explanation="Links para tutoriais e guias práticos.">
+                    <i class="fas fa-book-open mr-2 text-xs"></i>Tutoriais
+                  </a>
                 </li>
               </ul>
             </div>
-
           </nav>
         </div>
 
-          <div id="content" class="flex flex-col flex-1 min-w-0">
+        <div id="content" class="flex flex-col flex-1 min-w-0">
           <div id="explanation"></div>
         </div>
       </div>
@@ -229,7 +231,6 @@
           </div>
 
     </template>
-
     <template id="tpl-tipos">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
@@ -431,7 +432,6 @@
         </div>
       </div>
     </template>
-
     <template id="tpl-entrada-saida">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
@@ -588,7 +588,6 @@
         <p class="text-gray-700 mb-4">Para modularizar e salvar regras de negócios complexas diretamente no servidor de banco de dados, declaramos <code>FUNCTIONS</code> (que retornam valores, permitindo uso num SELECT) ou <code>PROCEDURES</code> (que realizam manipulações pesadas sem necessariamente retornar tabela).</p>
       </div>
     </template>
-
     <template id="tpl-def">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
@@ -696,7 +695,6 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
             </div>
           </footer>
 
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const templates = {};
@@ -709,6 +707,28 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
         const dropdownBtns = document.querySelectorAll(".dropdown-btn");
         const searchInput = document.querySelector('input[type="text"]');
         const searchResults = document.getElementById("search-results");
+
+        // Mobile menu elements
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const closeSidebarBtn = document.getElementById("close-sidebar-btn");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+        function openSidebar() {
+          sidebar.classList.remove("-translate-x-full");
+          sidebarOverlay.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden");
+        }
+
+        function closeSidebar() {
+          sidebar.classList.add("-translate-x-full");
+          sidebarOverlay.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
+        if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
 
         function loadSection(sectionId) {
           if (templates[sectionId]) {
@@ -724,6 +744,9 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
           link.addEventListener("click", (e) => {
             e.preventDefault();
             loadSection(link.dataset.section);
+            if (window.innerWidth < 768) {
+              closeSidebar();
+            }
           });
         });
 
@@ -751,12 +774,15 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
               const explanation = link.dataset.explanation ? link.dataset.explanation.toLowerCase() : "";
               if (text.includes(query) || explanation.includes(query)) {
                 const div = document.createElement("div");
-                div.className = "p-2 hover:bg-gray-100 cursor-pointer";
+                div.className = "p-2 hover:bg-gray-100 cursor-pointer text-gray-800";
                 div.textContent = link.textContent;
                 div.addEventListener("click", () => {
                   loadSection(link.dataset.section);
                   searchResults.classList.add("hidden");
                   searchInput.value = "";
+                  if (window.innerWidth < 768) {
+                    closeSidebar();
+                  }
                 });
                 searchResults.appendChild(div);
               }
@@ -784,7 +810,6 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
           "if-else": "dd-controle", "for": "dd-controle", "while": "dd-controle", "switch": "dd-controle",
           "def": "dd-funcoes", "parametros": "dd-funcoes", "lambda": "dd-funcoes", "retorno": "dd-funcoes",
         };
-
         const parentId = parentDropdownMap[sectionToLoad];
         if (parentId) {
           const dd = document.getElementById(parentId);
@@ -797,9 +822,8 @@ $$ <span class="keyword">LANGUAGE</span> plpgsql;
             }
           }
         }
-
         loadSection(sectionToLoad);
       });
     </script>
   </body>
-</html>
+</html> 
