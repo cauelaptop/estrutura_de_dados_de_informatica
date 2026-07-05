@@ -44,7 +44,7 @@
         </div>
         <div class="flex items-center space-x-4">
           <div class="relative">
-            <input type="text" placeholder="Pesquisar..."
+            <input type="text" placeholder="Pesquisar"
               class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-64" />
             <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
               <i class="fas fa-search"></i>
@@ -52,6 +52,12 @@
             <div id="search-results"
               class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800"></div>
           </div>
+
+          <!-- Hamburger Menu for Mobile -->
+          <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none" title="Abrir sumário">
+            <i class="fas fa-bars"></i>
+          </button>
+
         </div>
         <a href="../../index.html" class="ml-4 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all" title="Voltar ao menu principal">
         <i class="fas fa-home mr-2"></i>
@@ -63,9 +69,15 @@
     <main class="flex-1">
       <div class="flex flex-1 container mx-auto px-4 py-8">
 
-        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8 overflow-y-auto" style="max-height: 85vh;">
-          <div class="p-4 border-b border-gray-200">
+        <!-- Overlay for mobile -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity"></div>
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 fixed md:sticky top-0 md:top-8 left-0 h-screen md:h-fit z-50 md:z-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto md:overflow-visible">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center md:block md:p-0 md:border-none">
             <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+            <button id="btn-close-menu" class="md:hidden text-gray-500 hover:text-red-500 p-2 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
           </div>
           <nav>
             <div class="mb-4 mt-4">
@@ -364,7 +376,6 @@ perfil = <span class="keyword">nil</span>
         </div>
       </div>
     </template>
-
     <template id="tpl-estruturas">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
@@ -964,6 +975,37 @@ meu_jato.decolar</pre>
         if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
           resultsContainer.classList.add("hidden");
         }
+      });
+
+      // ==================== MOBILE MENU ====================
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const closeSidebarBtn = document.getElementById("btn-close-menu");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+      function openSidebar() {
+        if (sidebar) sidebar.classList.remove("-translate-x-full");
+        if (sidebarOverlay) sidebarOverlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      }
+
+      function closeSidebar() {
+        if (sidebar) sidebar.classList.add("-translate-x-full");
+        if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      }
+
+      if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
+      if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+      if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+
+      // Auto-close sidebar when clicking a nav link on mobile
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          if (window.innerWidth < 768) {
+            closeSidebar();
+          }
+        });
       });
 
       const lastSection = localStorage.getItem("activeSectionId");
