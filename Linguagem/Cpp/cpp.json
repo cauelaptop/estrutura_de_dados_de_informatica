@@ -1,0 +1,184 @@
+{
+  "language": "C++",
+  "title": "Estruturas de Dados: Referência da Linguagem C++",
+  "sections": [
+    {
+      "id": "introducao",
+      "title": "Introdução",
+      "type": "single",
+      "icon": "fas fa-play mr-2 ml-2",
+      "explanation": "Introdução à linguagem C++ e seus conceitos básicos."
+    },
+    {
+      "id": "tipos",
+      "title": "Tipos de Dados",
+      "type": "dropdown",
+      "icon": "fas fa-laptop-code mr-2",
+      "explanation": "Tipos de dados em C++.",
+      "children": [
+        {
+          "id": "tipo-int",
+          "title": "int",
+          "type": "single",
+          "explanation": "Tipo inteiro em C++"
+        },
+        {
+          "id": "tipo-float",
+          "title": "float / double",
+          "type": "single",
+          "explanation": "Tipo ponto flutuante em C++"
+        },
+        {
+          "id": "tipo-string",
+          "title": "string",
+          "type": "single",
+          "explanation": "Tipo string em C++"
+        },
+        {
+          "id": "tipo-bool",
+          "title": "bool",
+          "type": "single",
+          "explanation": "Tipo booleano em C++"
+        },
+        {
+          "id": "tipo-char",
+          "title": "char",
+          "type": "single",
+          "explanation": "Tipo caractere em C++"
+        }
+      ]
+    },
+    {
+      "id": "estruturas",
+      "title": "Estruturas de Dados",
+      "type": "dropdown",
+      "icon": "fas fa-database mr-2",
+      "explanation": "Estruturas de dados da STL do C++.",
+      "children": [
+        {
+          "id": "vector",
+          "title": "vector",
+          "type": "single",
+          "explanation": "Vector em C++"
+        },
+        {
+          "id": "array",
+          "title": "array",
+          "type": "single",
+          "explanation": "Array em C++"
+        },
+        {
+          "id": "map",
+          "title": "map / unordered_map",
+          "type": "single",
+          "explanation": "Map em C++"
+        },
+        {
+          "id": "set",
+          "title": "set / unordered_set",
+          "type": "single",
+          "explanation": "Set em C++"
+        }
+      ]
+    },
+    {
+      "id": "entrada-saida",
+      "title": "Entrada e Saída de Dados",
+      "type": "dropdown",
+      "icon": "fa fa-exchange mr-2",
+      "explanation": "Entrada e saída em C++.",
+      "children": [
+        {
+          "id": "cout",
+          "title": "cout",
+          "type": "single",
+          "explanation": "Saída com cout"
+        },
+        {
+          "id": "cin",
+          "title": "cin",
+          "type": "single",
+          "explanation": "Entrada com cin"
+        }
+      ]
+    },
+    {
+      "id": "controle-fluxo",
+      "title": "Controle de Fluxo",
+      "type": "dropdown",
+      "icon": "fas fa-code-branch mr-2",
+      "explanation": "Estruturas de controle de fluxo em C++.",
+      "children": [
+        {
+          "id": "if-else",
+          "title": "if, else if, else",
+          "type": "single",
+          "explanation": "Estrutura condicional if/else em C++"
+        },
+        {
+          "id": "for",
+          "title": "for",
+          "type": "single",
+          "explanation": "Laço for em C++"
+        },
+        {
+          "id": "while",
+          "title": "while",
+          "type": "single",
+          "explanation": "Laço while em C++"
+        },
+        {
+          "id": "switch",
+          "title": "switch / case",
+          "type": "single",
+          "explanation": "Estrutura switch/case em C++"
+        }
+      ]
+    },
+    {
+      "id": "funcoes",
+      "title": "Funções",
+      "type": "dropdown",
+      "icon": "fas fa-cogs mr-2",
+      "explanation": "Definição e uso de funções em C++.",
+      "children": [
+        {
+          "id": "def",
+          "title": "Definição",
+          "type": "single",
+          "explanation": "Definição de funções"
+        },
+        {
+          "id": "parametros",
+          "title": "Parâmetros",
+          "type": "single",
+          "explanation": "Parâmetros e argumentos"
+        },
+        {
+          "id": "lambda",
+          "title": "Lambda",
+          "type": "single",
+          "explanation": "Funções lambda em C++"
+        },
+        {
+          "id": "retorno",
+          "title": "Retorno",
+          "type": "single",
+          "explanation": "Retorno de valores"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "documentacao",
+      "title": "Leitura Recomendada",
+      "explanation": "Links para leitura recomendada e recursos adicionais."
+    },
+    {
+      "id": "tutoriais",
+      "title": "Tutoriais",
+      "explanation": "Links para tutoriais e guias práticos."
+    }
+  ]
+}
