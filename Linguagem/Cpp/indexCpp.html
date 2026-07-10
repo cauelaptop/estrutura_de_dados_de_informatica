@@ -9,7 +9,7 @@
     <style>
       ::-webkit-scrollbar { width: 8px; }
       ::-webkit-scrollbar-track { background: #f1f1f1; }
-      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }  
       ::-webkit-scrollbar-thumb:hover { background: #555; }
       .transition-all { transition: all 0.3s ease; }
       .code-block {
@@ -32,36 +32,198 @@
       .dropdown-content.open { max-height: 500px; }
       .content-section { display: none; }
       .content-section.active { display: block; }
+
+      #mobile-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 40;
+      }
+      #mobile-overlay.open { display: block; }
+
+      #mobile-drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 288px;
+        max-width: 85vw;
+        background: #fff;
+        z-index: 50;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+      }
+      #mobile-drawer.open { transform: translateX(0); }
+
+      #hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        border-radius: 8px;
+        padding: 8px 10px;
+        cursor: pointer;
+        color: #fff;
+        transition: background 0.2s;
+        margin-right: 12px;
+      }
+      #hamburger-btn:hover { background: rgba(255, 255, 255, 0.28); }
+
+      @media (min-width: 768px) {
+        #hamburger-btn { display: none !important; }
+      }
+
+      @media (max-width: 767px) {
+        .search-input { width: 100% !important; min-width: 0; }
+        .header-inner { flex-direction: row !important; flex-wrap: nowrap; }
+        .header-title { margin-bottom: 0 !important; }
+      }
     </style>
   </head>
   <body class="bg-gray-100 font-sans">
 
-    <header class="bg-blue-700 text-white shadow-lg">
-      <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
-          <div class="flex items-center">
-            <i class="fas fa-code text-3xl mr-3"></i>
-            <h1 class="text-2xl font-bold">Referência da Linguagem C++</h1>
-          </div>
-          <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none" title="Abrir sumário">
-            <i class="fas fa-bars"></i>
-          </button>
+    <div id="mobile-overlay"></div>
+
+    <div id="mobile-drawer">
+      <div class="flex items-center justify-between px-4 py-4 bg-blue-700 text-white">
+        <span class="text-lg font-bold">Sumário</span>
+        <button id="close-drawer-btn" class="text-white text-xl focus:outline-none" aria-label="Fechar menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <nav class="p-4" id="mobile-nav">
+
+        <div class="mb-4 mt-2">
+          <a href="#introducao" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="introducao" data-explanation="Introdução à linguagem C++ e seus conceitos básicos.">
+            <i class="fas fa-play mr-2 ml-2"></i>
+            <span class="flex items-center mr-12">Introdução</span>
+          </a>
         </div>
-        
-        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full md:w-auto">
-          <div class="relative w-full sm:w-64">
-            <input type="text" placeholder="Pesquisar..."
-              class="px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" />
+
+        <!-- Tipos de Dados -->
+        <div class="mb-4 relative">
+          <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="tipos" data-explanation="Tipos de dados em C++.">
+            <i class="fas fa-laptop-code mr-2"></i>
+            <span class="flex items-center">Tipos de Dados</span>
+            <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+          </a>
+          <div id="mob-dd-tipos" class="dropdown-content pl-6 mt-1">
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-int" data-explanation="Tipo inteiro em C++">int</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-float" data-explanation="Tipo ponto flutuante em C++">float / double</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-string" data-explanation="Tipo string em C++">string</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-bool" data-explanation="Tipo booleano em C++">bool</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="tipo-char" data-explanation="Tipo caractere em C++">char</a>
+          </div>
+        </div>
+
+        <!-- Estruturas de Dados -->
+        <div class="mb-4 relative">
+          <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="estruturas" data-explanation="Estruturas de dados da STL do C++.">
+            <i class="fas fa-database mr-2"></i>
+            <span class="flex items-center">Estruturas de Dados</span>
+            <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+          </a>
+          <div id="mob-dd-estruturas" class="dropdown-content pl-6 mt-1">
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="vector" data-explanation="Vector em C++">vector</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="array" data-explanation="Array em C++">array</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="map" data-explanation="Map em C++">map / unordered_map</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="set" data-explanation="Set em C++">set / unordered_set</a>
+          </div>
+        </div>
+
+        <!-- Entrada e Saída -->
+        <div class="mb-4 relative">
+          <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="entrada-saida" data-explanation="Entrada e saída em C++.">
+            <i class="fa fa-exchange mr-2"></i>
+            <span class="flex items-center">Entrada e Saída de Dados</span>
+            <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+          </a>
+          <div id="mob-dd-io" class="dropdown-content pl-6 mt-1">
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cout" data-explanation="Saída com cout">cout</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="cin" data-explanation="Entrada com cin">cin</a>
+          </div>
+        </div>
+
+        <!-- Controle de Fluxo -->
+        <div class="mb-4 relative">
+          <a href="#controle_fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="controle-fluxo" data-explanation="Estruturas de controle de fluxo em C++.">
+            <i class="fas fa-code-branch mr-2"></i>
+            <span class="flex items-center">Controle de Fluxo</span>
+            <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+          </a>
+          <div id="mob-dd-controle" class="dropdown-content pl-6 mt-1">
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="if-else" data-explanation="Estrutura condicional if/else em C++">if, else if, else</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="for" data-explanation="Laço for em C++">for</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="while" data-explanation="Laço while em C++">while</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="switch" data-explanation="Estrutura switch/case em C++">switch / case</a>
+          </div>
+        </div>
+
+        <!-- Funções -->
+        <div class="mb-4 relative">
+          <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
+            data-section="funcoes" data-explanation="Definição e uso de funções em C++.">
+            <i class="fas fa-cogs mr-2"></i>
+            <span class="flex items-center">Funções</span>
+            <i class="fas fa-chevron-right absolute end-4 transition-all transform"></i>
+          </a>
+          <div id="mob-dd-funcoes" class="dropdown-content pl-6 mt-1">
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="def" data-explanation="Definição de funções">Definição</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="parametros" data-explanation="Parâmetros e argumentos">Parâmetros</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="lambda" data-explanation="Funções lambda em C++">Lambda</a>
+            <a href="#" class="nav-link flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all" data-section="retorno" data-explanation="Retorno de valores">Retorno</a>
+          </div>
+        </div>
+
+        <div class="mt-8 border-t pt-4">
+          <h3 class="font-bold mb-2">Recursos Úteis</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                data-section="documentacao" data-explanation="Links para leitura recomendada e recursos adicionais.">
+                <i class="fas fa-external-link-alt mr-2 text-xs"></i>Leitura Recomendada
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link text-sm text-blue-600 hover:underline flex items-center"
+                data-section="tutoriais" data-explanation="Links para tutoriais e guias práticos.">
+                <i class="fas fa-book-open mr-2 text-xs"></i>Tutoriais
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <header class="bg-blue-700 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-4 flex flex-row justify-between items-center header-inner">
+        <div class="flex items-center header-title">
+          <!-- Botão hambúrguer (visível apenas no mobile) -->
+          <button id="hamburger-btn" aria-label="Abrir menu">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+          <i class="fas fa-code text-3xl mr-3"></i>
+          <h1 class="text-xl md:text-2xl font-bold leading-tight">Referência da Linguagem C++</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar"
+              class="search-input px-4 py-2 rounded-full bg-blue-600 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 w-40 md:w-64" />
             <button class="absolute right-3 top-2 text-blue-300 hover:text-white">
               <i class="fas fa-search"></i>
             </button>
             <div id="search-results"
-              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden text-gray-800"></div>
+              class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden"></div>
           </div>
-          <a href="../../index.html" class="inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all shrink-0" title="Voltar ao menu principal">
-            <i class="fas fa-home mr-2"></i>
-            Voltar
-          </a>
         </div>
       </div>
     </header>
@@ -69,14 +231,10 @@
     <main class="flex-1">
       <div class="flex flex-1 container mx-auto px-4 py-8">
 
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity"></div>
-
-        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-r-lg md:rounded-lg shadow-md p-4 mr-0 md:mr-8 fixed md:sticky top-0 md:top-8 left-0 h-screen md:h-fit z-50 md:z-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto md:overflow-visible">
-          <div class="p-4 border-b border-gray-200 flex justify-between items-center md:block md:p-0 md:border-none">
-            <h1 class="text-2xl font-bold md:mb-4 text-blue-700">Sumário</h1>
-            <button id="close-sidebar-btn" class="md:hidden text-gray-500 hover:text-blue-700 text-2xl focus:outline-none">
-              <i class="fas fa-times"></i>
-            </button>
+        <!-- Sidebar (desktop) -->
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8">
+          <div class="p-4 border-b border-gray-200">
+            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
           </div>
           <nav>
 
@@ -88,6 +246,7 @@
               </a>
             </div>
 
+            <!-- Tipos de Dados -->
             <div class="mb-4 relative">
               <a href="#tipos" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="tipos" data-explanation="Tipos de dados em C++.">
@@ -104,6 +263,7 @@
               </div>
             </div>
 
+            <!-- Estruturas de Dados -->
             <div class="mb-4 relative">
               <a href="#estruturas" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="estruturas" data-explanation="Estruturas de dados da STL do C++.">
@@ -119,6 +279,7 @@
               </div>
             </div>
 
+            <!-- Entrada e Saída -->
             <div class="mb-4 relative">
               <a href="#entrada-saida" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="entrada-saida" data-explanation="Entrada e saída em C++.">
@@ -132,6 +293,7 @@
               </div>
             </div>
 
+            <!-- Controle de Fluxo -->
             <div class="mb-4 relative">
               <a href="#controle_fluxo" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="controle-fluxo" data-explanation="Estruturas de controle de fluxo em C++.">
@@ -147,6 +309,7 @@
               </div>
             </div>
 
+            <!-- Funções -->
             <div class="mb-4 relative">
               <a href="#funcoes" class="dropdown-btn flex items-center block px-3 py-2 rounded hover:bg-blue-100 text-blue-600 font-medium transition-all"
                 data-section="funcoes" data-explanation="Definição e uso de funções em C++.">
@@ -182,7 +345,8 @@
           </nav>
         </div>
 
-        <div id="content" class="flex flex-col flex-1 min-w-0">
+        <!-- Content -->
+        <div id="content" class="flex flex-col flex-1">
           <div id="explanation"></div>
 
           <footer class="mt-12 border-t pt-8 text-center text-gray-600 text-sm">
@@ -193,12 +357,13 @@
               <a href="https://github.com/" target="_blank" class="text-blue-600 hover:text-blue-800">
                 <i class="fab fa-github"></i> GitHub
               </a>
-              
             </div>
           </footer>
         </div>
       </div>
     </main>
+
+    <!-- ===== TEMPLATES ===== -->
 
     <template id="tpl-introducao">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -237,7 +402,7 @@
                 <li>Tipagem estática o tipo é declarado em tempo de compilação</li>
                 <li>Compilada o código é traduzido para binário antes de executar</li>
                 <li>Suporta programação orientada a objetos, genérica e funcional</li>
-                <li>Gerenciamento de memória manual com <code>new</code>/<code>delete</code></li>
+                <li>Gerenciamento de memória manual com <code>new</code>/<code>delete</code> e automático com smart pointers</li>
                 <li>Vasta biblioteca padrão (STL) com contêineres, algoritmos e utilitários</li>
               </ul>
             </div>
@@ -269,7 +434,7 @@
     <span class="keyword">auto</span> pi = <span class="number">3.14</span>; <span class="comment">// double</span>
 }</pre>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">int</strong> inteiro de 32 bits: <code>1</code>, <code>-99</code>, <code>1000000</code></div>
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">float / double</strong> ponto flutuante 32/64 bits: <code>3.14f</code>, <code>3.14</code></div>
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">string</strong> cadeia de caracteres da STL: <code>"olá"</code></div>
@@ -425,7 +590,7 @@ cout &lt;&lt; <span class="function">isdigit</span>(<span class="string">'5'</sp
           <h2 class="text-2xl font-bold text-gray-800">Estruturas de Dados (STL)</h2>
         </div>
         <p class="text-gray-700 mb-4">A STL (Standard Template Library) de C++ oferece contêineres poderosos. Para competições de programação, as mais essenciais são <strong>vector</strong>, <strong>map</strong> e <strong>set</strong>.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">vector</strong> array dinâmico, acesso por índice O(1)</div>
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">array</strong> array de tamanho fixo em tempo de compilação</div>
           <div class="bg-gray-50 rounded p-4 border"><strong class="text-blue-700">map</strong> pares chave-valor ordenados (árvore), O(log n)</div>
@@ -465,7 +630,10 @@ frutas.<span class="function">pop_back</span>();           <span class="comment"
     cout &lt;&lt; f &lt;&lt; <span class="string">" "</span>;
 
 <span class="comment">// Ordenação</span>
-<span class="function">sort</span>(frutas.<span class="function">begin</span>(), frutas.<span class="function">end</span>());</pre>
+<span class="function">sort</span>(frutas.<span class="function">begin</span>(), frutas.<span class="function">end</span>());
+
+<span class="comment">// Tamanho</span>
+cout &lt;&lt; frutas.<span class="function">size</span>() &lt;&lt; endl;</pre>
         </div>
       </div>
     </template>
@@ -473,26 +641,26 @@ frutas.<span class="function">pop_back</span>();           <span class="comment"
     <template id="tpl-array">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
-          <i class="fas fa-lock text-blue-600 text-2xl mr-3"></i>
-          <h2 class="text-2xl font-bold text-gray-800">array: Array de Tamanho Fixo</h2>
+          <i class="fas fa-th-large text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">array</h2>
         </div>
-        <p class="text-gray-700 mb-4"><code>std::array</code> (C++11) é um array de tamanho fixo definido em tempo de compilação. Mais seguro que o array C clássico, pois conhece seu próprio tamanho.</p>
+        <p class="text-gray-700 mb-4"><code>std::array</code> (C++11) é um array de tamanho fixo definido em tempo de compilação. Mais seguro que arrays C-style e compatível com algoritmos da STL.</p>
         <div class="code-block mb-4">
           <pre><span class="pp">#include</span> <span class="string">&lt;array&gt;</span>
 <span class="keyword">using namespace</span> std;
 
-<span class="type">array</span>&lt;<span class="type">int</span>, <span class="number">5</span>&gt; nums = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>};
+<span class="type">array</span>&lt;<span class="type">int</span>, <span class="number">5</span>&gt; nums = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>};
 
-<span class="comment">// Acesso</span>
-cout &lt;&lt; nums[<span class="number">0</span>] &lt;&lt; endl; <span class="comment">// 10</span>
-cout &lt;&lt; nums.<span class="function">at</span>(<span class="number">2</span>) &lt;&lt; endl; <span class="comment">// 30 (com verificação de limites)</span>
+cout &lt;&lt; nums[<span class="number">0</span>]          &lt;&lt; endl; <span class="comment">// 1</span>
+cout &lt;&lt; nums.<span class="function">size</span>()      &lt;&lt; endl; <span class="comment">// 5</span>
+cout &lt;&lt; nums.<span class="function">front</span>()     &lt;&lt; endl; <span class="comment">// 1</span>
+cout &lt;&lt; nums.<span class="function">back</span>()      &lt;&lt; endl; <span class="comment">// 5</span>
 
 <span class="comment">// Iteração</span>
-<span class="keyword">for</span> (<span class="keyword">auto</span> n : nums) cout &lt;&lt; n &lt;&lt; <span class="string">" "</span>;
+<span class="keyword">for</span> (<span class="type">int</span> n : nums) cout &lt;&lt; n &lt;&lt; <span class="string">" "</span>;
 
-<span class="comment">// Array C clássico (evitar em C++ moderno se possível)</span>
-<span class="type">int</span> antigo[<span class="number">5</span>] = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>};
-<span class="type">int</span> tamanho = <span class="keyword">sizeof</span>(antigo) / <span class="keyword">sizeof</span>(antigo[<span class="number">0</span>]);</pre>
+<span class="comment">// Ordenação</span>
+<span class="function">sort</span>(nums.<span class="function">begin</span>(), nums.<span class="function">end</span>());</pre>
         </div>
       </div>
     </template>
@@ -500,29 +668,28 @@ cout &lt;&lt; nums.<span class="function">at</span>(<span class="number">2</span
     <template id="tpl-map">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
-          <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+          <i class="fas fa-map text-blue-600 text-2xl mr-3"></i>
           <h2 class="text-2xl font-bold text-gray-800">map / unordered_map</h2>
         </div>
-        <p class="text-gray-700 mb-4">Mapas associam chaves a valores. <code>map</code> mantém as chaves ordenadas (O(log n)), enquanto <code>unordered_map</code> não ordena, mas é mais rápido em média (O(1)).</p>
+        <p class="text-gray-700 mb-4"><code>map</code> armazena pares chave-valor com chaves <strong>únicas e ordenadas</strong> (árvore AVL, O(log n)). <code>unordered_map</code> usa hash para O(1) médio, sem ordenação.</p>
         <div class="code-block mb-4">
           <pre><span class="pp">#include</span> <span class="string">&lt;map&gt;</span>
-<span class="pp">#include</span> <span class="string">&lt;unordered_map&gt;</span>
 <span class="keyword">using namespace</span> std;
 
 <span class="type">map</span>&lt;<span class="type">string</span>, <span class="type">int</span>&gt; pessoa;
-
-<span class="comment">// Inserção e modificação</span>
-pessoa[<span class="string">"idade"</span>] = <span class="number">25</span>;
+pessoa[<span class="string">"nome"</span>]   = <span class="number">0</span>;     <span class="comment">// chave string, valor int</span>
+pessoa[<span class="string">"idade"</span>]  = <span class="number">25</span>;
 pessoa[<span class="string">"altura"</span>] = <span class="number">175</span>;
 
 <span class="comment">// Acesso</span>
 cout &lt;&lt; pessoa[<span class="string">"idade"</span>] &lt;&lt; endl; <span class="comment">// 25</span>
 
 <span class="comment">// Verificar se chave existe</span>
-<span class="keyword">if</span> (pessoa.<span class="function">count</span>(<span class="string">"peso"</span>) == <span class="number">0</span>) cout &lt;&lt; <span class="string">"Peso não definido"</span>;
+<span class="keyword">if</span> (pessoa.<span class="function">count</span>(<span class="string">"email"</span>))
+    cout &lt;&lt; pessoa[<span class="string">"email"</span>];
 
-<span class="comment">// Iteração (C++17 structured binding)</span>
-<span class="keyword">for</span> (<span class="keyword">auto</span> const&amp; [chave, valor] : pessoa)
+<span class="comment">// Iteração</span>
+<span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; [chave, valor] : pessoa)
     cout &lt;&lt; chave &lt;&lt; <span class="string">": "</span> &lt;&lt; valor &lt;&lt; endl;
 
 <span class="comment">// Remover</span>
@@ -555,7 +722,7 @@ a.<span class="function">erase</span>(<span class="number">1</span>);
 <span class="comment">// Remover duplicatas de um vector</span>
 <span class="type">vector</span>&lt;<span class="type">int</span>&gt; nums = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>};
 <span class="type">set</span>&lt;<span class="type">int</span>&gt; unicos(nums.<span class="function">begin</span>(), nums.<span class="function">end</span>());
-<span class="comment">// unicos contém {1, 2, 3}</span></pre>
+<span class="comment">// unicos = {1, 2, 3}</span></pre>
         </div>
       </div>
     </template>
@@ -564,14 +731,22 @@ a.<span class="function">erase</span>(<span class="number">1</span>);
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
           <i class="fas fa-exchange-alt text-blue-600 text-2xl mr-3"></i>
-          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída (I/O)</h2>
+          <h2 class="text-2xl font-bold text-gray-800">Entrada e Saída</h2>
         </div>
-        <p class="text-gray-700 mb-4">A biblioteca <code>&lt;iostream&gt;</code> gerencia a entrada e saída em C++. Ela usa objetos de fluxo (stream) <code>cin</code> (entrada) e <code>cout</code> (saída) junto com os operadores de extração <code>&gt;&gt;</code> e inserção <code>&lt;&lt;</code>.</p>
-        <p class="text-gray-700">Para competições de programação, muitas vezes é necessário acelerar as operações de I/O desativando a sincronização com a biblioteca C:</p>
-        <div class="code-block mt-4">
-          <pre><span class="comment">// Adicione isso no início do main() em competições</span>
-ios_base::sync_with_stdio(<span class="keyword">false</span>);
-cin.<span class="function">tie</span>(<span class="keyword">NULL</span>);</pre>
+        <p class="text-gray-700 mb-4">C++ usa <code>cout</code> para saída e <code>cin</code> para entrada, ambos do cabeçalho <code>&lt;iostream&gt;</code>. O operador <code>&lt;&lt;</code> envia para a saída e <code>&gt;&gt;</code> lê da entrada.</p>
+        <div class="code-block">
+          <pre><span class="pp">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Saída básica</span>
+cout &lt;&lt; <span class="string">"Olá!"</span> &lt;&lt; endl;
+cout &lt;&lt; <span class="string">"Sem newline"</span>;
+
+<span class="comment">// Entrada do usuário</span>
+<span class="type">string</span> nome;
+cout &lt;&lt; <span class="string">"Seu nome: "</span>;
+cin  &gt;&gt; nome;
+cout &lt;&lt; <span class="string">"Olá, "</span> &lt;&lt; nome &lt;&lt; <span class="string">"!"</span> &lt;&lt; endl;</pre>
         </div>
       </div>
     </template>
@@ -579,10 +754,10 @@ cin.<span class="function">tie</span>(<span class="keyword">NULL</span>);</pre>
     <template id="tpl-cout">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
-          <i class="fas fa-print text-blue-600 text-2xl mr-3"></i>
+          <i class="fas fa-terminal text-blue-600 text-2xl mr-3"></i>
           <h2 class="text-2xl font-bold text-gray-800">cout</h2>
         </div>
-        <p class="text-gray-700 mb-4"><code>cout</code> imprime na saída padrão. O operador <code>&lt;&lt;</code> encadeia valores de qualquer tipo suportado. <code>endl</code> adiciona uma quebra de linha e "limpa" o buffer (use <code>'\n'</code> em competições para ser mais rápido).</p>
+        <p class="text-gray-700 mb-4"><code>cout</code> (character output) exibe valores no terminal. Aceita qualquer tipo com o operador <code>&lt;&lt;</code>. Use <code>endl</code> ou <code>'\n'</code> para quebra de linha (<code>'\n'</code> é mais rápido).</p>
         <div class="code-block mb-4">
           <pre><span class="pp">#include</span> <span class="string">&lt;iostream&gt;</span>
 <span class="pp">#include</span> <span class="string">&lt;iomanip&gt;</span>
@@ -592,8 +767,8 @@ cin.<span class="function">tie</span>(<span class="keyword">NULL</span>);</pre>
 <span class="type">double</span> nota = <span class="number">9.75</span>;
 
 <span class="comment">// Saída formatada</span>
-cout &lt;&lt; nome &lt;&lt; <span class="string">" tirou "</span> 
-     &lt;&lt; fixed &lt;&lt; setprecision(<span class="number">1</span>) &lt;&lt; nota &lt;&lt; endl; <span class="comment">// Lucas tirou 9.8</span>
+cout &lt;&lt; nome &lt;&lt; <span class="string">" tirou "</span> &lt;&lt; fixed &lt;&lt; setprecision(<span class="number">1</span>) &lt;&lt; nota &lt;&lt; endl;
+<span class="comment">// Lucas tirou 9.8</span>
 
 <span class="comment">// printf-style (também funciona em C++)</span>
 printf(<span class="string">"%s tirou %.1f\n"</span>, nome.<span class="function">c_str</span>(), nota);
@@ -629,9 +804,13 @@ cin &gt;&gt; idade;
 cin &gt;&gt; a &gt;&gt; b;
 
 <span class="comment">// Ler linha com espaços</span>
-cin.<span class="function">ignore</span>(); 
+cin.<span class="function">ignore</span>();
 <span class="type">string</span> frase;
-<span class="function">getline</span>(cin, frase);</pre>
+<span class="function">getline</span>(cin, frase);
+
+<span class="comment">// Tratamento de erro</span>
+<span class="keyword">if</span> (!(cin &gt;&gt; idade))
+    cerr &lt;&lt; <span class="string">"Entrada inválida!"</span> &lt;&lt; endl;</pre>
         </div>
       </div>
     </template>
@@ -642,7 +821,10 @@ cin.<span class="function">ignore</span>();
           <i class="fas fa-code-branch text-blue-600 text-2xl mr-3"></i>
           <h2 class="text-2xl font-bold text-gray-800">Controle de Fluxo</h2>
         </div>
-        <p class="text-gray-700 mb-4">O C++ possui as estruturas de controle tradicionais da família C (if/else, loops). Os blocos de código são delimitados por chaves <code>{}</code> e as condições devem sempre estar entre parênteses <code>()</code>.</p>
+        <p class="text-gray-700 mb-4">C++ utiliza <code>if/else if/else</code> para condicionais, <code>for</code>, <code>while</code> e <code>do-while</code> para laços, e <code>switch/case</code> para múltiplas alternativas.</p>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+          <p class="text-sm text-blue-700">Diferente de Python, C++ <strong>usa chaves <code>{ }</code></strong> para delimitar blocos de código, e as condições devem estar entre parênteses.</p>
+        </div>
       </div>
     </template>
 
@@ -650,13 +832,15 @@ cin.<span class="function">ignore</span>();
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
           <i class="fas fa-question-circle text-blue-600 text-2xl mr-3"></i>
-          <h2 class="text-2xl font-bold text-gray-800">if / else if / else</h2>
+          <h2 class="text-2xl font-bold text-gray-800">if, else if, else</h2>
         </div>
-        <p class="text-gray-700 mb-4">Condicionais funcionam avaliando expressões booleanas. Qualquer valor não-zero é considerado verdadeiro.</p>
+        <p class="text-gray-700 mb-4">Estrutura condicional do C++. Os parênteses na condição são obrigatórios. Use <code>else if</code> para múltiplas condições encadeadas.</p>
         <div class="code-block mb-4">
-          <pre><span class="type">int</span> nota = <span class="number">7</span>;
+          <pre><span class="type">double</span> nota = <span class="number">7.5</span>;
 
-<span class="keyword">if</span> (nota >= <span class="number">7</span>) {
+<span class="keyword">if</span> (nota >= <span class="number">9</span>) {
+    cout &lt;&lt; <span class="string">"A"</span> &lt;&lt; endl;
+} <span class="keyword">else if</span> (nota >= <span class="number">7</span>) {
     cout &lt;&lt; <span class="string">"B"</span> &lt;&lt; endl;
 } <span class="keyword">else if</span> (nota >= <span class="number">5</span>) {
     cout &lt;&lt; <span class="string">"C"</span> &lt;&lt; endl;
@@ -689,15 +873,19 @@ cin.<span class="function">ignore</span>();
 
 <span class="comment">// Range-for sobre vector</span>
 <span class="type">vector</span>&lt;<span class="type">string</span>&gt; frutas = {<span class="string">"maçã"</span>, <span class="string">"banana"</span>, <span class="string">"uva"</span>};
+<span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; fruta : frutas)
+    cout &lt;&lt; fruta &lt;&lt; endl;
 
-<span class="comment">// Por valor (cópia)</span>
-<span class="keyword">for</span> (<span class="type">string</span> f : frutas) cout &lt;&lt; f;
+<span class="comment">// Com índice (estilo enumerate)</span>
+<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; (<span class="type">int</span>)frutas.<span class="function">size</span>(); i++)
+    cout &lt;&lt; i &lt;&lt; <span class="string">": "</span> &lt;&lt; frutas[i] &lt;&lt; endl;
 
-<span class="comment">// Por referência constante (mais eficiente, sem cópia)</span>
-<span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; f : frutas) cout &lt;&lt; f;
-
-<span class="comment">// Por referência iterável (modifica original)</span>
-<span class="keyword">for</span> (<span class="keyword">auto</span>&amp; f : frutas) f = <span class="string">"*"</span> + f;</pre>
+<span class="comment">// break e continue</span>
+<span class="keyword">for</span> (<span class="type">int</span> n = <span class="number">0</span>; n &lt; <span class="number">10</span>; n++) {
+    <span class="keyword">if</span> (n == <span class="number">3</span>) <span class="keyword">continue</span>; <span class="comment">// pula o 3</span>
+    <span class="keyword">if</span> (n == <span class="number">7</span>) <span class="keyword">break</span>;    <span class="comment">// para no 7</span>
+    cout &lt;&lt; n &lt;&lt; <span class="string">" "</span>;
+}</pre>
         </div>
       </div>
     </template>
@@ -705,12 +893,19 @@ cin.<span class="function">ignore</span>();
     <template id="tpl-while">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
-          <i class="fas fa-sync text-blue-600 text-2xl mr-3"></i>
-          <h2 class="text-2xl font-bold text-gray-800">while / do-while</h2>
+          <i class="fas fa-sync-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">while</h2>
         </div>
-        <p class="text-gray-700 mb-4"><code>while</code> executa enquanto a condição for verdadeira. Útil para loops baseados em estado que não têm contadores fixos.</p>
+        <p class="text-gray-700 mb-4">O laço <code>while</code> repete um bloco enquanto a condição for verdadeira. C++ também tem <code>do-while</code>, que garante pelo menos uma execução.</p>
         <div class="code-block mb-4">
-          <pre><span class="comment">// Loop condicional</span>
+          <pre><span class="type">int</span> contador = <span class="number">0</span>;
+
+<span class="keyword">while</span> (contador &lt; <span class="number">5</span>) {
+    cout &lt;&lt; contador &lt;&lt; <span class="string">" "</span>;
+    contador++;
+}
+
+<span class="comment">// Laço infinito com break</span>
 <span class="type">string</span> entrada;
 <span class="keyword">while</span> (<span class="keyword">true</span>) {
     cin &gt;&gt; entrada;
@@ -754,7 +949,8 @@ cin.<span class="function">ignore</span>();
 <span class="comment">// Fall-through intencional (C++17: [[fallthrough]])</span>
 <span class="keyword">case</span> <span class="number">1</span>:
 <span class="keyword">case</span> <span class="number">2</span>:
-    cout &lt;&lt; <span class="string">"Casos 1 ou 2"</span>; <span class="comment">// compartilham código</span></pre>
+    cout &lt;&lt; <span class="string">"Casos 1 ou 2"</span>; <span class="comment">// compartilham código</span>
+    <span class="keyword">break</span>;</pre>
         </div>
       </div>
     </template>
@@ -763,24 +959,29 @@ cin.<span class="function">ignore</span>();
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
           <i class="fas fa-cogs text-blue-600 text-2xl mr-3"></i>
-          <h2 class="text-2xl font-bold text-gray-800">Funções em C++</h2>
+          <h2 class="text-2xl font-bold text-gray-800">Funções</h2>
         </div>
-        <p class="text-gray-700 mb-4">C++ organiza a lógica em funções com tipagem estrita de parâmetros e retorno. Além das sub-rotinas normais, C++ moderno introduziu funções lambda úteis para passar regras a algoritmos da STL.</p>
+        <p class="text-gray-700 mb-4">Em C++, funções devem declarar explicitamente o tipo de retorno e o tipo de cada parâmetro. Suportam sobrecarga, parâmetros padrão, passagem por referência e funções lambda.</p>
+        <div class="code-block">
+          <pre><span class="type">string</span> <span class="function">saudacao</span>(<span class="type">string</span> nome, <span class="type">string</span> cumprimento = <span class="string">"Olá"</span>) {
+    <span class="keyword">return</span> cumprimento + <span class="string">", "</span> + nome + <span class="string">"!"</span>;
+}
+
+cout &lt;&lt; <span class="function">saudacao</span>(<span class="string">"Lucas"</span>)         &lt;&lt; endl;
+cout &lt;&lt; <span class="function">saudacao</span>(<span class="string">"David"</span>, <span class="string">"Oi"</span>) &lt;&lt; endl;</pre>
+        </div>
       </div>
     </template>
 
     <template id="tpl-def">
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center mb-4">
-          <i class="fas fa-plus-square text-blue-600 text-2xl mr-3"></i>
+          <i class="fas fa-plus-circle text-blue-600 text-2xl mr-3"></i>
           <h2 class="text-2xl font-bold text-gray-800">Definição de Funções</h2>
         </div>
-        <p class="text-gray-700 mb-4">Funções devem ser declaradas antes do uso (ou ter um protótipo prévio). Funções sem retorno usam <code>void</code>.</p>
+        <p class="text-gray-700 mb-4">A sintaxe é <code>tipoRetorno nome(parâmetros) { corpo }</code>. Use <code>void</code> quando a função não retorna valor. Funções devem ser declaradas antes de serem usadas (ou ter um protótipo).</p>
         <div class="code-block mb-4">
-          <pre><span class="pp">#include</span> <span class="string">&lt;iostream&gt;</span>
-<span class="pp">#include</span> <span class="string">&lt;cmath&gt;</span>
-<span class="keyword">using namespace</span> std;
-
+          <pre><span class="comment">// Definição simples</span>
 <span class="type">int</span> <span class="function">somar</span>(<span class="type">int</span> a, <span class="type">int</span> b) {
     <span class="keyword">return</span> a + b;
 }
@@ -812,20 +1013,18 @@ cout &lt;&lt; <span class="function">operacao</span>(<span class="number">10</sp
 <span class="type">void</span> <span class="function">conectar</span>(<span class="type">string</span> host, <span class="type">int</span> porta = <span class="number">8080</span>) {
     cout &lt;&lt; <span class="string">"Conectando a "</span> &lt;&lt; host &lt;&lt; <span class="string">":"</span> &lt;&lt; porta &lt;&lt; endl;
 }
-<span class="function">conectar</span>(<span class="string">"localhost"</span>); <span class="comment">// usa porta=8080</span>
+<span class="function">conectar</span>(<span class="string">"localhost"</span>);          <span class="comment">// usa porta=8080</span>
 <span class="function">conectar</span>(<span class="string">"api.exemplo.com"</span>, <span class="number">443</span>);
 
 <span class="comment">// Passagem por referência (modifica original)</span>
 <span class="type">void</span> <span class="function">dobrar</span>(<span class="type">int</span>&amp; x) { x *= <span class="number">2</span>; }
-
 <span class="type">int</span> n = <span class="number">5</span>;
 <span class="function">dobrar</span>(n);
-cout &lt;&lt; n; <span class="comment">// Imprime 10</span>
+cout &lt;&lt; n &lt;&lt; endl; <span class="comment">// 10</span>
 
-<span class="comment">// Passagem por referência const (evita cópia de contêineres pesados)</span>
+<span class="comment">// Passagem de vector por referência const (eficiente)</span>
 <span class="type">void</span> <span class="function">imprimir</span>(<span class="keyword">const</span> <span class="type">vector</span>&lt;<span class="type">int</span>&gt;&amp; v) {
-    <span class="comment">// v[0] = 99; // ERRO: read-only</span>
-    <span class="keyword">for</span> (<span class="keyword">auto</span> x : v) cout &lt;&lt; x;
+    <span class="keyword">for</span> (<span class="type">int</span> x : v) cout &lt;&lt; x &lt;&lt; <span class="string">" "</span>;
 }</pre>
         </div>
       </div>
@@ -837,26 +1036,29 @@ cout &lt;&lt; n; <span class="comment">// Imprime 10</span>
           <i class="fas fa-bolt text-blue-600 text-2xl mr-3"></i>
           <h2 class="text-2xl font-bold text-gray-800">Funções Lambda</h2>
         </div>
-        <p class="text-gray-700 mb-4">Lambdas (C++11) são funções anônimas criadas "on-the-fly". Elas capturam variáveis do escopo <code>[]</code>, recebem parâmetros <code>()</code> e executam um bloco <code>{}</code>. Perfeitas para `std::sort`.</p>
+        <p class="text-gray-700 mb-4">Lambdas em C++ (C++11) têm a sintaxe <code>[captura](parâmetros) { corpo }</code>. A captura define quais variáveis externas a lambda pode acessar (<code>[&amp;]</code> por referência, <code>[=]</code> por valor).</p>
         <div class="code-block mb-4">
           <pre><span class="pp">#include</span> <span class="string">&lt;algorithm&gt;</span>
-<span class="keyword">using namespace</span> std;
 
-<span class="comment">// Ordenar por critério customizado</span>
+<span class="comment">// Lambda básica</span>
+<span class="keyword">auto</span> dobro = [](<span class="type">int</span> x) { <span class="keyword">return</span> x * <span class="number">2</span>; };
+cout &lt;&lt; <span class="function">dobro</span>(<span class="number">5</span>) &lt;&lt; endl; <span class="comment">// 10</span>
+
+<span class="comment">// Ordenar por segundo elemento (par)</span>
 <span class="type">vector</span>&lt;pair&lt;<span class="type">string</span>, <span class="type">int</span>&gt;&gt; pessoas = {
-    {<span class="string">"Ana"</span>, <span class="number">30</span>}, {<span class="string">"Bia"</span>, <span class="number">20</span>}
+    {<span class="string">"Lucas"</span>, <span class="number">25</span>}, {<span class="string">"Ana"</span>, <span class="number">30</span>}, {<span class="string">"Bia"</span>, <span class="number">20</span>}
 };
-
-<span class="function">sort</span>(pessoas.<span class="function">begin</span>(), pessoas.<span class="function">end</span>(), [](<span class="keyword">const auto</span>&amp; a, <span class="keyword">const auto</span>&amp; b) {
-    <span class="keyword">return</span> a.second &lt; b.second;
-});
+<span class="function">sort</span>(pessoas.<span class="function">begin</span>(), pessoas.<span class="function">end</span>(),
+    [](<span class="keyword">const auto</span>&amp; a, <span class="keyword">const auto</span>&amp; b) {
+        <span class="keyword">return</span> a.second &lt; b.second;
+    });
 
 <span class="comment">// filter equivalente com copy_if</span>
 <span class="type">vector</span>&lt;<span class="type">int</span>&gt; nums = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>};
 <span class="type">vector</span>&lt;<span class="type">int</span>&gt; pares;
-<span class="function">copy_if</span>(nums.<span class="function">begin</span>(), nums.<span class="function">end</span>(), back_inserter(pares), [](<span class="type">int</span> x){ 
-    <span class="keyword">return</span> x % <span class="number">2</span> == <span class="number">0</span>; 
-});</pre>
+<span class="function">copy_if</span>(nums.<span class="function">begin</span>(), nums.<span class="function">end</span>(),
+        back_inserter(pares),
+        [](<span class="type">int</span> x){ <span class="keyword">return</span> x % <span class="number">2</span> == <span class="number">0</span>; });</pre>
         </div>
       </div>
     </template>
@@ -877,129 +1079,210 @@ cout &lt;&lt; n; <span class="comment">// Imprime 10</span>
 
 <span class="comment">// Retorno múltiplo com pair</span>
 pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; <span class="function">minmax_par</span>(<span class="type">vector</span>&lt;<span class="type">int</span>&gt; v) {
-    <span class="keyword">return</span> {*<span class="function">min_element</span>(v.<span class="function">begin</span>(), v.<span class="function">end</span>()), 
+    <span class="keyword">return</span> {*<span class="function">min_element</span>(v.<span class="function">begin</span>(), v.<span class="function">end</span>()),
             *<span class="function">max_element</span>(v.<span class="function">begin</span>(), v.<span class="function">end</span>())};
 }
 
-<span class="comment">// Desempacotando (C++17)</span>
-<span class="keyword">auto</span> [minimo, maximo] = <span class="function">minmax_par</span>({<span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">7</span>});
-cout &lt;&lt; <span class="string">"Min: "</span> &lt;&lt; minimo &lt;&lt; <span class="string">", Max: "</span> &lt;&lt; maximo &lt;&lt; endl;
+<span class="comment">// Structured binding (C++17)</span>
+<span class="keyword">auto</span> [minimo, maximo] = <span class="function">minmax_par</span>({<span class="number">3</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">7</span>});
+cout &lt;&lt; minimo &lt;&lt; <span class="string">" "</span> &lt;&lt; maximo &lt;&lt; endl; <span class="comment">// 1 9</span>
 
-<span class="comment">// Tupla para 3+ elementos</span>
-tuple&lt;<span class="type">int</span>, <span class="type">string</span>, <span class="type">bool</span>&gt; <span class="function">get_info</span>() {
-    <span class="keyword">return</span> {<span class="number">1</span>, <span class="string">"OK"</span>, <span class="keyword">true</span>};
+<span class="comment">// void sem retorno</span>
+<span class="type">void</span> <span class="function">saudar</span>(<span class="type">string</span> nome) {
+    cout &lt;&lt; <span class="string">"Olá, "</span> &lt;&lt; nome &lt;&lt; <span class="string">"!"</span> &lt;&lt; endl;
 }</pre>
         </div>
       </div>
     </template>
-    
+
+    <template id="tpl-documentacao">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-external-link-alt text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Leitura Recomendada</h2>
+        </div>
+        <ul class="space-y-3 text-gray-700">
+          <li><a href="https://en.cppreference.com/w/" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>cppreference.com documentação completa da STL e linguagem</a></li>
+          <li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>C++ Core Guidelines boas práticas oficiais</a></li>
+          <li><a href="https://learncpp.com/" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>LearnCpp.com tutorial completo e gratuito</a></li>
+        </ul>
+      </div>
+    </template>
+
+    <template id="tpl-tutoriais">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-book-open text-blue-600 text-2xl mr-3"></i>
+          <h2 class="text-2xl font-bold text-gray-800">Tutoriais</h2>
+        </div>
+        <ul class="space-y-3 text-gray-700">
+          <li><a href="https://www.w3schools.com/cpp/" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>W3Schools C++</a></li>
+          <li><a href="https://exercism.org/tracks/cpp" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>Exercism prática com exercícios em C++</a></li>
+          <li><a href="https://www.hackerrank.com/domains/cpp" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>HackerRank C++</a></li>
+          <li><a href="https://codeforces.com/" target="_blank" class="text-blue-600 hover:underline"><i class="fas fa-link mr-2"></i>Codeforces competições e problemas de programação</a></li>
+        </ul>
+      </div>
+    </template>
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const templates = {};
-        document.querySelectorAll("template").forEach((t) => {
-          templates[t.id.replace("tpl-", "")] = t.innerHTML;
-        });
+      const templates = {
+        "introducao":     "tpl-introducao",
+        "tipos":          "tpl-tipos",
+        "tipo-int":       "tpl-tipo-int",
+        "tipo-float":     "tpl-tipo-float",
+        "tipo-string":    "tpl-tipo-string",
+        "tipo-bool":      "tpl-tipo-bool",
+        "tipo-char":      "tpl-tipo-char",
+        "estruturas":     "tpl-estruturas",
+        "vector":         "tpl-vector",
+        "array":          "tpl-array",
+        "map":            "tpl-map",
+        "set":            "tpl-set",
+        "entrada-saida":  "tpl-entrada-saida",
+        "cout":           "tpl-cout",
+        "cin":            "tpl-cin",
+        "controle-fluxo": "tpl-controle-fluxo",
+        "if-else":        "tpl-if-else",
+        "for":            "tpl-for",
+        "while":          "tpl-while",
+        "switch":         "tpl-switch",
+        "funcoes":        "tpl-funcoes",
+        "def":            "tpl-def",
+        "parametros":     "tpl-parametros",
+        "lambda":         "tpl-lambda",
+        "retorno":        "tpl-retorno",
+        "documentacao":   "tpl-documentacao",
+        "tutoriais":      "tpl-tutoriais",
+      };
 
-        const contentDiv = document.getElementById("explanation");
-        const navLinks = document.querySelectorAll(".nav-link");
-        const dropdownBtns = document.querySelectorAll(".dropdown-btn");
-        const searchInput = document.querySelector('input[type="text"]');
-        const searchResults = document.getElementById("search-results");
+      function loadSection(sectionId) {
+        const tplId = templates[sectionId];
+        if (!tplId) return;
+        const tpl = document.getElementById(tplId);
+        if (!tpl) return;
+        const el = document.getElementById("explanation");
+        el.innerHTML = "";
+        el.appendChild(tpl.content.cloneNode(true));
+        localStorage.setItem("activeSectionId", sectionId);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
-        // Elementos criados para controle do menu no celular
-        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-        const closeSidebarBtn = document.getElementById("close-sidebar-btn");
-        const sidebar = document.getElementById("sidebar");
-        const sidebarOverlay = document.getElementById("sidebar-overlay");
+      /* ===== Drawer Mobile ===== */
+      const hamburgerBtn   = document.getElementById("hamburger-btn");
+      const mobileDrawer   = document.getElementById("mobile-drawer");
+      const mobileOverlay  = document.getElementById("mobile-overlay");
+      const closeDrawerBtn = document.getElementById("close-drawer-btn");
 
-        function openSidebar() {
-          sidebar.classList.remove("-translate-x-full");
-          sidebarOverlay.classList.remove("hidden");
-          document.body.classList.add("overflow-hidden"); // Evita rolar a página por baixo do menu
-        }
+      function openDrawer() {
+        mobileDrawer.classList.add("open");
+        mobileOverlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
 
-        function closeSidebar() {
-          sidebar.classList.add("-translate-x-full");
-          sidebarOverlay.classList.add("hidden");
-          document.body.classList.remove("overflow-hidden");
-        }
+      function closeDrawer() {
+        mobileDrawer.classList.remove("open");
+        mobileOverlay.classList.remove("open");
+        document.body.style.overflow = "";
+      }
 
-        // Listeners para abertura/fechamento do menu mobile
-        if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
-        if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
-        if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+      hamburgerBtn.addEventListener("click", openDrawer);
+      closeDrawerBtn.addEventListener("click", closeDrawer);
+      mobileOverlay.addEventListener("click", closeDrawer);
 
-        function loadSection(sectionId) {
-          if (templates[sectionId]) {
-            contentDiv.innerHTML = templates[sectionId];
-            navLinks.forEach((link) => link.classList.remove("bg-blue-100", "font-bold"));
-            const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
-            if (activeLink) activeLink.classList.add("bg-blue-100", "font-bold");
-            localStorage.setItem("activeSectionId", sectionId);
+      /* ===== Nav links (sidebar desktop + drawer mobile) ===== */
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const section = link.getAttribute("data-section");
+          if (section) {
+            loadSection(section);
+            closeDrawer(); // fecha o drawer ao selecionar item no mobile
           }
-        }
-
-        navLinks.forEach((link) => {
-          link.addEventListener("click", (e) => {
-            e.preventDefault();
-            loadSection(link.dataset.section);
-            // Fecha o sumário automaticamente no celular após clicar num tópico
-            if (window.innerWidth < 768) {
-              closeSidebar();
-            }
-          });
         });
+      });
 
-        dropdownBtns.forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const content = btn.nextElementSibling;
-            const icon = btn.querySelector(".fa-chevron-right");
-            content.classList.toggle("open");
-            if (content.classList.contains("open")) {
-              icon.style.transform = "rotate(90deg)";
-            } else {
-              icon.style.transform = "rotate(0deg)";
-            }
-          });
-        });
+      /* ===== Dropdowns (sidebar desktop + drawer mobile) ===== */
+      document.querySelectorAll(".dropdown-btn").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const dropdownContent = button.nextElementSibling;
+          const icon = button.querySelector("i:last-child");
 
-        searchInput.addEventListener("input", (e) => {
-          const query = e.target.value.toLowerCase();
-          searchResults.innerHTML = "";
-          
-          if (query.length > 1) {
-            navLinks.forEach((link) => {
-              const text = link.textContent.toLowerCase();
-              const explanation = link.dataset.explanation ? link.dataset.explanation.toLowerCase() : "";
-              if (text.includes(query) || explanation.includes(query)) {
-                const div = document.createElement("div");
-                div.className = "p-2 hover:bg-gray-100 cursor-pointer text-gray-800";
-                div.textContent = link.textContent;
-                div.addEventListener("click", () => {
-                  loadSection(link.dataset.section);
-                  searchResults.classList.add("hidden");
-                  searchInput.value = "";
-                  // Fecha o sumário automaticamente se o usuário buscou e clicou pelo celular
-                  if (window.innerWidth < 768) {
-                    closeSidebar();
-                  }
-                });
-                searchResults.appendChild(div);
+          dropdownContent.classList.toggle("open");
+          icon.classList.toggle("rotate-90");
+
+          // Fecha outros dropdowns no mesmo contêiner (desktop ou mobile)
+          const parentNav = button.closest("nav") || button.closest("#mobile-nav");
+          if (parentNav) {
+            parentNav.querySelectorAll(".dropdown-content").forEach((content) => {
+              if (content !== dropdownContent && content.classList.contains("open")) {
+                content.classList.remove("open");
+                const prevBtn = content.previousElementSibling;
+                if (prevBtn) prevBtn.querySelector("i:last-child")?.classList.remove("rotate-90");
               }
             });
-            searchResults.classList.remove("hidden");
-          } else {
-            searchResults.classList.add("hidden");
           }
+
+          const section = button.getAttribute("data-section");
+          if (section) loadSection(section);
+        });
+      });
+
+      /* ===== Pesquisa ===== */
+      document.addEventListener("DOMContentLoaded", () => {
+        const input = document.querySelector('input[type="text"]');
+        const resultsContainer = document.getElementById("search-results");
+
+        input.addEventListener("input", () => {
+          const query = input.value.toLowerCase().trim();
+          resultsContainer.innerHTML = "";
+
+          if (query.length < 2) {
+            resultsContainer.classList.add("hidden");
+            return;
+          }
+
+          const links = document.querySelectorAll(".nav-link");
+          const matches = [];
+          const seen = new Set();
+
+          links.forEach((link) => {
+            const section = link.getAttribute("data-section");
+            if (!section || seen.has(section)) return;
+            const text = link.textContent.toLowerCase().trim();
+            const explanation = link.getAttribute("data-explanation") || "";
+            if (text.includes(query) || explanation.toLowerCase().includes(query)) {
+              seen.add(section);
+              matches.push({ element: link, text: link.textContent.trim(), section });
+            }
+          });
+
+          if (matches.length === 0) {
+            resultsContainer.innerHTML = "<p class='p-2 text-gray-500'>Nenhum resultado encontrado.</p>";
+          } else {
+            matches.forEach((match) => {
+              const item = document.createElement("div");
+              item.className = "px-4 py-2 hover:bg-blue-100 cursor-pointer text-blue-700 text-sm";
+              item.innerText = match.text;
+              item.addEventListener("click", () => {
+                loadSection(match.section);
+                resultsContainer.classList.add("hidden");
+                input.value = "";
+              });
+              resultsContainer.appendChild(item);
+            });
+          }
+
+          resultsContainer.classList.remove("hidden");
         });
 
         document.addEventListener("click", (e) => {
-          if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.add("hidden");
+          if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add("hidden");
           }
         });
 
+        /* ===== Restaurar última seção ===== */
         const lastSection = localStorage.getItem("activeSectionId");
         const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
 
@@ -1018,13 +1301,9 @@ tuple&lt;<span class="type">int</span>, <span class="type">string</span>, <span 
           if (dd) {
             dd.classList.add("open");
             const btn = dd.previousElementSibling;
-            if (btn) {
-              const icon = btn.querySelector(".fa-chevron-right");
-              if (icon) icon.style.transform = "rotate(90deg)";
-            }
+            if (btn) btn.querySelector("i:last-child")?.classList.add("rotate-90");
           }
         }
-
         loadSection(sectionToLoad);
       });
     </script>
