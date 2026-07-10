@@ -1,0 +1,179 @@
+{
+  "language": "Git e GitHub",
+  "title": "Git e GitHub: Guia Prático e Referência",
+  "sections": [
+    {
+      "id": "introducao",
+      "title": "Introdução",
+      "type": "single",
+      "icon": "fas fa-play mr-2 ml-2",
+      "explanation": "Introdução ao Git e GitHub, história e importância no desenvolvimento moderno."
+    },
+    {
+      "id": "conceitos",
+      "title": "Conceitos Fundamentais",
+      "type": "dropdown",
+      "icon": "fas fa-lightbulb mr-2",
+      "explanation": "Conceitos fundamentais do controle de versão com Git e GitHub.",
+      "children": [
+        {
+          "id": "repositorio",
+          "title": "Repositório",
+          "type": "single",
+          "explanation": "O que é um repositório no Git e GitHub"
+        },
+        {
+          "id": "commit",
+          "title": "Commit",
+          "type": "single",
+          "explanation": "O que é um commit e como usá-lo"
+        },
+        {
+          "id": "branch",
+          "title": "Branch",
+          "type": "single",
+          "explanation": "Branches: ramificações do código"
+        },
+        {
+          "id": "staging",
+          "title": "Staging Area",
+          "type": "single",
+          "explanation": "Área de staging (index) no Git"
+        },
+        {
+          "id": "remote",
+          "title": "Remote / GitHub",
+          "type": "single",
+          "explanation": "Remotes e conexão com GitHub"
+        },
+        {
+          "id": "fork",
+          "title": "Fork",
+          "type": "single",
+          "explanation": "Fork: cópia de repositórios no GitHub"
+        }
+      ]
+    },
+    {
+      "id": "comandos",
+      "title": "Comandos Essenciais",
+      "type": "dropdown",
+      "icon": "fas fa-terminal mr-2",
+      "explanation": "Comandos essenciais do Git para o dia a dia do desenvolvedor.",
+      "children": [
+        {
+          "id": "clone",
+          "title": "git clone",
+          "type": "single",
+          "explanation": "Clonar repositórios com git clone"
+        },
+        {
+          "id": "add-commit",
+          "title": "git add & commit",
+          "type": "single",
+          "explanation": "Adicionar mudanças à staging e criar commits"
+        },
+        {
+          "id": "push-pull",
+          "title": "git push & pull",
+          "type": "single",
+          "explanation": "Enviar (push) e baixar (pull) mudanças"
+        },
+        {
+          "id": "status-log",
+          "title": "git status & log",
+          "type": "single",
+          "explanation": "Verificar status e histórico de commits"
+        },
+        {
+          "id": "branch-cmd",
+          "title": "git branch & checkout",
+          "type": "single",
+          "explanation": "Criar, listar e trocar de branches"
+        }
+      ]
+    },
+    {
+      "id": "fluxo",
+      "title": "Fluxo de Trabalho",
+      "type": "dropdown",
+      "icon": "fas fa-sync-alt mr-2",
+      "explanation": "Fluxos de trabalho padrão para desenvolvimento com Git e GitHub.",
+      "children": [
+        {
+          "id": "iniciando",
+          "title": "Iniciando um Projeto",
+          "type": "single",
+          "explanation": "Como iniciar um novo projeto com Git"
+        },
+        {
+          "id": "diario",
+          "title": "Workflow Diário",
+          "type": "single",
+          "explanation": "Workflow diário de desenvolvimento"
+        },
+        {
+          "id": "conflitos",
+          "title": "Resolvendo Conflitos",
+          "type": "single",
+          "explanation": "Como resolver conflitos de merge"
+        }
+      ]
+    },
+    {
+      "id": "colaboracao",
+      "title": "Colaboração",
+      "type": "dropdown",
+      "icon": "fas fa-users mr-2",
+      "explanation": "Colaboração com Pull Requests, Issues e contribuição open source.",
+      "children": [
+        {
+          "id": "pr",
+          "title": "Pull Requests",
+          "type": "single",
+          "explanation": "Pull Requests e revisão de código"
+        },
+        {
+          "id": "issues",
+          "title": "Issues",
+          "type": "single",
+          "explanation": "Issues para rastrear tarefas e bugs"
+        },
+        {
+          "id": "fork-pr",
+          "title": "Fork & Contribuição",
+          "type": "single",
+          "explanation": "Fork e fluxo de contribuição via Pull Request"
+        }
+      ]
+    },
+    {
+      "id": "avancado",
+      "title": "Recursos Avançados",
+      "type": "dropdown",
+      "icon": "fas fa-rocket mr-2",
+      "explanation": "Recursos avançados do GitHub: Actions, Projects e Releases.",
+      "children": [
+        {
+          "id": "actions",
+          "title": "GitHub Actions",
+          "type": "single",
+          "explanation": "Automatizar workflows com GitHub Actions"
+        },
+        {
+          "id": "projects",
+          "title": "Projects",
+          "type": "single",
+          "explanation": "Gerenciar projetos com GitHub Projects"
+        },
+        {
+          "id": "releases",
+          "title": "Releases",
+          "type": "single",
+          "explanation": "Publicar versões com Releases"
+        }
+      ]
+    }
+  ],
+  "resources": []
+}
