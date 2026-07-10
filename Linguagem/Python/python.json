@@ -1,0 +1,173 @@
+{
+  "language": "Python",
+  "title": "Estruturas de Dados: Referência da Linguagem Python",
+  "sections": [
+    {
+      "id": "introducao",
+      "title": "Introdução",
+      "type": "single",
+      "icon": "fas fa-play mr-2 ml-2",
+      "explanation": "Introdução à linguagem Python e seus conceitos básicos."
+    },
+    {
+      "id": "tipos",
+      "title": "Tipos de Dados",
+      "type": "dropdown",
+      "icon": "fas fa-laptop-code mr-2",
+      "explanation": "Tipos de dados em Python.",
+      "children": [
+        {
+          "id": "tipo-int",
+          "title": "int",
+          "type": "single",
+          "explanation": "Tipo inteiro em Python"
+        },
+        {
+          "id": "tipo-float",
+          "title": "float",
+          "type": "single",
+          "explanation": "Tipo ponto flutuante em Python"
+        },
+        {
+          "id": "tipo-str",
+          "title": "str",
+          "type": "single",
+          "explanation": "Tipo string em Python"
+        },
+        {
+          "id": "tipo-bool",
+          "title": "bool",
+          "type": "single",
+          "explanation": "Tipo booleano em Python"
+        },
+        {
+          "id": "tipo-none",
+          "title": "None",
+          "type": "single",
+          "explanation": "Tipo None em Python"
+        }
+      ]
+    },
+    {
+      "id": "estruturas",
+      "title": "Estruturas de Dados",
+      "type": "dropdown",
+      "icon": "fas fa-database mr-2",
+      "explanation": "Estruturas de dados nativas do Python.",
+      "children": [
+        {
+          "id": "lista",
+          "title": "list",
+          "type": "single",
+          "explanation": "Listas em Python"
+        },
+        {
+          "id": "tupla",
+          "title": "tuple",
+          "type": "single",
+          "explanation": "Tuplas em Python"
+        },
+        {
+          "id": "dicionario",
+          "title": "dict",
+          "type": "single",
+          "explanation": "Dicionários em Python"
+        },
+        {
+          "id": "conjunto",
+          "title": "set",
+          "type": "single",
+          "explanation": "Conjuntos em Python"
+        }
+      ]
+    },
+    {
+      "id": "entrada-saida",
+      "title": "Entrada e Saída",
+      "type": "dropdown",
+      "icon": "fa fa-exchange mr-2",
+      "explanation": "Funções de entrada e saída em Python.",
+      "children": [
+        {
+          "id": "print",
+          "title": "print()",
+          "type": "single",
+          "explanation": "Função print em Python"
+        },
+        {
+          "id": "input",
+          "title": "input()",
+          "type": "single",
+          "explanation": "Função input em Python"
+        }
+      ]
+    },
+    {
+      "id": "controle-fluxo",
+      "title": "Controle de Fluxo",
+      "type": "dropdown",
+      "icon": "fas fa-code-branch mr-2",
+      "explanation": "Estruturas de controle de fluxo em Python.",
+      "children": [
+        {
+          "id": "if-elif",
+          "title": "if, elif, else",
+          "type": "single",
+          "explanation": "Estrutura if/elif/else em Python"
+        },
+        {
+          "id": "for",
+          "title": "for",
+          "type": "single",
+          "explanation": "Laço for em Python"
+        },
+        {
+          "id": "while",
+          "title": "while",
+          "type": "single",
+          "explanation": "Laço while em Python"
+        },
+        {
+          "id": "match",
+          "title": "match / case",
+          "type": "single",
+          "explanation": "Estrutura match/case em Python"
+        }
+      ]
+    },
+    {
+      "id": "funcoes",
+      "title": "Funções",
+      "type": "dropdown",
+      "icon": "fas fa-cogs mr-2",
+      "explanation": "Definição e uso de funções em Python.",
+      "children": [
+        {
+          "id": "def",
+          "title": "Definição",
+          "type": "single",
+          "explanation": "Definição de funções"
+        },
+        {
+          "id": "parametros",
+          "title": "Parâmetros",
+          "type": "single",
+          "explanation": "Parâmetros e argumentos"
+        },
+        {
+          "id": "lambda",
+          "title": "Lambda",
+          "type": "single",
+          "explanation": "Funções lambda em Python"
+        },
+        {
+          "id": "retorno",
+          "title": "Retorno",
+          "type": "single",
+          "explanation": "Retorno de valores"
+        }
+      ]
+    }
+  ],
+  "resources": []
+}
