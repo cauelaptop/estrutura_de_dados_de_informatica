@@ -20,10 +20,10 @@
         padding: 1rem;
         overflow-x: auto;
       }
-      .keyword  { color: #569cd6; font-weight: bold; } /* Comandos começando com \ */
-      .type     { color: #4ec9b0; }                  /* Argumentos em {} */
-      .string   { color: #ce9178; }                  /* Argumentos em [] ou modificadores */
-      .comment  { color: #6a9955; font-style: italic; } /* Comentários com % */
+      .keyword  { color: #569cd6; font-weight: bold; } 
+      .type     { color: #4ec9b0; }                  
+      .string   { color: #ce9178; }                 
+      .comment  { color: #6a9955; font-style: italic; } 
       .dropdown-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
       .dropdown-content.open { max-height: 600px; }
       .content-section { display: none; }
@@ -477,7 +477,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Mapeamento exato de IDs de Seção para IDs de Elementos <template>
         const templates = {
           "introducao": "tpl-introducao",
           "modos": "tpl-modos",
@@ -501,8 +500,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
         const dropdownBtns = document.querySelectorAll(".dropdown-btn");
         const input = document.querySelector('input[type="text"]');
         const resultsContainer = document.getElementById("search-results");
-
-        // Controle do sumário (sidebar) em telas mobile
         const mobileMenuBtn = document.getElementById("mobile-menu-btn");
         const closeSidebarBtn = document.getElementById("close-sidebar-btn");
         const sidebar = document.getElementById("sidebar");
@@ -523,8 +520,7 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
         if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
         if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
-
-        // Função para injetar dinamicamente o template e gerenciar a classe ativa
+        
         function loadSection(sectionId) {
           const tplId = templates[sectionId];
           if (!tplId) return;
@@ -543,11 +539,9 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
             }
           });
 
-          // Armazena a última seção visualizada pelo usuário
           localStorage.setItem("activeMathLaTeXSectionId", sectionId);
         }
 
-        // Event Listeners para os links de navegação
         navLinks.forEach((link) => {
           link.addEventListener("click", (e) => {
             e.preventDefault();
@@ -559,7 +553,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
           });
         });
 
-        // Event Listeners para expansão de menus dropdown
         dropdownBtns.forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -575,7 +568,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
           });
         });
 
-        // Montagem do índice reativo de busca textual
         const searchableItems = [];
         navLinks.forEach((link) => {
           const section = link.getAttribute("data-section");
@@ -586,7 +578,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
           }
         });
 
-        // Lógica reativa da caixa de pesquisa
         input.addEventListener("input", (e) => {
           const query = e.target.value.toLowerCase().trim();
           resultsContainer.innerHTML = "";
@@ -627,18 +618,14 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
           resultsContainer.classList.remove("hidden");
         });
 
-        // Ocultar menu de resultados ao clicar fora do componente de busca
         document.addEventListener("click", (e) => {
           if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
             resultsContainer.classList.add("hidden");
           }
         });
 
-        // Recuperação de Estado e Persistência de Navegação
         const lastSection = localStorage.getItem("activeMathLaTeXSectionId");
         const sectionToLoad = lastSection && templates[lastSection] ? lastSection : "introducao";
-
-        // Mapeador para expandir automaticamente os dropdowns correspondentes à seção ativa
         const parentDropdownMap = {
           "inline-mode": "dd-modos", "display-mode": "dd-modos",
           "frac-raiz": "dd-basico", "sub-sup": "dd-basico", "limites-subsup": "dd-basico",
@@ -657,8 +644,6 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
             }
           }
         }
-
-        // Execução primária da carga da página
         loadSection(sectionToLoad);
       });
     </script>
