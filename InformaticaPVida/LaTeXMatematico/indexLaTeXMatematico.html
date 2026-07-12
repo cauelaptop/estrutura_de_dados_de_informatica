@@ -34,9 +34,14 @@
 
     <header class="bg-blue-700 text-white shadow-lg">
       <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center mb-4 md:mb-0">
-          <i class="fas fa-calculator text-3xl mr-3"></i>
-          <h1 class="text-2xl font-bold">Referência de LaTeX Matemático</h1>
+        <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fas fa-calculator text-3xl mr-3"></i>
+            <h1 class="text-2xl font-bold">Referência de LaTeX Matemático</h1>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none" title="Abrir sumário">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
         <div class="flex items-center space-x-4">
           <div class="relative">
@@ -59,9 +64,14 @@
     <main class="flex-1">
       <div class="flex flex-1 container mx-auto px-4 py-8">
 
-        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 mr-8 hidden md:block h-fit sticky top-8 overflow-y-auto" style="max-height: 85vh;">
-          <div class="p-4 border-b border-gray-200">
-            <h1 class="text-2xl font-bold mb-4 text-blue-700">Sumário</h1>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity"></div>
+
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-r-lg md:rounded-lg shadow-md p-4 mr-0 md:mr-8 fixed md:sticky top-0 md:top-8 left-0 h-screen md:h-fit z-50 md:z-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 overflow-y-auto md:overflow-visible">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center md:block md:p-0 md:border-none">
+            <h1 class="text-2xl font-bold md:mb-4 text-blue-700">Sumário</h1>
+            <button id="close-sidebar-btn" class="md:hidden text-gray-500 hover:text-blue-700 text-2xl focus:outline-none">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
           <nav>
             <div class="mb-4 mt-4">
@@ -492,6 +502,28 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
         const input = document.querySelector('input[type="text"]');
         const resultsContainer = document.getElementById("search-results");
 
+        // Controle do sumário (sidebar) em telas mobile
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const closeSidebarBtn = document.getElementById("close-sidebar-btn");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+        function openSidebar() {
+          sidebar.classList.remove("-translate-x-full");
+          sidebarOverlay.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden");
+        }
+
+        function closeSidebar() {
+          sidebar.classList.add("-translate-x-full");
+          sidebarOverlay.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", openSidebar);
+        if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
+
         // Função para injetar dinamicamente o template e gerenciar a classe ativa
         function loadSection(sectionId) {
           const tplId = templates[sectionId];
@@ -521,6 +553,9 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
             e.preventDefault();
             const sectionId = link.getAttribute("data-section");
             loadSection(sectionId);
+            if (window.innerWidth < 768) {
+              closeSidebar();
+            }
           });
         });
 
@@ -581,6 +616,9 @@ D = <span class="keyword">\begin</span>{<span class="type">vmatrix</span>}
                 loadSection(item.section);
                 resultsContainer.classList.add("hidden");
                 input.value = "";
+                if (window.innerWidth < 768) {
+                  closeSidebar();
+                }
               });
               resultsContainer.appendChild(div);
             });
