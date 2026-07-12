@@ -77,12 +77,11 @@
           margin-top: 0 !important;
           border-radius: 0 !important;
           box-shadow: 2px 0 10px rgba(0,0,0,0.1) !important;
+          display: block;
+          box-sizing: border-box;
         }
         #sidebar.open {
           transform: translateX(0);
-        }
-        #sidebar.open ~ #overlay {
-          display: block;
         }
         #overlay {
           display: none;
@@ -93,6 +92,9 @@
           bottom: 0;
           background: rgba(0,0,0,0.5);
           z-index: 30;
+        }
+        #overlay.open {
+          display: block;
         }
         .flex-1 {
           flex-direction: column;
@@ -144,7 +146,7 @@
               class="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-50 hidden"></div>
           </div>
 
-          <a href="../index.html" class="ml-2 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all text-sm" title="Voltar ao menu principal">
+          <a href="../../index.html" class="ml-2 inline-flex items-center px-3 py-2 bg-white text-blue-700 rounded-full shadow-sm hover:bg-blue-100 transition-all text-sm" title="Voltar ao menu principal">
             <i class="fas fa-home mr-2"></i>
             <span>Voltar</span>
           </a>
@@ -154,9 +156,9 @@
 
     <main class="flex-1">
       <div class="flex flex-1 container mx-auto px-4 py-8 gap-8 relative">
-        <div id="overlay" class="hidden md:hidden"></div>
+        <div id="overlay"></div>
 
-        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 h-fit sticky top-24 md:block hidden md:rounded-lg">
+        <div id="sidebar" class="w-72 shrink-0 bg-white rounded-lg shadow-md p-4 h-fit sticky top-24 md:rounded-lg">
           <div class="p-4 border-b border-gray-200 -m-4 mb-4">
             <h1 class="text-2xl font-bold mb-2 text-blue-700">Sumário</h1>
             <p class="text-sm text-gray-600">Componentes de Hardware</p>
@@ -900,9 +902,11 @@ Frequência = BCLK × Multiplicador
         // Fechar sidebar em mobile após clicar
         const sidebar = document.getElementById("sidebar");
         const hamburger = document.getElementById("hamburger");
+        const overlay = document.getElementById("overlay");
         if (window.innerWidth < 768) {
           sidebar.classList.remove("open");
           hamburger.classList.remove("active");
+          overlay.classList.remove("open");
         }
       }
 
@@ -910,15 +914,29 @@ Frequência = BCLK × Multiplicador
       const hamburger = document.getElementById("hamburger");
       const sidebar = document.getElementById("sidebar");
       const overlay = document.getElementById("overlay");
+      const header = document.querySelector("header");
+
+      function adjustSidebarPadding() {
+        if (window.innerWidth < 768 && header && sidebar) {
+          // Make sumário content start just below the sticky header
+          const headerHeight = header.offsetHeight;
+          sidebar.style.paddingTop = (headerHeight + 8) + "px";
+        } else if (sidebar) {
+          sidebar.style.paddingTop = "";
+        }
+      }
 
       hamburger.addEventListener("click", () => {
         sidebar.classList.toggle("open");
         hamburger.classList.toggle("active");
+        overlay.classList.toggle("open");
+        adjustSidebarPadding();
       });
 
       overlay.addEventListener("click", () => {
         sidebar.classList.remove("open");
         hamburger.classList.remove("active");
+        overlay.classList.remove("open");
       });
 
       document.querySelectorAll(".nav-link").forEach((link) => {
@@ -994,13 +1012,16 @@ Frequência = BCLK × Multiplicador
 
         const savedSection = localStorage.getItem("activeSectionId") || "introducao";
         loadSection(savedSection);
+        adjustSidebarPadding();
       });
 
       window.addEventListener("resize", () => {
         if (window.innerWidth >= 768) {
           sidebar.classList.remove("open");
           hamburger.classList.remove("active");
+          overlay.classList.remove("open");
         }
+        adjustSidebarPadding();
       });
     </script>
   </body>
